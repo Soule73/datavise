@@ -1,0 +1,77 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    /* Paths */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@components/*": [
+        "src/presentation/components/*"
+      ],
+      "@pages/*": [
+        "src/presentation/pages/*"
+      ],
+      "@store/*": [
+        "src/core/store/*"
+      ],
+      "@utils/*": [
+        "src/core/utils/*"
+      ],
+      "@assets/*": [
+        "src/core/assets/*"
+      ],
+      "@hooks/*": [
+        "src/core/hooks/*"
+      ],
+      "@type/*": [
+        "src/core/types/*"
+      ],
+      "@constants/*": [
+        "src/core/constants/*"
+      ],
+      "@services/*": [
+        "src/data/services/*"
+      ],
+      "@repositories/*": [
+        "src/data/repositories/*"
+      ],
+      "@adapters/*": [
+        "src/data/adapters/*"
+      ],
+      "@validation/*": [
+        "src/core/validation/*"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ]
+}
