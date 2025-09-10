@@ -6,7 +6,7 @@ Bienvenue dans Data Vise, la plateforme moderne de visualisation de données qui
 
 Data Vise est une solution complète de business intelligence qui permet aux entreprises de :
 
-- **Connecter** diverses sources de données (CSV, JSON, APIs, Elasticsearch)
+- **Connecter** diverses sources de données (CSV, APIs(JSON), Elasticsearch)
 - **Visualiser** les données avec des graphiques interactifs modernes
 - **Créer** des dashboards personnalisés par glisser-déposer
 - **Partager** des insights avec votre équipe en toute sécurité
@@ -52,7 +52,7 @@ Analysez revenus, dépenses, marges et prévisions budgétaires avec des graphiq
 ### **Analytics web**
 Créez des dashboards personnalisés pour suivre le trafic, conversions et comportement utilisateur.
 
-## Prochaines étapes
+<!-- ## Prochaines étapes
 
 1. [**Installation**](/docs/installation) - Configurez votre environnement
 2. [**Premiers pas**](/docs/first-steps) - Créez votre premier dashboard
@@ -63,8 +63,8 @@ Créez des dashboards personnalisés pour suivre le trafic, conversions et compo
 - **Email** : support@data-vise.com
 - **Chat** : Support en direct (heures ouvrables)
 - **Documentation** : Guide complet et référence API
-- **Issues** : Signalement de bugs sur GitHub
+- **Issues** : Signalement de bugs sur GitHub -->
 
----
+<!-- --- -->
 
-**Prêt à commencer ?** Suivez notre [guide d'installation](/docs/installation) pour démarrer avec Data Vise en quelques minutes.
+<!-- **Prêt à commencer ?** Suivez notre [guide d'installation](/docs/installation) pour démarrer avec Data Vise en quelques minutes. -->

@@ -18,51 +18,51 @@ const documentationContent: DocumentationContent = {
             title: 'Introduction à Data Vise',
             file: '/docs/introduction.md'
         },
-        'installation': {
-            title: 'Installation et configuration',
-            file: '/docs/installation.md'
-        },
-        'quick-start': {
-            title: 'Guide de démarrage rapide',
-            file: '/docs/quick-start.md'
-        }
+        // 'installation': {
+        //     title: 'Installation et configuration',
+        //     file: '/docs/installation.md'
+        // },
+        // 'quick-start': {
+        //     title: 'Guide de démarrage rapide',
+        //     file: '/docs/quick-start.md'
+        // }
     },
-    'data-sources': {
-        'overview': {
-            title: 'Gestion des sources de données',
-            file: '/docs/data-sources/overview.md'
-        }
-    },
-    'widgets': {
-        'types': {
-            title: 'Types de widgets',
-            file: '/docs/widgets/types.md'
-        }
-    },
-    'dashboards': {
-        'creation': {
-            title: 'Création et gestion des dashboards',
-            file: '/docs/dashboards/creation.md'
-        }
-    },
-    'sharing': {
-        'overview': {
-            title: 'Partage et collaboration',
-            file: '/docs/sharing/overview.md'
-        }
-    },
-    'user-management': {
-        'overview': {
-            title: 'Gestion des utilisateurs et rôles',
-            file: '/docs/user-management/overview.md'
-        }
-    },
-    'advanced': {
-        'automation': {
-            title: 'Configuration avancée et automatisation',
-            file: '/docs/advanced/automation.md'
-        }
-    }
+    // 'data-sources': {
+    //     'overview': {
+    //         title: 'Gestion des sources de données',
+    //         file: '/docs/data-sources/overview.md'
+    //     }
+    // },
+    // 'widgets': {
+    //     'types': {
+    //         title: 'Types de widgets',
+    //         file: '/docs/widgets/types.md'
+    //     }
+    // },
+    // 'dashboards': {
+    //     'creation': {
+    //         title: 'Création et gestion des dashboards',
+    //         file: '/docs/dashboards/creation.md'
+    //     }
+    // },
+    // 'sharing': {
+    //     'overview': {
+    //         title: 'Partage et collaboration',
+    //         file: '/docs/sharing/overview.md'
+    //     }
+    // },
+    // 'user-management': {
+    //     'overview': {
+    //         title: 'Gestion des utilisateurs et rôles',
+    //         file: '/docs/user-management/overview.md'
+    //     }
+    // },
+    // 'advanced': {
+    //     'automation': {
+    //         title: 'Configuration avancée et automatisation',
+    //         file: '/docs/advanced/automation.md'
+    //     }
+    // }
 };
 
 export default function DocumentationPage() {

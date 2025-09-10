@@ -6,13 +6,13 @@ DataVise propose un système de visualisations unifié et puissant qui permet de
 
 ## Architecture du Système
 
-### 🏗️ Structure Générale
+### Structure Générale
 - **Adaptateurs** : Configuration et métadonnées des widgets dans `visualizations.ts`
 - **Hooks** : Logique métier et traitement des données
 - **Composants** : Interface utilisateur et rendu des visualisations
 - **Utilitaires** : Fonctions partagées pour le filtrage et le traitement des données
 
-### 🔧 Système de Filtres Unifié
+### Système de Filtres Unifié
 Tous les widgets supportent maintenant les **filtres globaux** avec :
 - Interface utilisateur cohérente (`GlobalFiltersConfig`)
 - Opérateurs multiples (equals, contains, greater_than, less_than, etc.)
@@ -44,7 +44,7 @@ Tous les widgets supportent maintenant les **filtres globaux** avec :
 
 ## Détail des Visualisations
 
-### 📊 Indicateurs (KPI)
+### Indicateurs (KPI)
 
 #### KPI Simple
 - **Hook** : `useKPIWidgetVM`
@@ -76,7 +76,7 @@ Tous les widgets supportent maintenant les **filtres globaux** avec :
 - **Filtres** : Filtres globaux partagés
 - **Configuration** : Métriques multiples + Paramètres de groupe
 
-### 📈 Graphiques Chart.js
+### Graphiques Chart.js
 
 #### Bar Chart
 - **Hook** : `useBarChartLogic` (via `useChartLogic`)
@@ -108,7 +108,7 @@ Tous les widgets supportent maintenant les **filtres globaux** avec :
 - **Filtres** : Filtres globaux via `useChartLogic`
 - **Configuration** : Métrique + Bucket + Palette de couleurs
 
-### 🎯 Graphiques Spécialisés
+### Graphiques Spécialisés
 
 #### Radar Chart
 - **Hook** : `useRadarChartVM`
@@ -140,7 +140,7 @@ Tous les widgets supportent maintenant les **filtres globaux** avec :
 - **Filtres** : Filtres globaux + filtres par dataset
 - **Configuration** : Métriques (X, Y) + Labels
 
-### 📋 Données Tabulaires
+### Données Tabulaires
 
 #### Table Widget
 - **Hook** : `useTableWidgetLogic`
@@ -157,7 +157,7 @@ Tous les widgets supportent maintenant les **filtres globaux** avec :
 
 ## Système de Filtrage
 
-### 🎯 Filtres Globaux
+### Filtres Globaux
 
 Tous les widgets supportent les filtres globaux avec les caractéristiques suivantes :
 
@@ -184,7 +184,7 @@ Tous les widgets supportent les filtres globaux avec les caractéristiques suiva
 3. **Charts spécialisés** : Via `applyAllFilters()` dans les hooks spécifiques
 4. **Table** : Via `applyAllFilters()` avant génération du tableau
 
-### 🔄 Rétrocompatibilité
+### Rétrocompatibilité
 
 Le système maintient la compatibilité avec les anciens filtres :
 - **KPI** : `config.filter` (simple) → `config.globalFilters` (avancé)
@@ -194,7 +194,7 @@ Le système maintient la compatibilité avec les anciens filtres :
 
 ## Architecture Technique
 
-### 🏗️ Hooks et Logique Métier
+### Hooks et Logique Métier
 
 #### Hook Commun : `useChartLogic`
 Utilisé par les charts Chart.js (Bar, Line, Pie) :
@@ -213,7 +213,7 @@ const result = useChartLogic({
 - **Charts spécialisés** : Traitement données spécifique (radar, bubble, scatter)
 - **Table** : Génération colonnes et données d'affichage
 
-### 🔧 Utilitaires Partagés
+### Utilitaires Partagés
 
 #### `filterUtils.ts`
 - `applyAllFilters()` : Application filtres globaux et dataset
@@ -231,77 +231,14 @@ const result = useChartLogic({
 - `*ChartUtils.ts` : Utilitaires par type de chart
 
 ---
-
-## Exemples d'Usage
-
-### Configuration KPI avec Filtres
-```json
-{
-  "metrics": [{"agg": "sum", "field": "revenue"}],
-  "globalFilters": [
-    {
-      "field": "region",
-      "operator": "equals",
-      "value": "Europe"
-    }
-  ],
-  "widgetParams": {
-    "title": "Revenus Europe",
-    "format": "currency",
-    "currency": "EUR"
-  }
-}
-```
-
-### Configuration Bar Chart avec Multi-Métriques
-```json
-{
-  "metrics": [
-    {"agg": "sum", "field": "sales", "label": "Ventes"},
-    {"agg": "count", "field": "*", "label": "Commandes"}
-  ],
-  "bucket": {"field": "month"},
-  "globalFilters": [
-    {
-      "field": "year", 
-      "operator": "equals", 
-      "value": "2024"
-    }
-  ]
-}
-```
-
-### Configuration Table avec Buckets
-```json
-{
-  "buckets": [
-    {"field": "region", "label": "Région"},
-    {"field": "product", "label": "Produit"}
-  ],
-  "metrics": [
-    {"agg": "sum", "field": "revenue", "label": "CA"},
-    {"agg": "avg", "field": "price", "label": "Prix Moyen"}
-  ],
-  "globalFilters": [
-    {
-      "field": "status",
-      "operator": "equals", 
-      "value": "active"
-    }
-  ]
-}
-```
-
----
-
 ## Performance et Bonnes Pratiques
 
-### 🚀 Optimisations
+### Optimisations
 1. **Filtrage en amont** : Filtres appliqués avant le traitement des données
 2. **Mémorisation** : Hooks utilisent `useMemo` pour éviter les recalculs
 3. **Données nettoyées** : Validation et sanitisation automatiques
 
-### 📏 Recommandations
+### Recommandations
 1. **Filtres** : Utiliser les filtres globaux pour de meilleures performances
 2. **Métriques** : Limiter le nombre de métriques pour la lisibilité
 3. **Buckets** : Éviter trop de groupements pour préserver les performances
@@ -311,14 +248,14 @@ const result = useChartLogic({
 
 ## Évolutions Futures
 
-### 🔮 Fonctionnalités Prévues
+### Fonctionnalités Prévues
 - Filtres temporels avancés
 - Annotations sur les graphiques
 - Export des visualisations
 - Thèmes personnalisés globaux
 - Drill-down interactif
 
-### 🛠️ Améliorations Techniques
+### Améliorations Techniques
 - Lazy loading des composants
 - Streaming des données
 - Cache intelligent

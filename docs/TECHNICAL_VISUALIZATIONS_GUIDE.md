@@ -14,10 +14,10 @@ export const [WIDGET_NAME]: IVisualizationAdapter<[CONFIG_TYPE]> = {
   hasMetrics: boolean,
   hasBuckets: boolean,
   hasDatasetBuckets: boolean,
-  enableFilter: boolean, // ✅ true pour tous les widgets
+  enableFilter: boolean, // true pour tous les widgets
   // Schémas de configuration
   configSchema: {
-    globalFilters: FilterArraySchema, // ✅ Présent sur tous
+    globalFilters: FilterArraySchema, // Présent sur tous
     // ... autres schémas spécifiques
   },
   component: WidgetComponent,

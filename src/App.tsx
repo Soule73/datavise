@@ -80,10 +80,17 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.home} element={<LandingPage />} />
-        <Route path={ROUTES.docs} element={<DocumentationPage />} />
-        <Route path={ROUTES.docsSection} element={<DocumentationPage />} />
-        <Route path={ROUTES.docsPage} element={<DocumentationPage />} />
+
+        {/* Documentation et Landing Page en cours de développement */}
+        {import.meta.env.DEV && (
+          <>
+            <Route path={ROUTES.home} element={<LandingPage />} />
+            <Route path={ROUTES.docs} element={<DocumentationPage />} />
+            <Route path={ROUTES.docsSection} element={<DocumentationPage />} />
+            <Route path={ROUTES.docsPage} element={<DocumentationPage />} />
+          </>
+        )}
+
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.register} element={<Register />} />
         <Route

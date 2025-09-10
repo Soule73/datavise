@@ -2,28 +2,27 @@
 
 Application React/TypeScript pour la visualisation de données avec système de dashboards interactifs.
 
-## 📊 Documentation des Visualisations
+## Documentation des Visualisations
 
 ### Guides Disponibles
-- **[Documentation Complète](./VISUALIZATIONS_DOCUMENTATION.md)** - Guide utilisateur détaillé avec exemples
-- **[Guide Technique](./TECHNICAL_VISUALIZATIONS_GUIDE.md)** - Documentation développeur et architecture
-- **[Référence Rapide](./QUICK_REFERENCE_VISUALIZATIONS.md)** - Résumé exécutif et matrice des fonctionnalités
+- **[Documentation Complète](./docs/VISUALIZATIONS_DOCUMENTATION.md)** - Guide utilisateur détaillé avec exemples
+- **[Guide Technique](./docs/TECHNICAL_VISUALIZATIONS_GUIDE.md)** - Documentation développeur et architecture
 
 ### Système de Visualisations
-✅ **10 types de widgets** supportés avec filtres globaux unifiés :
+**10 types de widgets** supportés avec filtres globaux unifiés :
 - Indicateurs : KPI, Card, KPI Group
 - Graphiques Chart.js : Bar, Line, Pie
 - Graphiques spécialisés : Radar, Bubble, Scatter  
 - Données : Table avec pagination et recherche
 
 ### Fonctionnalités Clés
-- 🎯 **Filtres globaux** sur toutes les visualisations
-- 📊 **Multi-métriques** et buckets configurables
-- 🎨 **Styles personnalisés** par widget
-- 🔄 **Rétrocompatibilité** avec les anciens filtres
-- ⚡ **Performance optimisée** avec filtrage en amont
+- **Filtres globaux** sur toutes les visualisations
+- **Multi-métriques** et buckets configurables
+- **Styles personnalisés** par widget
+- **Rétrocompatibilité** avec les anciens filtres
+- **Performance optimisée** avec filtrage en amont
 
-## 🚀 Setup Technique
+## Setup Technique
 
 ### Plugins Vite
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh

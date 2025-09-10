@@ -3,12 +3,12 @@ import { Link, useParams } from 'react-router-dom';
 import {
     ChevronDownIcon,
     ChevronRightIcon,
-    DocumentTextIcon,
-    CogIcon,
-    ChartBarIcon,
-    CircleStackIcon,
-    UsersIcon,
-    ShareIcon,
+    // DocumentTextIcon,
+    // CogIcon,
+    // ChartBarIcon,
+    // CircleStackIcon,
+    // UsersIcon,
+    // ShareIcon,
     PlayIcon
 } from '@heroicons/react/24/outline';
 
@@ -32,58 +32,58 @@ const docSections: DocSection[] = [
         icon: PlayIcon,
         items: [
             { id: 'introduction', title: 'Introduction', path: '/docs/introduction' },
-            { id: 'installation', title: 'Installation', path: '/docs/installation' },
-            { id: 'quick-start', title: 'Guide rapide', path: '/docs/quick-start' },
+            // { id: 'installation', title: 'Installation', path: '/docs/installation' },
+            // { id: 'quick-start', title: 'Guide rapide', path: '/docs/quick-start' },
         ]
     },
-    {
-        id: 'data-sources',
-        title: 'Sources de données',
-        icon: CircleStackIcon,
-        items: [
-            { id: 'overview', title: 'Vue d\'ensemble', path: '/docs/data-sources/overview' },
-        ]
-    },
-    {
-        id: 'widgets',
-        title: 'Widgets & Visualisations',
-        icon: ChartBarIcon,
-        items: [
-            { id: 'types', title: 'Types de widgets', path: '/docs/widgets/types' },
-        ]
-    },
-    {
-        id: 'dashboards',
-        title: 'Dashboards',
-        icon: DocumentTextIcon,
-        items: [
-            { id: 'creation', title: 'Création', path: '/docs/dashboards/creation' },
-        ]
-    },
-    {
-        id: 'sharing',
-        title: 'Partage & Collaboration',
-        icon: ShareIcon,
-        items: [
-            { id: 'overview', title: 'Vue d\'ensemble', path: '/docs/sharing/overview' },
-        ]
-    },
-    {
-        id: 'user-management',
-        title: 'Gestion des utilisateurs',
-        icon: UsersIcon,
-        items: [
-            { id: 'overview', title: 'Vue d\'ensemble', path: '/docs/user-management/overview' },
-        ]
-    },
-    {
-        id: 'advanced',
-        title: 'Configuration avancée',
-        icon: CogIcon,
-        items: [
-            { id: 'automation', title: 'Automatisation', path: '/docs/advanced/automation' },
-        ]
-    }
+    // {
+    //     id: 'data-sources',
+    //     title: 'Sources de données',
+    //     icon: CircleStackIcon,
+    //     items: [
+    //         { id: 'overview', title: 'Vue d\'ensemble', path: '/docs/data-sources/overview' },
+    //     ]
+    // },
+    // {
+    //     id: 'widgets',
+    //     title: 'Widgets & Visualisations',
+    //     icon: ChartBarIcon,
+    //     items: [
+    //         { id: 'types', title: 'Types de widgets', path: '/docs/widgets/types' },
+    //     ]
+    // },
+    // {
+    //     id: 'dashboards',
+    //     title: 'Dashboards',
+    //     icon: DocumentTextIcon,
+    //     items: [
+    //         { id: 'creation', title: 'Création', path: '/docs/dashboards/creation' },
+    //     ]
+    // },
+    // {
+    //     id: 'sharing',
+    //     title: 'Partage & Collaboration',
+    //     icon: ShareIcon,
+    //     items: [
+    //         { id: 'overview', title: 'Vue d\'ensemble', path: '/docs/sharing/overview' },
+    //     ]
+    // },
+    // {
+    //     id: 'user-management',
+    //     title: 'Gestion des utilisateurs',
+    //     icon: UsersIcon,
+    //     items: [
+    //         { id: 'overview', title: 'Vue d\'ensemble', path: '/docs/user-management/overview' },
+    //     ]
+    // },
+    // {
+    //     id: 'advanced',
+    //     title: 'Configuration avancée',
+    //     icon: CogIcon,
+    //     items: [
+    //         { id: 'automation', title: 'Automatisation', path: '/docs/advanced/automation' },
+    //     ]
+    // }
 ];
 
 export default function DocumentationSidebar() {
