@@ -146,8 +146,6 @@ export async function fetchSourceData(
 
   const apiData = extractApiData(res);
 
-  console.log("Fetched data:", apiData);
-
   // Si la réponse contient { data, total }, on retourne data et total
   if (Array.isArray(apiData)) {
     return apiData;
