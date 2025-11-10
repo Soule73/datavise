@@ -2,11 +2,23 @@
 
 Application React/TypeScript pour la visualisation de données avec système de dashboards interactifs.
 
+## Plan de Gestion de Projet
+
+- **[Plan de gestion (v1.0)](./docs/PLAN_DE_GESTION_DE_PROJET.md)** couvrant objectifs, WBS, planning, ressources, qualité, risques, changements et configuration.
+- 💡 **Génération PowerPoint** : `npm run gen:plan-pptx` pour créer une présentation automatique du plan.
+
+## Cahier des charges
+
+- Consulter le document: **[Cahier des charges (v1.0)](./docs/CAHIER_DES_CHARGES.md)**
+  
+- Version non technique (pré-projet): **[Cahier des charges non technique](./docs/CAHIER_DES_CHARGES_NON_TECHNIQUE.md)**
+
 ## Documentation des Visualisations
 
 ### Guides Disponibles
 - **[Documentation Complète](./docs/VISUALIZATIONS_DOCUMENTATION.md)** - Guide utilisateur détaillé avec exemples
 - **[Guide Technique](./docs/TECHNICAL_VISUALIZATIONS_GUIDE.md)** - Documentation développeur et architecture
+- **[Plan d'Intégration IA](./docs/INTEGRATION_IA_VISUALISATIONS.md)** - Génération automatique de visualisations par IA 🤖
 
 ### Système de Visualisations
 **10 types de widgets** supportés avec filtres globaux unifiés :

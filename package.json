@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "gen:pptx": "node docs/presentations/generate_cdc_presentation.mjs",
+    "gen:plan-pptx": "node docs/presentations/generate_plan_presentation.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
@@ -27,6 +29,7 @@
     "node-fetch": "^3.3.2",
     "path": "^0.12.7",
     "postcss": "^8.5.4",
+    "pptxgenjs": "^4.0.1",
     "prismjs": "^1.30.0",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.0",
