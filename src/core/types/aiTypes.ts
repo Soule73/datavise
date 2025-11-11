@@ -5,6 +5,7 @@ import type { WidgetConfig } from "./widgetTypes";
  */
 export interface AIGeneratedWidget {
     id: string; // ID temporaire pour le frontend
+    _id?: string; // ID MongoDB après sauvegarde
     name: string;
     description: string;
     type: string;
@@ -19,6 +20,7 @@ export interface AIGeneratedWidget {
  */
 export interface AIGenerateRequest {
     dataSourceId: string;
+    conversationId: string;
     userPrompt?: string;
     maxWidgets?: number;
     preferredTypes?: string[];
@@ -28,6 +30,7 @@ export interface AIGenerateRequest {
  * Réponse de génération de widgets par IA
  */
 export interface AIGenerateResponse {
+    conversationTitle?: string; // Titre généré par l'IA pour la conversation
     widgets: AIGeneratedWidget[];
     totalGenerated: number;
     dataSourceSummary: {
@@ -66,6 +69,7 @@ export interface AIGeneratorState {
     status: AIGenerationStatus;
     widgets: AIGeneratedWidget[];
     dataSourceSummary: AIGenerateResponse["dataSourceSummary"] | null;
+    conversationTitle?: string; // Titre généré par l'IA
     suggestions: string[];
     error: string | null;
     isLoading: boolean;

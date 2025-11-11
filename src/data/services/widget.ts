@@ -35,3 +35,25 @@ export async function deleteWidget(id: string): Promise<{ success: boolean }> {
   );
   return extractApiData(response);
 }
+
+/**
+ * Récupère tous les widgets d'une conversation (drafts inclus)
+ */
+export async function fetchConversationWidgets(
+  conversationId: string
+): Promise<Widget[]> {
+  const response = await api.get<ApiResponse<Widget[]>>(
+    `/widgets/conversation/${conversationId}`
+  );
+  return extractApiData(response);
+}
+
+/**
+ * Publie un widget draft (change isDraft à false)
+ */
+export async function publishWidget(widgetId: string): Promise<Widget> {
+  const response = await api.patch<ApiResponse<Widget>>(
+    `/widgets/${widgetId}/publish`
+  );
+  return extractApiData(response);
+}

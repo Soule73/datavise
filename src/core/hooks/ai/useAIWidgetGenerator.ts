@@ -33,6 +33,7 @@ export function useAIWidgetGenerator() {
         status: "idle",
         widgets: [],
         dataSourceSummary: null,
+        conversationTitle: undefined,
         suggestions: [],
         error: null,
         isLoading: false,
@@ -58,12 +59,14 @@ export function useAIWidgetGenerator() {
                 const data = extractData(response);
                 console.log("🤖 [AI] Données extraites:", data);
                 console.log("🤖 [AI] Nombre de widgets générés:", data.widgets.length);
+                console.log("🤖 [AI] Titre de conversation:", data.conversationTitle);
                 console.log("🤖 [AI] Widgets détaillés:", JSON.stringify(data.widgets, null, 2));
 
                 setState({
                     status: "success",
                     widgets: data.widgets,
                     dataSourceSummary: data.dataSourceSummary,
+                    conversationTitle: data.conversationTitle,
                     suggestions: data.suggestions || [],
                     error: null,
                     isLoading: false,
@@ -75,7 +78,7 @@ export function useAIWidgetGenerator() {
                     title: `${data.widgets.length} widgets générés avec succès`,
                 });
 
-                return data.widgets;
+                return data;
             } catch (error: any) {
                 console.error("❌ [AI] Erreur lors de la génération:", error);
                 console.error("❌ [AI] Détails de l'erreur:", {
@@ -143,7 +146,7 @@ export function useAIWidgetGenerator() {
                     title: "Widgets raffinés avec succès",
                 });
 
-                return data.widgets;
+                return data;
             } catch (error: any) {
                 console.error("❌ [AI] Erreur lors du raffinement:", error);
 
@@ -202,6 +205,26 @@ export function useAIWidgetGenerator() {
                 console.log("💾 [AI] Payload envoyé au backend:", payload);
                 const savedWidget = await createWidget(payload);
                 console.log("✅ [AI] Widget sauvegardé avec succès:", savedWidget);
+
+                // Mettre à jour le widget dans la liste avec la version sauvegardée
+                if (savedWidget._id) {
+                    console.log("🔄 [AI] Mise à jour du widget avec _id:", savedWidget._id);
+                    setState((prev) => {
+                        const updatedWidgets = prev.widgets.map((w) =>
+                            w.id === widget.id
+                                ? {
+                                    ...w,
+                                    _id: savedWidget._id,
+                                }
+                                : w
+                        );
+                        console.log("🔄 [AI] Widgets après mise à jour:", updatedWidgets);
+                        return {
+                            ...prev,
+                            widgets: updatedWidgets,
+                        };
+                    });
+                }
 
                 showNotification({
                     open: true,
@@ -312,6 +335,17 @@ export function useAIWidgetGenerator() {
         });
     }, []);
 
+    /**
+     * Définit directement les widgets (pour charger une conversation)
+     */
+    const setWidgets = useCallback((widgets: AIGeneratedWidget[]) => {
+        setState((prev) => ({
+            ...prev,
+            widgets,
+            status: widgets.length > 0 ? "success" : "idle",
+        }));
+    }, []);
+
     return {
         ...state,
         generateWidgets,
@@ -321,5 +355,6 @@ export function useAIWidgetGenerator() {
         removeWidget,
         updateWidget,
         reset,
+        setWidgets,
     };
 }
