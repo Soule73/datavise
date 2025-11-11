@@ -71,6 +71,12 @@ export interface Widget {
   createdAt?: string;
   updatedAt?: string;
   isUsed?: boolean;
+
+  // Champs pour les widgets générés par l'IA
+  isGeneratedByAI?: boolean;
+  description?: string;
+  reasoning?: string;
+  confidence?: number;
 }
 
 export interface WidgetHistoryItem {

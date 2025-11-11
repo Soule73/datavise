@@ -21,6 +21,7 @@ import DashboardSharePage from "@pages/dashboard/DashboardSharePage";
 import ErrorPage from "@components/layouts/ErrorPage";
 import LandingPage from "@pages/LandingPage";
 import DocumentationPage from "@pages/DocumentationPage";
+import AIBuilderPage from "@pages/ai/AIBuilderPage";
 
 function RequireAuth({
   children,
@@ -150,6 +151,14 @@ const App: React.FC = () => {
           element={
             <RequireAuth permission="widget:canCreate">
               <WidgetCreatePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={ROUTES.aiBuilder}
+          element={
+            <RequireAuth permission="widget:canCreate">
+              <AIBuilderPage />
             </RequireAuth>
           }
         />

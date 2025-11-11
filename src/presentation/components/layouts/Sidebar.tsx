@@ -5,6 +5,7 @@ import {
   ShieldCheckIcon,
   UserIcon,
   ChevronDownIcon,
+  SparklesIcon,
 } from "@heroicons/react/24/outline";
 import { useSidebarAutoClose } from "@store/sidebar";
 import SidebarItem from "@components/SidebarItem";
@@ -38,6 +39,12 @@ const sidebarGroups: SidebarGroup[] = [
         label: "Visualisations",
         icon: <ChartBarIcon className="w-5 h-5" />,
         permission: "widget:canView",
+      },
+      {
+        to: ROUTES.aiBuilder,
+        label: "AI Builder",
+        icon: <SparklesIcon className="w-5 h-5" />,
+        permission: "widget:canCreate",
       },
     ],
   },
