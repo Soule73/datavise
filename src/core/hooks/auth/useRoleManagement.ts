@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useUpdateRoleMutation, useDeleteRoleMutation } from "@repositories/roles";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNotificationStore } from "@store/notification";
 import { useRolesQuery, usePermissionsQuery } from "@repositories/roles";
-import { useDashboardStore } from "@store/dashboard";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { roleSchema } from "@validation/role";
@@ -21,12 +20,6 @@ export function useRoleManagement() {
   const [roleToDelete, setRoleToDelete] = useState<any>(null);
   const [editConfirm, setEditConfirm] = useState(false);
   const queryClient = useQueryClient();
-
-  // Breadcrumb logique déplacée ici
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
-  useEffect(() => {
-    setBreadcrumb([{ url: "/roles", label: "Gestion des Rôles" }]);
-  }, [setBreadcrumb]);
 
   // Déplacement du formHook ici
   const formHook = useForm({

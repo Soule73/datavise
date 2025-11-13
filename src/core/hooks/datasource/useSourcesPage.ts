@@ -5,12 +5,10 @@ import {
 } from "@/data/repositories/datasources";
 import { useNotificationStore } from "@store/notification";
 import { useUserStore } from "@store/user";
-import { useDashboardStore } from "@store/dashboard";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import type { DataSource } from "@type/dataSource";
-import { ROUTES } from "@constants/routes";
 
 export function useSourcesPage() {
   const queryClient = useQueryClient();
@@ -27,11 +25,6 @@ export function useSourcesPage() {
   const [modalType, setModalType] = useState<"delete" | "edit" | null>(null);
   const showNotification = useNotificationStore((s) => s.showNotification);
   const hasPermission = useUserStore((s) => s.hasPermission);
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
-
-  useEffect(() => {
-    setBreadcrumb([{ url: ROUTES.sources, label: "Sources" }]);
-  }, [setBreadcrumb]);
 
   const handleDownload = async (
     filename: string | undefined,
@@ -116,7 +109,6 @@ export function useSourcesPage() {
     setModalType,
     deleteMutation,
     hasPermission,
-    setBreadcrumb,
     handleDownload,
     navigate,
     refetch,

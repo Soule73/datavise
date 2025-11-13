@@ -3,8 +3,7 @@ import { useCreateRoleMutation } from "@repositories/roles";
 import { useNotificationStore } from "@store/notification";
 import { ROUTES } from "@constants/routes";
 import { usePermissionsQuery } from "@repositories/roles";
-import { useState, useMemo, useEffect } from "react";
-import { useDashboardStore } from "@store/dashboard";
+import { useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import type { RoleCreateForm } from "@type/authTypes";
 
@@ -19,21 +18,6 @@ export function useRoleCreate() {
     permissions: [],
   });
   const [loading, setLoading] = useState(false);
-
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
-
-  useEffect(() => {
-    setBreadcrumb([
-      {
-        url: ROUTES.roles,
-        label: "Rôles",
-      },
-      {
-        url: ROUTES.createRole,
-        label: "Créer un Rôle",
-      },
-    ]);
-  }, [setBreadcrumb]);
 
   const mutation = useCreateRoleMutation({
     queryClient,

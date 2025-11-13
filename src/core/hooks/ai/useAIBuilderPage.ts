@@ -1,319 +1,384 @@
-import { useState, useEffect } from "react";
+import { useEffect, useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAIStore } from "@store/aiStore";
 import { useAIWidgetGenerator } from "@hooks/ai/useAIWidgetGenerator";
-import { useAIConversation } from "@hooks/ai/useAIConversation";
+import {
+    useConversationsQuery,
+    useConversationQuery,
+    useCreateConversationMutation,
+    useUpdateConversationTitleMutation,
+    useDeleteConversationMutation,
+    conversationKeys,
+} from "@hooks/ai/useConversationsQuery";
+import {
+    useConversationWidgetsQuery,
+    usePublishAllWidgetsMutation,
+} from "@hooks/ai/useAIWidgetsQuery";
+import { useDeleteWidgetMutation } from "@repositories/widgets";
 import { aiConversationApi } from "@services/aiConversation";
-import { publishWidget } from "@services/widget";
 import { getSources } from "@services/datasource";
 import type { DataSource } from "@type/dataSource";
 import type { AIGeneratedWidget } from "@type/aiTypes";
 import type { WidgetConfig } from "@type/widgetTypes";
+import { isValidObjectId } from "@utils/validation";
+import { useNotificationStore } from "@store/notification";
 
 export function useAIBuilderPage() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const queryClient = useQueryClient();
     const aiGenerator = useAIWidgetGenerator();
-    const conversation = useAIConversation();
+    const { showNotification } = useNotificationStore();
+    const [widgetToDelete, setWidgetToDelete] = useState<{
+        id: string;
+        title: string;
+        _id?: string;
+    } | null>(null);
 
+    // Zustand store
+    const {
+        activeConversationId,
+        generatedWidgets,
+        selectedSourceId,
+        userPrompt,
+        refinementPrompt,
+        maxWidgets,
+        isSidebarOpen,
+        setActiveConversationId,
+        setGeneratedWidgets,
+        setSelectedSourceId,
+        setUserPrompt,
+        setRefinementPrompt,
+        setMaxWidgets,
+        setIsSidebarOpen,
+        resetState,
+    } = useAIStore();
+
+    // React Query hooks
+    const { data: conversations = [] } = useConversationsQuery();
+
+    const { data: activeConversation, isLoading: isLoadingConversation } =
+        useConversationQuery(activeConversationId);
+
+    const { data: conversationWidgets } = useConversationWidgetsQuery(activeConversationId);
+
+    const createConversationMutation = useCreateConversationMutation();
+    const updateTitleMutation = useUpdateConversationTitleMutation();
+    const deleteConversationMutation = useDeleteConversationMutation();
+    const publishAllMutation = usePublishAllWidgetsMutation();
+
+    const deleteWidgetMutation = useDeleteWidgetMutation({
+        queryClient,
+        onSuccess: () => {
+            showNotification({
+                open: true,
+                type: "success",
+                title: "Widget supprimé avec succès",
+            });
+        },
+        onError: (error: any) => {
+            showNotification({
+                open: true,
+                type: "error",
+                title: error?.message || "Erreur lors de la suppression du widget",
+            });
+        },
+    });
+
+
+    const handleConfirmDelete = async () => {
+        if (widgetToDelete) {
+            await handleRemoveWidget(widgetToDelete.id);
+            setWidgetToDelete(null);
+        }
+    };
+
+
+    // Data sources state
     const [dataSources, setDataSources] = useState<DataSource[]>([]);
-    const [selectedSourceId, setSelectedSourceId] = useState<string>("");
-    const [userPrompt, setUserPrompt] = useState<string>("");
-    const [maxWidgets, setMaxWidgets] = useState<number>(5);
-    const [refinementPrompt, setRefinementPrompt] = useState<string>("");
 
+    // Load data sources on mount
     useEffect(() => {
         loadDataSources();
-        conversation.loadConversations();
-
-        // Restaurer la conversation depuis l'URL
-        const conversationId = searchParams.get("current");
-        if (conversationId) {
-            handleLoadConversation(conversationId);
-        }
     }, []);
 
-    const loadDataSources = async () => {
+    const loadDataSources = useCallback(async () => {
         try {
             const sources = await getSources();
             setDataSources(sources);
         } catch (err) {
             console.error("Erreur chargement sources:", err);
         }
-    };
+    }, []);
 
-    const handleGenerate = async () => {
+    useEffect(() => {
+        const conversationId = searchParams.get("current");
+
+        if (conversationId && isValidObjectId(conversationId) && conversationId !== activeConversationId) {
+            setActiveConversationId(conversationId);
+        } else if (conversationId && !isValidObjectId(conversationId)) {
+            setSearchParams({});
+        }
+        if (!conversationId && activeConversationId) {
+            setSearchParams({ current: activeConversationId });
+        }
+    }, [searchParams]);
+
+    // Sync widgets with conversation
+    useEffect(() => {
+        if (conversationWidgets && conversationWidgets.length > 0) {
+            const aiWidgets: AIGeneratedWidget[] = conversationWidgets.map((w) => ({
+                id: w.widgetId,
+                _id: w._id,
+                name: w.title,
+                description: w.description || "",
+                type: w.type,
+                config: w.config as WidgetConfig,
+                dataSourceId: w.dataSourceId.toString(),
+                reasoning: w.reasoning || "",
+                confidence: w.confidence || 0.8,
+            }));
+            setGeneratedWidgets(aiWidgets);
+            aiGenerator.setWidgets(aiWidgets);
+        }
+    }, [conversationWidgets]);
+
+    // Sync conversation metadata (dataSourceSummary & suggestions) when conversation loads
+    useEffect(() => {
+        if (activeConversation) {
+            if (activeConversation.dataSourceSummary) {
+                aiGenerator.setDataSourceSummary(activeConversation.dataSourceSummary);
+            }
+            if (activeConversation.suggestions && activeConversation.suggestions.length > 0) {
+                aiGenerator.setSuggestions(activeConversation.suggestions);
+            }
+        }
+    }, [activeConversation]);
+
+    const handleGenerate = useCallback(async () => {
         if (!selectedSourceId) return;
 
-        console.log("🚀 [AIBuilderPage] Début de la génération:", {
-            sourceId: selectedSourceId,
-            prompt: userPrompt,
-            maxWidgets,
-        });
-
         try {
-            // 1. Créer une conversation si nécessaire ou si temporaire
-            const isTemporary = conversation.activeConversation?._id === "temp-new";
-            let activeConv = conversation.activeConversation;
+            let convId = activeConversationId;
+            let isNewConversation = false;
 
-            if (!activeConv || isTemporary) {
-                activeConv = await conversation.createConversation({
+            if (!convId || !isValidObjectId(convId)) {
+                const newConv = await createConversationMutation.mutateAsync({
                     dataSourceId: selectedSourceId,
                     initialPrompt: userPrompt || "Génération automatique",
                 });
-                console.log("✅ [AIBuilderPage] Conversation créée:", activeConv._id);
-
-                // Mettre à jour l'URL avec l'ID de la conversation
-                setSearchParams({ current: activeConv._id });
+                convId = newConv._id;
+                setActiveConversationId(convId);
+                setSearchParams({ current: convId });
+                isNewConversation = true;
             }
 
-            // 2. Ajouter le message utilisateur (utiliser l'ID directement)
-            if (userPrompt && activeConv) {
+            if (userPrompt && convId && !isNewConversation) {
                 await aiConversationApi.addMessage({
-                    conversationId: activeConv._id,
+                    conversationId: convId,
                     role: "user",
                     content: userPrompt,
                 });
-                console.log("✅ [AIBuilderPage] Message utilisateur ajouté");
+                queryClient.invalidateQueries({ queryKey: conversationKeys.detail(convId) });
             }
 
-            // 3. Générer les widgets (ils seront créés en base avec isDraft: true)
+            setUserPrompt("");
+
             const result = await aiGenerator.generateWidgets({
                 dataSourceId: selectedSourceId,
-                conversationId: activeConv._id,
+                conversationId: convId,
                 userPrompt: userPrompt || undefined,
                 maxWidgets,
             });
-            console.log("✅ [AIBuilderPage] Widgets générés:", result.widgets.length);
-            console.log("✅ [AIBuilderPage] Titre généré:", result.conversationTitle);
 
-            // 4. Mettre à jour le titre de la conversation avec le titre généré par l'IA
-            if (result && activeConv && result.conversationTitle) {
-                await aiConversationApi.updateTitle({
-                    conversationId: activeConv._id,
+            if (result.conversationTitle && convId) {
+                await updateTitleMutation.mutateAsync({
+                    conversationId: convId,
                     title: result.conversationTitle,
                 });
-                console.log("✅ [AIBuilderPage] Titre mis à jour:", result.conversationTitle);
             }
 
-            // 5. Ajouter le message assistant
-            if (result && activeConv && result.widgets.length > 0) {
-                await aiConversationApi.addMessage({
-                    conversationId: activeConv._id,
-                    role: "assistant",
-                    content: `J'ai généré ${result.widgets.length} visualisation(s) basée(s) sur votre demande.`,
-                    widgetsGenerated: result.widgets.length,
-                });
-                console.log("✅ [AIBuilderPage] Message assistant ajouté");
-            }
-
-            // 6. Recharger la conversation pour avoir l'état à jour
-            if (activeConv) {
-                await conversation.loadConversation(activeConv._id);
-                console.log("✅ [AIBuilderPage] Conversation rechargée");
-
-                // 8. Recharger la liste des conversations pour mettre à jour la sidebar
-                await conversation.loadConversations();
-                console.log("✅ [AIBuilderPage] Liste des conversations rechargée");
-            }
-
-            console.log("✅ [AIBuilderPage] Génération terminée avec conversation sauvegardée");
+            setGeneratedWidgets(result.widgets);
         } catch (error) {
-            console.error("❌ [AIBuilderPage] Erreur génération:", error);
+            console.error("Erreur génération:", error);
         }
-    };
+    }, [
+        selectedSourceId,
+        activeConversationId,
+        userPrompt,
+        maxWidgets,
+        createConversationMutation,
+        updateTitleMutation,
+        aiGenerator,
+        setSearchParams,
+        queryClient,
+    ]);
 
-    const handleRefine = async () => {
-        if (!selectedSourceId || aiGenerator.widgets.length === 0 || !refinementPrompt.trim()) {
-            return;
-        }
-
-        console.log("🔧 [AIBuilderPage] Début du raffinement:", {
-            prompt: refinementPrompt,
-            currentWidgetsCount: aiGenerator.widgets.length,
-        });
+    const handleRefine = useCallback(async () => {
+        if (!refinementPrompt || !activeConversationId) return;
 
         try {
-            const activeConv = conversation.activeConversation;
-            if (!activeConv) {
-                console.error("❌ [AIBuilderPage] Pas de conversation active");
-                return;
-            }
-
-            // 1. Ajouter le message utilisateur
             await aiConversationApi.addMessage({
-                conversationId: activeConv._id,
+                conversationId: activeConversationId,
                 role: "user",
                 content: refinementPrompt,
             });
-
-            // 2. Raffiner les widgets
-            const savedWidgetIds = aiGenerator.widgets
-                .filter((w) => w._id)
-                .map((w) => w._id!);
-
-            let result;
-            if (savedWidgetIds.length > 0) {
-                console.log("🔄 [AIBuilderPage] Raffinement avec widgets MongoDB");
-                // TODO: Appeler refineWidgetsDb
-            } else {
-                result = await aiGenerator.refineWidgets({
-                    currentWidgets: aiGenerator.widgets,
-                    refinementPrompt,
-                    dataSourceId: selectedSourceId,
-                });
-            }
-
-            // 3. Ajouter le message assistant
-            if (result && result.widgets) {
-                await aiConversationApi.addMessage({
-                    conversationId: activeConv._id,
-                    role: "assistant",
-                    content: `J'ai raffiné les visualisations selon vos instructions.`,
-                    widgetsGenerated: result.widgets.length,
-                });
-                console.log("✅ [AIBuilderPage] Message assistant ajouté");
-            }
-
-            // 4. Recharger la conversation
-            await conversation.loadConversation(activeConv._id);
-
-            // 6. Recharger la liste des conversations pour mettre à jour la sidebar
-            await conversation.loadConversations();
-            console.log("✅ [AIBuilderPage] Liste des conversations rechargée");
+            queryClient.invalidateQueries({ queryKey: conversationKeys.detail(activeConversationId) });
 
             setRefinementPrompt("");
-            console.log("✅ [AIBuilderPage] Raffinement terminé");
+
+            const result = await aiGenerator.refineWidgets({
+                dataSourceId: selectedSourceId,
+                currentWidgets: generatedWidgets,
+                refinementPrompt,
+            });
+
+            setGeneratedWidgets(result.widgets);
         } catch (error) {
-            console.error("❌ [AIBuilderPage] Erreur raffinement:", error);
+            console.error("Erreur raffinement:", error);
         }
-    };
+    }, [refinementPrompt, activeConversationId, generatedWidgets, selectedSourceId, aiGenerator, queryClient]);
 
-    const handleSaveAll = async () => {
-        console.log("💾 [AIBuilderPage] Publication de tous les widgets:", aiGenerator.widgets.length);
-
-        try {
-            // Publier tous les widgets (change isDraft: false)
-            const publishPromises = aiGenerator.widgets
-                .filter((w) => w._id) // Uniquement ceux déjà en base
-                .map((w) => publishWidget(w._id!));
-
-            await Promise.all(publishPromises);
-
-            console.log("✅ [AIBuilderPage] Tous les widgets publiés");
-
-            // Recharger la liste des conversations pour mettre à jour le compteur
-            if (conversation.activeConversation) {
-                await conversation.loadConversations();
-            }
-
-            console.log("✅ [AIBuilderPage] Publication terminée");
-        } catch (error) {
-            console.error("❌ [AIBuilderPage] Erreur publication:", error);
+    const handleSaveAll = useCallback(async () => {
+        const widgetIds = generatedWidgets.filter((w) => w._id).map((w) => w._id!);
+        if (widgetIds.length > 0) {
+            await publishAllMutation.mutateAsync(widgetIds);
         }
-    };
+    }, [generatedWidgets, publishAllMutation]);
 
-    const handleReset = () => {
+    const handleReset = useCallback(() => {
         aiGenerator.reset();
-        conversation.setActiveConversation(null);
-        setSelectedSourceId("");
-        setUserPrompt("");
-        setRefinementPrompt("");
-        setMaxWidgets(5);
-
-        // Supprimer le paramètre de l'URL
+        resetState();
+        setActiveConversationId(null);
         setSearchParams({});
-    };
+    }, [aiGenerator, resetState, setSearchParams]);
 
-    const handleNewConversation = () => {
-        console.log("🆕 [AIBuilderPage] Préparation nouvelle conversation");
-
-        // Supprimer le paramètre de l'URL
+    const handleNewConversation = useCallback(() => {
+        resetState();
         setSearchParams({});
+        setActiveConversationId(null);
+    }, [resetState, setSearchParams]);
 
-        // Réinitialiser l'état et créer un marqueur de "conversation en cours"
-        aiGenerator.reset();
-        setSelectedSourceId("");
-        setUserPrompt("");
-        setRefinementPrompt("");
-        setMaxWidgets(5);
-
-        // Créer une conversation temporaire pour afficher le formulaire
-        // La vraie conversation sera créée lors de handleGenerate
-        conversation.setActiveConversation({
-            _id: "temp-new",
-            userId: "",
-            dataSourceId: "",
-            title: "Nouvelle conversation",
-            messages: [],
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-        } as any);
-    };
-
-    const handleLoadConversation = async (conversationId: string) => {
-        try {
-            const loadedConversation = await conversation.loadConversation(conversationId);
-
-            // Mettre à jour l'URL avec l'ID de la conversation
+    const handleLoadConversation = useCallback(
+        async (conversationId: string) => {
+            setActiveConversationId(conversationId);
             setSearchParams({ current: conversationId });
+        },
+        [setSearchParams]
+    );
 
-            // Les widgets sont déjà chargés dans loadedConversation.widgets
-            if (loadedConversation.widgets && loadedConversation.widgets.length > 0) {
-                // Transformer les widgets MongoDB en AIGeneratedWidget
-                const aiWidgets: AIGeneratedWidget[] = loadedConversation.widgets.map(w => ({
-                    id: w.widgetId,
-                    _id: w._id,
-                    name: w.title,
-                    description: w.description || "",
-                    type: w.type,
-                    config: w.config as WidgetConfig,
-                    dataSourceId: w.dataSourceId.toString(),
-                    reasoning: w.reasoning || "",
-                    confidence: w.confidence || 0.8,
-                }));
+    const handleDeleteConversation = useCallback(
+        async (conversationId: string) => {
+            await deleteConversationMutation.mutateAsync(conversationId);
+            if (conversationId === activeConversationId) {
+                handleReset();
+            }
+        },
+        [deleteConversationMutation, activeConversationId, handleReset]
+    );
 
-                aiGenerator.setWidgets(aiWidgets);
-                setSelectedSourceId(loadedConversation.dataSourceId);
+    const handleUpdateTitle = useCallback(
+        async (conversationId: string, title: string) => {
+            await updateTitleMutation.mutateAsync({ conversationId, title });
+        },
+        [updateTitleMutation]
+    );
+
+    const handleSuggestionClick = useCallback(
+        async (suggestion: string) => {
+            if (!activeConversationId) return;
+
+            try {
+                await aiConversationApi.addMessage({
+                    conversationId: activeConversationId,
+                    role: "user",
+                    content: suggestion,
+                });
+                queryClient.invalidateQueries({ queryKey: conversationKeys.detail(activeConversationId) });
+
+                const result = await aiGenerator.refineWidgets({
+                    dataSourceId: selectedSourceId,
+                    currentWidgets: generatedWidgets,
+                    refinementPrompt: suggestion,
+                });
+
+                setGeneratedWidgets(result.widgets);
+            } catch (error) {
+                console.error("Erreur suggestion:", error);
+            }
+        },
+        [activeConversationId, selectedSourceId, generatedWidgets, aiGenerator, queryClient]
+    );
+
+    const handleRemoveWidget = useCallback(
+        async (widgetId: string) => {
+            const widget = generatedWidgets.find((w) => w.id === widgetId);
+
+            if (widget?._id) {
+                await deleteWidgetMutation.mutateAsync(widget._id);
             }
 
-            console.log("✅ [AIBuilderPage] Conversation chargée avec widgets");
-        } catch (error) {
-            console.error("❌ [AIBuilderPage] Erreur chargement conversation:", error);
-        }
-    };
+            aiGenerator.removeWidget(widgetId);
+            setGeneratedWidgets(generatedWidgets.filter((w) => w.id !== widgetId));
+        },
+        [aiGenerator, generatedWidgets, setGeneratedWidgets, deleteWidgetMutation]
+    );
 
-    const handleRemoveWidget = async (widgetId: string) => {
-        console.log("🗑️ [AIBuilderPage] Suppression du widget:", widgetId);
+    const handleSaveWidget = useCallback(
+        async (widget: AIGeneratedWidget) => {
+            const result = await aiGenerator.saveWidget(widget);
+            if (result) {
+                const updatedWidgets = generatedWidgets.map((w) =>
+                    w.id === widget.id ? { ...w, _id: result._id } : w
+                );
+                setGeneratedWidgets(updatedWidgets);
+            }
+            return result;
+        },
+        [aiGenerator, generatedWidgets, setGeneratedWidgets]
+    );
 
-        const activeConv = conversation.activeConversation;
-        if (!activeConv) return;
-
-        // 1. Supprimer du générateur
-        aiGenerator.removeWidget(widgetId);
-
-        // 2. Les widgets sont déjà en base, pas besoin de mettre à jour la conversation
-
-        // 3. Recharger la conversation
-        await conversation.loadConversation(activeConv._id);
-
-        // 4. Recharger la liste des conversations pour mettre à jour la sidebar
-        await conversation.loadConversations();
-
-        console.log("✅ [AIBuilderPage] Widget supprimé de la conversation");
-    };
+    // Memoized values
+    const isLoading = useMemo(
+        () =>
+            aiGenerator.isLoading ||
+            createConversationMutation.isPending ||
+            publishAllMutation.isPending ||
+            deleteWidgetMutation.isPending ||
+            isLoadingConversation,
+        [
+            aiGenerator.isLoading,
+            createConversationMutation.isPending,
+            publishAllMutation.isPending,
+            deleteWidgetMutation.isPending,
+            isLoadingConversation,
+        ]
+    );
 
     return {
-        // State
+        // Data
         dataSources,
+        conversations,
+        activeConversation,
+        widgets: generatedWidgets,
+        dataSourceSummary: aiGenerator.dataSourceSummary,
+        suggestions: aiGenerator.suggestions,
+        error: aiGenerator.error,
+
+        // State
         selectedSourceId,
         userPrompt,
-        maxWidgets,
         refinementPrompt,
+        maxWidgets,
+        isLoading,
+        isSidebarOpen,
 
         // Setters
         setSelectedSourceId,
         setUserPrompt,
-        setMaxWidgets,
         setRefinementPrompt,
+        setMaxWidgets,
+        setIsSidebarOpen,
 
         // Actions
         handleGenerate,
@@ -322,14 +387,12 @@ export function useAIBuilderPage() {
         handleReset,
         handleNewConversation,
         handleLoadConversation,
-
-        // From AI Generator (spread first)
-        ...aiGenerator,
-
-        // Override removeWidget avec notre version qui met à jour la conversation
-        removeWidget: handleRemoveWidget,
-
-        // From Conversation
-        conversation,
+        handleDeleteConversation,
+        handleUpdateTitle,
+        handleSuggestionClick,
+        setWidgetToDelete,
+        widgetToDelete,
+        handleConfirmDelete,
+        handleSaveWidget
     };
 }

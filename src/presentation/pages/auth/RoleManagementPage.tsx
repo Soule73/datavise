@@ -11,6 +11,8 @@ import CheckboxField from "@components/forms/CheckboxField";
 import { usePermissionsQuery } from "@repositories/roles";
 import { useRoleManagement } from "@hooks/auth/useRoleManagement";
 import { useUserStore } from "@store/user";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function RoleManagementPage() {
   const {
@@ -39,7 +41,10 @@ export default function RoleManagementPage() {
   const hasPermission = useUserStore((s) => s.hasPermission);
 
   return (
-    <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
+    <AuthLayout permission="role:canView"
+      breadcrumb={breadcrumbs.roleList}
+    // className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm"
+    >
       <div className="flex items-center justify-end mb-6">
         <div>
           {hasPermission("role:canCreate") && (
@@ -198,6 +203,6 @@ export default function RoleManagementPage() {
         cancelLabel="Annuler"
         loading={false}
       />
-    </div>
+    </AuthLayout>
   );
 }

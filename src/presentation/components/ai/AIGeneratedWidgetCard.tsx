@@ -240,7 +240,7 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
                     onClick={onRemove}
                     color="red"
                     variant="outline"
-                    className="!w-max"
+                    className="w-max!"
                 >
                     <TrashIcon className="w-4 h-4" />
                 </Button>

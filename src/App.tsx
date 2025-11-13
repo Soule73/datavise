@@ -1,11 +1,10 @@
-import React, { useEffect, useState, type ReactNode } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "@pages/auth/LoginPage";
 import Register from "@pages/auth/RegisterPage";
 import SourcesPage from "@pages/datasource/SourceListPage";
 import AddSourcePage from "@pages/datasource/AddSourcePage";
 import EditSourcePage from "@pages/datasource/EditSourcePage";
-import BaseLayout from "@components/layouts/BaseLayout";
 import { useUserStore } from "@store/user";
 import { ROUTES } from "@constants/routes";
 import WidgetListPage from "@pages/widget/WidgetListPage";
@@ -18,32 +17,9 @@ import DashboardListPage from "@pages/dashboard/DashboardListPage";
 import WidgetEditPage from "@pages/widget/WidgetEditPage";
 import AppLoader from "@components/layouts/AppLoader";
 import DashboardSharePage from "@pages/dashboard/DashboardSharePage";
-import ErrorPage from "@components/layouts/ErrorPage";
 import LandingPage from "@pages/LandingPage";
 import DocumentationPage from "@pages/DocumentationPage";
 import AIBuilderPage from "@pages/ai/AIBuilderPage";
-
-function RequireAuth({
-  children,
-  permission,
-}: {
-  children: ReactNode;
-  permission?: string;
-}) {
-  const user = useUserStore((s) => s.user);
-  const hasPermission = useUserStore((s) => s.hasPermission);
-  if (!user) return <Navigate to={ROUTES.login} replace />;
-  if (permission && !hasPermission(permission)) {
-    return (
-      <ErrorPage
-        code={403}
-        title="Accès refusé"
-        message="Vous n'avez pas les permissions nécessaires pour accéder à cette page."
-      />
-    );
-  }
-  return <BaseLayout>{children}</BaseLayout>;
-}
 
 const App: React.FC = () => {
   const user = useUserStore((s) => s.user);
@@ -96,19 +72,11 @@ const App: React.FC = () => {
         <Route path={ROUTES.register} element={<Register />} />
         <Route
           path={ROUTES.dashboards}
-          element={
-            <RequireAuth permission="dashboard:canView">
-              <DashboardListPage />
-            </RequireAuth>
-          }
+          element={<DashboardListPage />}
         />
         <Route
           path={ROUTES.dashboardDetail}
-          element={
-            <RequireAuth permission="dashboard:canView">
-              <DashboardPage />
-            </RequireAuth>
-          }
+          element={<DashboardPage />}
         />
         <Route
           path={ROUTES.dashboard}
@@ -116,83 +84,43 @@ const App: React.FC = () => {
         />
         <Route
           path={ROUTES.sources}
-          element={
-            <RequireAuth permission="datasource:canView">
-              <SourcesPage />
-            </RequireAuth>
-          }
+          element={<SourcesPage />}
         />
         <Route
           path={ROUTES.addSource}
-          element={
-            <RequireAuth permission="datasource:canCreate">
-              <AddSourcePage />
-            </RequireAuth>
-          }
+          element={<AddSourcePage />}
         />
         <Route
           path={ROUTES.editSource}
-          element={
-            <RequireAuth permission="datasource:canUpdate">
-              <EditSourcePage />
-            </RequireAuth>
-          }
+          element={<EditSourcePage />}
         />
         <Route
           path={ROUTES.widgets}
-          element={
-            <RequireAuth permission="widget:canView">
-              <WidgetListPage />
-            </RequireAuth>
-          }
+          element={<WidgetListPage />}
         />
         <Route
           path={ROUTES.createWidget}
-          element={
-            <RequireAuth permission="widget:canCreate">
-              <WidgetCreatePage />
-            </RequireAuth>
-          }
+          element={<WidgetCreatePage />}
         />
         <Route
           path={ROUTES.aiBuilder}
-          element={
-            <RequireAuth permission="widget:canCreate">
-              <AIBuilderPage />
-            </RequireAuth>
-          }
+          element={<AIBuilderPage />}
         />
         <Route
           path={ROUTES.roles}
-          element={
-            <RequireAuth permission="role:canView">
-              <RoleManagementPage />
-            </RequireAuth>
-          }
+          element={<RoleManagementPage />}
         />
         <Route
           path={ROUTES.createRole}
-          element={
-            <RequireAuth permission="role:canCreate">
-              <RoleCreatePage />
-            </RequireAuth>
-          }
+          element={<RoleCreatePage />}
         />
         <Route
           path={ROUTES.users}
-          element={
-            <RequireAuth permission="user:canView">
-              <UserManagementPage />
-            </RequireAuth>
-          }
+          element={<UserManagementPage />}
         />
         <Route
           path={ROUTES.editWidget}
-          element={
-            <RequireAuth permission="widget:canUpdate">
-              <WidgetEditPage />
-            </RequireAuth>
-          }
+          element={<WidgetEditPage />}
         />
         <Route path={ROUTES.dashboardShare} element={<DashboardSharePage />} />
         {/* <Route path="/" element={<Navigate to={ROUTES.dashboard} replace />} /> */}

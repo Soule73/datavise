@@ -37,14 +37,14 @@ export function DeleteWidgetModal({
       </div>
       <div className="flex gap-2 justify-end">
         <Button
-          className="!w-max"
+          className="w-max!"
           variant="outline"
           color="gray" onClick={onClose}>
           Annuler
         </Button>
         <Button
           color="red"
-          className=" !w-max"
+          className=" w-max!"
           onClick={onDelete}
           loading={loading}
           disabled={!!widget?.isUsed}

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   useDashboardsQuery,
@@ -6,7 +6,6 @@ import {
 } from "@repositories/dashboards";
 import { useNotificationStore } from "@store/notification";
 import { useNavigate } from "react-router-dom";
-import { useDashboardStore } from "@store/dashboard";
 import { useUserStore } from "@store/user";
 import type { Dashboard } from "@type/dashboardTypes";
 
@@ -19,13 +18,8 @@ export function useDashboardList() {
   );
   const [deleteLoading, setDeleteLoading] = useState(false);
   const showNotification = useNotificationStore((s) => s.showNotification);
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
   const navigate = useNavigate();
   const hasPermission = useUserStore((s) => s.hasPermission);
-
-  useEffect(() => {
-    setBreadcrumb([{ url: "/dashboards", label: "Tableaux de bord" }]);
-  }, [setBreadcrumb]);
 
   const handleDelete = useCallback(async () => {
     if (!selectedDashboard) return;

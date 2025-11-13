@@ -1,4 +1,4 @@
-import AuthLayout from "@components/layouts/AuthLayout";
+import GuestLayout from "@components/layouts/GuestLayout";
 import InputField from "@components/forms/InputField";
 import Button from "@components/forms/Button";
 import { useRegisterForm } from "@hooks/auth/useRegisterForm";
@@ -15,7 +15,7 @@ export default function Register() {
   } = useRegisterForm();
 
   return (
-    <AuthLayout
+    <GuestLayout
       title="Créer un compte"
       logoUrl={logoDataVise}
       bottomText={
@@ -74,6 +74,6 @@ export default function Register() {
           Créer un compte
         </Button>
       </form>
-    </AuthLayout>
+    </GuestLayout>
   );
 }

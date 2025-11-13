@@ -1,7 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useNotificationStore } from "@store/notification";
-import { useDashboardStore } from "@store/dashboard";
 import { ROUTES } from "@constants/routes";
 import { fetchWidgetById, updateWidget } from "@services/widget";
 import type { DataSource } from "@type/dataSource";
@@ -15,7 +14,6 @@ export function useWidgetEditForm() {
   const { id: widgetId } = useParams();
   const navigate = useNavigate();
   const showNotification = useNotificationStore((s) => s.showNotification);
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [widget, setWidget] = useState<Widget | null>(null);
@@ -41,19 +39,6 @@ export function useWidgetEditForm() {
       setColumns(Object.keys(realSourceData[0]));
     }
   }, [realSourceData]);
-
-  // Met à jour le titre du breadcrumb lorsque le widget est chargé ou que le titre change
-  useEffect(() => {
-    if (widgetId && widgetTitle) {
-      setBreadcrumb([
-        { url: ROUTES.widgets, label: "Visualisations" },
-        {
-          url: ROUTES.editWidget.replace(":widgetId", widgetId),
-          label: widgetTitle,
-        },
-      ]);
-    }
-  }, [widgetId, widgetTitle, setBreadcrumb]);
 
   // Charge le widget puis la source pour récupérer l'endpoint
   useEffect(() => {

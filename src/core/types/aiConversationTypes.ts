@@ -12,16 +12,33 @@ export interface AIMessage {
 }
 
 /**
+ * Résumé de la source de données analysée
+ */
+export interface DataSourceSummary {
+    name: string;
+    type: string;
+    rowCount: number;
+    columns: Array<{
+        name: string;
+        type: string;
+        uniqueValues?: number;
+        sampleValues?: any[];
+    }>;
+}
+
+/**
  * Conversation AI Builder
  */
 export interface AIConversation {
     _id: string;
     userId: string;
     dataSourceId: string;
-    dataSource?: DataSource; // Populated
+    dataSource?: DataSource;
     title: string;
-    widgets?: Widget[]; // Widgets chargés depuis Widget collection (via conversationId)
+    widgets?: Widget[];
     messages: AIMessage[];
+    dataSourceSummary?: DataSourceSummary;
+    suggestions?: string[];
     createdAt: Date;
     updatedAt: Date;
 }

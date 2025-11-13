@@ -1,6 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
-import { useDashboardStore } from "@store/dashboard";
-import { ROUTES } from "@constants/routes";
+import { useState, useMemo } from "react";
 import {
   useWidgetsQuery,
   useDeleteWidgetMutation,
@@ -14,10 +12,6 @@ import type { Widget } from "@type/widgetTypes";
 
 export function useWidgetListPage() {
   const queryClient = useQueryClient();
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
-  useEffect(() => {
-    setBreadcrumb([{ url: ROUTES.widgets, label: "Visualisations" }]);
-  }, [setBreadcrumb]);
 
   // Chargement des widgets depuis l'API
   const { data: widgets = [], isLoading } = useWidgetsQuery();

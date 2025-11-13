@@ -6,6 +6,7 @@ import { EmptyDashboard } from "@components/dashoards/EmptyDashboard";
 import { DashboardSaveModal } from "@components/DashboardSaveModal";
 import ExportPDFModal from "@components/ExportPDFModal";
 import DashboardConfigFields from "@components/dashoards/DashboardConfigFields";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 
 export default function DashboardPage() {
   const {
@@ -79,7 +80,7 @@ export default function DashboardPage() {
   const swapHandler = isEditing ? handleSwapLayout : undefined;
 
   return (
-    <>
+    <AuthLayout permission="dashboard:canView">
       <WidgetSelectModal
         open={selectOpen}
         onClose={() => setSelectOpen(false)}
@@ -153,6 +154,6 @@ export default function DashboardPage() {
           onSwapLayout={swapHandler}
         />
       )}
-    </>
+    </AuthLayout>
   );
 }

@@ -7,6 +7,7 @@ import type {
 } from "@type/aiConversationTypes";
 import type { ApiResponse } from "@type/api";
 import { useNotificationStore } from "@store/notification";
+import { isValidObjectId } from "@utils/validation";
 
 function extractData<T>(response: ApiResponse<T>): T {
     if ('data' in response && response.data) {
@@ -30,8 +31,10 @@ export function useConversationsQuery() {
             const response = await aiConversationApi.getConversations();
             return extractData(response);
         },
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        gcTime: 10 * 60 * 1000, // 10 minutes
+        // 5 minutes
+        staleTime: 5 * 60 * 1000,
+        // 10 minutes
+        gcTime: 10 * 60 * 1000,
     });
 }
 
@@ -42,8 +45,8 @@ export function useConversationQuery(conversationId: string | null) {
             const response = await aiConversationApi.getConversationById(conversationId!);
             return extractData(response);
         },
-        enabled: !!conversationId,
-        staleTime: 2 * 60 * 1000, // 2 minutes
+        enabled: isValidObjectId(conversationId),
+        staleTime: 2 * 60 * 1000,
     });
 }
 

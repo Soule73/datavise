@@ -1,12 +1,11 @@
 import { useUserManagement } from "@hooks/auth/useUserManagement";
 import Table from "@components/Table";
 import Button from "@components/forms/Button";
-import { useEffect } from "react";
-import { useDashboardStore } from "@store/dashboard";
 import type { User } from "@type/authTypes";
-import { ROUTES } from "@constants/routes";
 import UserModalForm from "@components/auth/UserModalForm";
 import UserDeleteModal from "@components/auth/UserDeleteModal";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 function getErrorMsg(err: unknown) {
   if (!err) return undefined;
@@ -17,10 +16,6 @@ function getErrorMsg(err: unknown) {
 }
 
 export default function UserManagementPage() {
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
-  useEffect(() => {
-    setBreadcrumb([{ url: ROUTES.users, label: "Gestion des Utilisateurs" }]);
-  }, [setBreadcrumb]);
 
   const {
     users,
@@ -48,7 +43,10 @@ export default function UserManagementPage() {
   } = useUserManagement();
 
   return (
-    <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
+    <AuthLayout permission="user:canView"
+      breadcrumb={breadcrumbs.userList}
+    // className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm"
+    >
       <div className="flex items-center justify-end mb-6">
         <div>
           {hasPermission("user:canCreate") && (
@@ -83,7 +81,7 @@ export default function UserManagementPage() {
                     size="sm"
                     variant="outline"
                     title="Modfier l’utilisateur"
-                    className=" w-max !border-none"
+                    className=" w-max border-none!"
                     onClick={() => openModal(u)}
                   >
                     Modifier
@@ -97,7 +95,7 @@ export default function UserManagementPage() {
                     size="sm"
                     variant="outline"
                     title="Supprimer l’utilisateur"
-                    className="w-max !border-none "
+                    className="w-max border-none! "
                     onClick={() => {
                       setUserToDelete(u);
                       setDeleteModalOpen(true);
@@ -136,6 +134,6 @@ export default function UserManagementPage() {
         loading={isDeleting}
         userToDelete={userToDelete}
       />
-    </div>
+    </AuthLayout>
   );
 }

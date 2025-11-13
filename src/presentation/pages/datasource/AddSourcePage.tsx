@@ -1,22 +1,17 @@
 import SourceForm from "@components/source/SourceForm";
 import { useCreateDataSourceForm } from "@hooks/datasource/useCreateDataSourceForm";
-import { useDashboardStore } from "@store/dashboard";
-import { useEffect } from "react";
-import { ROUTES } from "@constants/routes";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function AddSourcePage() {
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
   const formProps = useCreateDataSourceForm();
 
-  useEffect(() => {
-    setBreadcrumb([
-      { url: ROUTES.sources, label: "Sources" },
-      { url: ROUTES.addSource, label: "Ajouter une source" },
-    ]);
-  }, [setBreadcrumb]);
 
   return (
-    <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
+    <AuthLayout permission="datasource:canCreate"
+      breadcrumb={breadcrumbs.datasourceCreate}
+    // className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm"
+    >
       <h1 className="text-2xl font-bold mb-6">Ajouter une source de données</h1>
       <SourceForm
         form={formProps.form}
@@ -38,6 +33,6 @@ export default function AddSourcePage() {
         onSubmit={formProps.onSubmit}
         isEdit={false}
       />
-    </div>
+    </AuthLayout>
   );
 }

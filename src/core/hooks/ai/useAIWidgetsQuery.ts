@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchConversationWidgets, publishWidget } from "@services/widget";
 import { useNotificationStore } from "@store/notification";
+import { isValidObjectId } from "@utils/validation";
 
 export const widgetKeys = {
     all: ["widgets"] as const,
@@ -11,8 +12,8 @@ export function useConversationWidgetsQuery(conversationId: string | null) {
     return useQuery({
         queryKey: widgetKeys.conversation(conversationId!),
         queryFn: () => fetchConversationWidgets(conversationId!),
-        enabled: !!conversationId,
-        staleTime: 1 * 60 * 1000, // 1 minute
+        enabled: isValidObjectId(conversationId),
+        staleTime: 1 * 60 * 1000,
     });
 }
 

@@ -1,3 +1,5 @@
+import breadcrumbs from "@/core/utils/breadcrumbs";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import SourceForm from "@components/source/SourceForm";
 import { useEditDataSourceForm } from "@hooks/datasource/useEditDataSourceForm";
 
@@ -13,7 +15,10 @@ export default function EditSourcePage() {
     );
 
   return (
-    <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
+    <AuthLayout permission="datasource:canUpdate"
+      breadcrumb={breadcrumbs.datasourceEdit(formProps.form?.name || "")}
+    // className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm"
+    >
       <h1 className="text-2xl font-bold mb-6">Modifier la source</h1>
       <SourceForm
         form={formProps.form}
@@ -35,6 +40,6 @@ export default function EditSourcePage() {
         onSubmit={formProps.onSubmit}
         isEdit={true}
       />
-    </div>
+    </AuthLayout>
   );
 }

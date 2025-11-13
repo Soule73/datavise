@@ -2,12 +2,10 @@ import type { AIGenerateResponse } from "@type/aiTypes";
 
 interface AIResultsSummaryProps {
     dataSourceSummary: AIGenerateResponse["dataSourceSummary"] | null;
-    suggestions?: string[];
 }
 
 export default function AIResultsSummary({
     dataSourceSummary,
-    suggestions,
 }: AIResultsSummaryProps) {
     if (!dataSourceSummary) return null;
 
@@ -20,16 +18,6 @@ export default function AIResultsSummary({
                 {dataSourceSummary.rowCount} lignes •{" "}
                 {dataSourceSummary.columns.length} colonnes
             </p>
-            {suggestions && suggestions.length > 0 && (
-                <div className="mt-3">
-                    <p className="text-sm font-medium dark:text-white">Suggestions:</p>
-                    <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
-                        {suggestions.map((s, i) => (
-                            <li key={i}>{s}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
         </div>
     );
 }

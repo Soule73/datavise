@@ -8,6 +8,4 @@ export const useDashboardStore = create<DashboardStore>((set) => ({
   setHasUnsavedChanges: (v) => set({ hasUnsavedChanges: v }),
   layout: [],
   setLayout: (l) => set({ layout: l }),
-  breadcrumb: [],
-  setBreadcrumb: (items) => set({ breadcrumb: items }),
 }));

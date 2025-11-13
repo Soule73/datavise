@@ -154,8 +154,6 @@ export interface DashboardStore {
   setHasUnsavedChanges: (v: boolean) => void;
   layout: DashboardLayoutItem[];
   setLayout: (l: DashboardLayoutItem[]) => void;
-  breadcrumb: BreadcrumbItem[];
-  setBreadcrumb: (items: BreadcrumbItem[]) => void;
 }
 
 export interface UseGridItemProps {
@@ -192,11 +190,6 @@ export interface UseDashboardGridProps {
 // =====================
 // Divers
 // =====================
-export interface BreadcrumbItem {
-  url: string;
-  label: string;
-}
-
 export interface DashboardSharePopoverProps {
   isShareEnabled?: boolean;
   shareLoading?: boolean;

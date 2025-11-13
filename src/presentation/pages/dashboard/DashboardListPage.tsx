@@ -6,6 +6,7 @@ import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@constants/routes";
 import { useDashboardList } from "@hooks/dashboard/useDashboardList";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 
 export default function DashboardListPage() {
   const {
@@ -22,7 +23,7 @@ export default function DashboardListPage() {
   } = useDashboardList();
 
   return (
-    <>
+    <AuthLayout permission="dashboard:canView">
       <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
           <h1 className="text-2xl font-bold ">Tableaux de bord</h1>
@@ -64,7 +65,7 @@ export default function DashboardListPage() {
                       size="sm"
                       variant="outline"
                       title="Ouvrir le dashboard"
-                      className=" w-max !border-none !bg-transparent hover:!bg-gray-100 dark:hover:!bg-gray-800"
+                      className=" w-max border-none! bg-transparent! hover:bg-gray-100! dark:hover:bg-gray-800!"
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/dashboards/${row._id}`);
@@ -79,7 +80,7 @@ export default function DashboardListPage() {
                       size="sm"
                       variant="outline"
                       title="Supprimer le dashboard"
-                      className=" w-max !border-none !bg-transparent hover:!bg-red-100 dark:hover:!bg-red-900"
+                      className=" w-max border-none! bg-transparent! hover:bg-red-100! dark:hover:bg-red-900!"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedDashboard(row);
@@ -127,6 +128,6 @@ export default function DashboardListPage() {
           </div>
         </div>
       </Modal>
-    </>
+    </AuthLayout>
   );
 }

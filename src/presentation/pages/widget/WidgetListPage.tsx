@@ -14,6 +14,8 @@ import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import WidgetTypeSelectionModal from "@components/widgets/WidgetTypeSelectionModal";
 import { useSourcesQuery } from "@/data/repositories/datasources";
 import { useQueryClient } from "@tanstack/react-query";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function WidgetListPage() {
   const navigate = useNavigate();
@@ -89,7 +91,10 @@ export default function WidgetListPage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow mt-2s">
+    <AuthLayout permission="widget:canView"
+      breadcrumb={breadcrumbs.widgetList}
+    // className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow mt-2s"
+    >
       <div className="flex items-center justify-end mb-3">
         <div className="flex items-center gap-2">
           {hasPermission("widget:canCreate") && (
@@ -128,7 +133,7 @@ export default function WidgetListPage() {
                       color="indigo"
                       size="sm"
                       variant="outline"
-                      className=" w-max !border-none"
+                      className=" w-max border-none!"
                       title="Modifier le widget"
                     >
                       Modifier
@@ -140,7 +145,7 @@ export default function WidgetListPage() {
                   size="sm"
                   variant="outline"
                   title="Modfier la source"
-                  className=" w-max !border-none"
+                  className=" w-max border-none!"
                   onClick={() => {
                     setSelectedConfig(row);
                     setModalOpen(true);
@@ -153,7 +158,7 @@ export default function WidgetListPage() {
                     color="red"
                     size="sm"
                     variant="outline"
-                    className="w-max !border-none "
+                    className="w-max border-none! "
                     disabled={!!row.isUsed}
                     title={
                       row.isUsed
@@ -203,6 +208,6 @@ export default function WidgetListPage() {
         onConfirm={handleCreateWidget}
         sources={sources}
       />
-    </div>
+    </AuthLayout>
   );
 }

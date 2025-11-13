@@ -3,6 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import type { WidgetType } from "@type/widgetTypes";
 import WidgetFormLayout from "@components/widgets/WidgetFormLayout";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function WidgetCreatePage() {
   const [searchParams] = useSearchParams();
@@ -66,37 +68,41 @@ export default function WidgetCreatePage() {
   };
 
   return (
-    <WidgetFormLayout
-      title="Créer une visualisation"
-      isLoading={createMutation.isPending}
-      onSave={handleSave}
-      saveButtonText="Enregistrer"
-      showCancelButton={false}
-      WidgetComponent={WidgetComponent}
-      dataPreview={dataPreview}
-      config={config}
-      metricsWithLabels={metricsWithLabels}
-      isPreviewReady={isPreviewReady}
-      type={type}
-      tab={tab}
-      setTab={setTab}
-      columns={columns}
-      handleConfigChange={handleConfigChange}
-      handleDragStart={handleDragStart}
-      handleDragOver={handleDragOver}
-      handleDrop={handleDrop}
-      handleMetricAggOrFieldChange={handleMetricAggOrFieldChange}
-      handleMetricStyleChange={handleMetricStyleChange}
-      showSaveModal={showSaveModal}
-      setShowSaveModal={setShowSaveModal}
-      widgetTitle={widgetTitle}
-      setWidgetTitle={setWidgetTitle}
-      visibility={visibility}
-      setVisibility={setVisibility}
-      widgetTitleError={widgetTitleError}
-      setWidgetTitleError={setWidgetTitleError}
-      onModalConfirm={handleCreate}
-      error={error}
-    />
+    <AuthLayout permission="widget:canCreate"
+      breadcrumb={breadcrumbs.widgetCreate}
+    >
+      <WidgetFormLayout
+        title="Créer une visualisation"
+        isLoading={createMutation.isPending}
+        onSave={handleSave}
+        saveButtonText="Enregistrer"
+        showCancelButton={false}
+        WidgetComponent={WidgetComponent}
+        dataPreview={dataPreview}
+        config={config}
+        metricsWithLabels={metricsWithLabels}
+        isPreviewReady={isPreviewReady}
+        type={type}
+        tab={tab}
+        setTab={setTab}
+        columns={columns}
+        handleConfigChange={handleConfigChange}
+        handleDragStart={handleDragStart}
+        handleDragOver={handleDragOver}
+        handleDrop={handleDrop}
+        handleMetricAggOrFieldChange={handleMetricAggOrFieldChange}
+        handleMetricStyleChange={handleMetricStyleChange}
+        showSaveModal={showSaveModal}
+        setShowSaveModal={setShowSaveModal}
+        widgetTitle={widgetTitle}
+        setWidgetTitle={setWidgetTitle}
+        visibility={visibility}
+        setVisibility={setVisibility}
+        widgetTitleError={widgetTitleError}
+        setWidgetTitleError={setWidgetTitleError}
+        onModalConfirm={handleCreate}
+        error={error}
+      />
+    </AuthLayout>
   );
 }

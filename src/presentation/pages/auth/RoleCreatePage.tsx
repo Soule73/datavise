@@ -2,6 +2,8 @@ import { useRoleCreate } from "@hooks/auth/useRoleCreate";
 import Button from "@components/forms/Button";
 import InputField from "@components/forms/InputField";
 import CheckboxField from "@components/forms/CheckboxField";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function RoleCreatePage() {
   const {
@@ -17,7 +19,9 @@ export default function RoleCreatePage() {
   } = useRoleCreate();
 
   return (
-    <>
+    <AuthLayout permission="role:canCreate"
+      breadcrumb={breadcrumbs.roleCreate}
+    >
       <div className="flex items-center justify-between mb-6 flex-wrap">
         <h1 className="text-2xl font-bold">Créer un nouveau rôle</h1>
         <Button
@@ -91,6 +95,6 @@ export default function RoleCreatePage() {
           </div>
         </form>
       )}
-    </>
+    </AuthLayout>
   );
 }

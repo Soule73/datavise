@@ -8,7 +8,6 @@ import type { DashboardLayoutItem } from "@type/dashboardTypes";
 import { useSourcesQuery } from "@/data/repositories/datasources";
 import type { IntervalUnit } from "@type/dashboardTypes";
 import { useUserStore } from "@store/user";
-import { ROUTES } from "@constants/routes";
 import { useDashboardIdQuery } from "@repositories/dashboards";
 import {
   updateDashboardQuery,
@@ -18,7 +17,6 @@ import {
   getEffectiveTimeRange,
   buildTimeRange,
   getAutoRefreshMs,
-  getDashboardBreadcrumb,
   initDashboardTimeConfig,
   getDashboardPDFFileName,
 } from "@utils/dashboard/dashboardUtils";
@@ -68,8 +66,6 @@ export function useDashboard(onSaveCallback?: (success: boolean) => void) {
   const setHasUnsavedChanges = useDashboardStore((s) => s.setHasUnsavedChanges);
 
   const showNotification = useNotificationStore((s) => s.showNotification);
-
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
 
   const navigate = useNavigate();
 
@@ -474,17 +470,6 @@ export function useDashboard(onSaveCallback?: (success: boolean) => void) {
       setPendingTitle(dashboard?.title || "");
     }
   }, [dashboard, dashboard?._id, dashboard?.title, isCreate]);
-
-  useEffect(() => {
-    setBreadcrumb(
-      getDashboardBreadcrumb({
-        isCreate,
-        dashboard,
-        pendingTitle,
-        ROUTES,
-      })
-    );
-  }, [isCreate, dashboard?._id, dashboard?.title, pendingTitle, setBreadcrumb, dashboard]);
 
   useEffect(() => {
     const cfg = initDashboardTimeConfig(dashboard);

@@ -346,6 +346,26 @@ export function useAIWidgetGenerator() {
         }));
     }, []);
 
+    /**
+     * Définit le résumé de la source de données
+     */
+    const setDataSourceSummary = useCallback((summary: any) => {
+        setState((prev) => ({
+            ...prev,
+            dataSourceSummary: summary,
+        }));
+    }, []);
+
+    /**
+     * Définit les suggestions
+     */
+    const setSuggestions = useCallback((suggestions: string[]) => {
+        setState((prev) => ({
+            ...prev,
+            suggestions,
+        }));
+    }, []);
+
     return {
         ...state,
         generateWidgets,
@@ -356,5 +376,7 @@ export function useAIWidgetGenerator() {
         updateWidget,
         reset,
         setWidgets,
+        setDataSourceSummary,
+        setSuggestions,
     };
 }

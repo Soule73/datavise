@@ -1,9 +1,7 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateWidgetMutation } from "@repositories/widgets";
 import { useNotificationStore } from "@store/notification";
-import { useDashboardStore } from "@store/dashboard";
 import { ROUTES } from "@constants/routes";
 import type { WidgetFormInitialValues } from "@type/widgetTypes";
 import { useCommonWidgetForm } from "@hooks/widget/useCommonWidgetForm";
@@ -12,7 +10,6 @@ export function useWidgetCreateForm(initialValues?: WidgetFormInitialValues) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const showNotification = useNotificationStore((s) => s.showNotification);
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
 
   // Utilise le hook centralisé pour toute la logique de formulaire
   const form = useCommonWidgetForm(initialValues);
@@ -41,14 +38,6 @@ export function useWidgetCreateForm(initialValues?: WidgetFormInitialValues) {
       });
     },
   });
-
-  // Breadcrumb dynamique pour la création
-  useEffect(() => {
-    setBreadcrumb([
-      { url: ROUTES.widgets, label: "Visualisations" },
-      { url: ROUTES.createWidget, label: form.widgetTitle || "Créer" },
-    ]);
-  }, [form.widgetTitle, setBreadcrumb]);
 
   // Handler de création (validation + mutation)
   function handleCreate() {

@@ -12,7 +12,7 @@ import {
 
 interface Props {
     conversations: AIConversation[];
-    activeConversation: AIConversation | null;
+    activeConversation: AIConversation | null | undefined;
     onSelectConversation: (conversationId: string) => void;
     onNewConversation: () => void;
     onDeleteConversation: (conversationId: string) => void;
@@ -71,189 +71,147 @@ export default function AIConversationSidebar({
 
     return (
         <>
-            {/* Bouton flottant pour ouvrir le sidebar */}
-            {!isOpen && (
-                <button
-                    onClick={onToggle}
-                    className="fixed left-4 bottom-4 z-50 w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
-                    title="Ouvrir les conversations"
-                >
-                    <ChatBubbleLeftRightIcon className="w-6 h-6" />
-                    {conversations.length > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                            {conversations.length}
-                        </span>
-                    )}
-                </button>
-            )}
-
-            {/* Sidebar avec overlay */}
+            {/* Sidebar flottant */}
             {isOpen && (
-                <>
-                    {/* Overlay pour fermer en cliquant à l'extérieur */}
-                    <div
-                        className="fixed inset-0 bg-black/30 z-40 transition-opacity mt-16"
-                        onClick={onToggle}
-                    />
-
-                    {/* Sidebar */}
-                    <div className="fixed left-0 top-16 bottom-0 w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col z-50 shadow-2xl transform transition-transform duration-300">
-                        {/* Header avec bouton fermer */}
-                        <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
-                            <div className="flex items-center justify-between mb-3">
-                                <div className="flex items-center gap-2">
-                                    <ChatBubbleLeftRightIcon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                        Conversations
-                                    </h2>
-                                </div>
-                                <button
-                                    onClick={onToggle}
-                                    className="p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
-                                    title="Fermer"
-                                >
-                                    <XMarkIcon className="w-5 h-5" />
-                                </button>
+                <div className="fixed left-0 top-16 bottom-0 w-80 bg-white dark:bg-gray-900 shadow-2xl border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden z-50">
+                    {/* Header */}
+                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-indigo-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                                <ChatBubbleLeftRightIcon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Conversations
+                                </h2>
                             </div>
-                            <Button
-                                onClick={onNewConversation}
-                                color="indigo"
-                                size="sm"
-                                className="w-full"
+                            <button
+                                onClick={onToggle}
+                                className="p-1.5 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                title="Fermer"
                             >
-                                <PlusIcon className="w-4 h-4 mr-2" />
-                                Nouvelle conversation
-                            </Button>
+                                <XMarkIcon className="w-5 h-5" />
+                            </button>
                         </div>
+                        <Button
+                            onClick={onNewConversation}
+                            color="indigo"
+                            size="sm"
+                            className="w-full"
+                        >
+                            <PlusIcon className="w-4 h-4 mr-2" />
+                            Nouvelle conversation
+                        </Button>
+                    </div>
 
-                        {/* Conversations List */}
-                        <div className="flex-1 overflow-y-auto">
-                            {conversations.length === 0 ? (
-                                <div className="p-4 text-center text-gray-500 dark:text-gray-400">
-                                    <ChatBubbleLeftRightIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                                    <p className="text-sm">Aucune conversation</p>
-                                </div>
-                            ) : (
-                                <div className="py-2">
-                                    {conversations.map((conv) => {
-                                        const isActive = activeConversation?._id === conv._id;
-                                        const isEditing = editingId === conv._id;
+                    {/* Conversations List - Scrollable */}
+                    <div className="flex-1 overflow-y-auto">
+                        {conversations.length === 0 ? (
+                            <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                                <ChatBubbleLeftRightIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                                <p className="text-sm">Aucune conversation</p>
+                            </div>
+                        ) : (
+                            <div className="py-2">
+                                {conversations.map((conv) => {
+                                    const isActive = activeConversation?._id === conv._id;
+                                    const isEditing = editingId === conv._id;
 
-                                        return (
-                                            <div
-                                                key={conv._id}
-                                                className={`group relative px-3 py-2 mx-2 mb-1 rounded-lg cursor-pointer transition-all ${isActive
-                                                    ? "bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-500"
-                                                    : "hover:bg-gray-50 dark:hover:bg-gray-800"
-                                                    }`}
-                                                onClick={() => !isEditing && onSelectConversation(conv._id)}
-                                            >
-                                                {isEditing ? (
-                                                    <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-                                                        <input
-                                                            type="text"
-                                                            value={editTitle}
-                                                            onChange={(e) => setEditTitle(e.target.value)}
-                                                            className="flex-1 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-800 dark:text-white"
-                                                            autoFocus
-                                                            onKeyDown={(e) => {
-                                                                if (e.key === "Enter") handleSaveEdit(conv._id);
-                                                                if (e.key === "Escape") handleCancelEdit();
-                                                            }}
-                                                        />
-                                                        <button
-                                                            onClick={() => handleSaveEdit(conv._id)}
-                                                            className="p-1 text-green-600 hover:bg-green-100 dark:hover:bg-green-900/30 rounded"
-                                                        >
-                                                            <CheckIcon className="w-4 h-4" />
-                                                        </button>
-                                                        <button
-                                                            onClick={handleCancelEdit}
-                                                            className="p-1 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/30 rounded"
-                                                        >
-                                                            <XMarkIcon className="w-4 h-4" />
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <>
-                                                        <div className="flex items-start justify-between">
-                                                            <div className="flex-1 min-w-0">
-                                                                <h3 className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                                                    {conv.title}
-                                                                </h3>
-                                                                <div className="flex items-center gap-2 mt-1">
-                                                                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                                                                        {formatDate(conv.updatedAt)}
+                                    return (
+                                        <div
+                                            key={conv._id}
+                                            className={`group relative px-3 py-2 mx-2 mb-1 rounded-lg cursor-pointer transition-all ${isActive
+                                                ? "bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-500"
+                                                : "hover:bg-gray-50 dark:hover:bg-gray-800"
+                                                }`}
+                                            onClick={() => !isEditing && onSelectConversation(conv._id)}
+                                        >
+                                            {isEditing ? (
+                                                <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                                                    <input
+                                                        type="text"
+                                                        value={editTitle}
+                                                        onChange={(e) => setEditTitle(e.target.value)}
+                                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-800 dark:text-white"
+                                                        autoFocus
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === "Enter") handleSaveEdit(conv._id);
+                                                            if (e.key === "Escape") handleCancelEdit();
+                                                        }}
+                                                    />
+                                                    <button
+                                                        onClick={() => handleSaveEdit(conv._id)}
+                                                        className="p-1 text-green-600 hover:bg-green-100 dark:hover:bg-green-900/30 rounded"
+                                                    >
+                                                        <CheckIcon className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        onClick={handleCancelEdit}
+                                                        className="p-1 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/30 rounded"
+                                                    >
+                                                        <XMarkIcon className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div className="flex items-start justify-between">
+                                                        <div className="flex-1 min-w-0">
+                                                            <h3 className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                                                {conv.title}
+                                                            </h3>
+                                                            <div className="flex items-center gap-2 mt-1">
+                                                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                                    {formatDate(conv.updatedAt)}
+                                                                </span>
+                                                                {conv.widgets && conv.widgets.length > 0 && (
+                                                                    <span className="text-xs px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded">
+                                                                        {conv.widgets.length} widgets
                                                                     </span>
-                                                                    {conv.widgets && conv.widgets.length > 0 && (
-                                                                        <span className="text-xs px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded">
-                                                                            {conv.widgets.length} widgets
-                                                                        </span>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Actions (visible au survol) */}
-                                                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                <button
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        handleStartEdit(conv);
-                                                                    }}
-                                                                    className="p-1 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded"
-                                                                    title="Renommer"
-                                                                >
-                                                                    <PencilIcon className="w-3.5 h-3.5" />
-                                                                </button>
-                                                                <button
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        if (confirm("Supprimer cette conversation ?")) {
-                                                                            onDeleteConversation(conv._id);
-                                                                        }
-                                                                    }}
-                                                                    className="p-1 text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded"
-                                                                    title="Supprimer"
-                                                                >
-                                                                    <TrashIcon className="w-3.5 h-3.5" />
-                                                                </button>
+                                                                )}
                                                             </div>
                                                         </div>
 
-                                                        {conv.messages && conv.messages.length > 0 && (
-                                                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">
-                                                                {conv.messages[conv.messages.length - 1].content.substring(0, 60)}...
-                                                            </p>
-                                                        )}
-                                                    </>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            )}
-                        </div>
+                                                        {/* Actions (visible au survol) */}
+                                                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleStartEdit(conv);
+                                                                }}
+                                                                className="p-1 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded"
+                                                                title="Renommer"
+                                                            >
+                                                                <PencilIcon className="w-3.5 h-3.5" />
+                                                            </button>
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    if (confirm("Supprimer cette conversation ?")) {
+                                                                        onDeleteConversation(conv._id);
+                                                                    }
+                                                                }}
+                                                                className="p-1 text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded"
+                                                                title="Supprimer"
+                                                            >
+                                                                <TrashIcon className="w-3.5 h-3.5" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
 
-                        {/* Footer Info */}
-                        {activeConversation && (
-                            <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
-                                <div className="text-xs text-gray-600 dark:text-gray-400">
-                                    <div className="flex items-center justify-between mb-1">
-                                        <span>Messages:</span>
-                                        <span className="font-medium">{activeConversation.messages.length}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span>Widgets générés:</span>
-                                        <span className="font-medium">
-                                            {activeConversation.widgets?.length || 0}
-                                        </span>
-                                    </div>
-                                </div>
+                                                    {conv.messages && conv.messages.length > 0 && (
+                                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">
+                                                            {conv.messages[conv.messages.length - 1].content.substring(0, 60)}...
+                                                        </p>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         )}
                     </div>
-                </>
-            )}
+                </div >
+            )
+            }
         </>
     );
 }

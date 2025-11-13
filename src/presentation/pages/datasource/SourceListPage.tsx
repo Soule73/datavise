@@ -9,6 +9,8 @@ import type { DataSource } from "@type/dataSource";
 import Badge from "@components/Badge";
 import { DocumentTextIcon, TableCellsIcon } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
+import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function SourcesPage() {
   const {
@@ -76,7 +78,7 @@ export default function SourcesPage() {
               size="sm"
               variant="outline"
               title="Télécharger le fichier"
-              className=" w-max !border-none"
+              className=" w-max border-none!"
               onClick={(e) => {
                 e.stopPropagation();
                 handleDownload(row.filePath, row.name + ".csv");
@@ -93,7 +95,9 @@ export default function SourcesPage() {
   );
 
   return (
-    <>
+    <AuthLayout permission="datasource:canView"
+      breadcrumb={breadcrumbs.datasourceList}
+    >
       <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold ">Sources de données</h1>
@@ -129,7 +133,7 @@ export default function SourcesPage() {
                         size="sm"
                         variant="outline"
                         title="Modfier la source"
-                        className=" w-max !border-none"
+                        className=" w-max border-none!"
                         onClick={() => {
                           navigate(`/sources/edit/${row._id}`);
                         }}
@@ -142,7 +146,7 @@ export default function SourcesPage() {
                         color="red"
                         size="sm"
                         variant="outline"
-                        className="w-max !border-none "
+                        className="w-max border-none! "
                         title={
                           row.isUsed
                             ? "Impossible de supprimer une source utilisée"
@@ -186,6 +190,6 @@ export default function SourcesPage() {
           )}
         </Modal>
       </div>
-    </>
+    </AuthLayout>
   );
 }

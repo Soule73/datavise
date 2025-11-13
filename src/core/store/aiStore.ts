@@ -78,7 +78,7 @@ export const useAIStore = create<AIStore>()(
 
             setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
 
-            resetState: () => set({ 
+            resetState: () => set({
                 generatedWidgets: [],
                 userPrompt: "",
                 refinementPrompt: "",

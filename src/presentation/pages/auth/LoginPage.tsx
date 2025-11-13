@@ -1,8 +1,8 @@
-import AuthLayout from "@components/layouts/AuthLayout";
 import InputField from "@components/forms/InputField";
 import { useLoginForm } from "@hooks/auth/useLoginForm";
 import Button from "@components/forms/Button";
 import logoDataVise from "@assets/logo-datavise.svg";
+import GuestLayout from "@/presentation/components/layouts/GuestLayout";
 
 export default function Login() {
   const {
@@ -15,7 +15,7 @@ export default function Login() {
   } = useLoginForm();
 
   return (
-    <AuthLayout
+    <GuestLayout
       title="Conecter vous à Data-Vise"
       logoUrl={logoDataVise}
 
@@ -35,14 +35,14 @@ export default function Login() {
           type="email"
           {...register("email")}
           error={errors.email?.message}
-          className="!py-4"
+          className="py-4!"
         />
         <InputField
           placeholder="Mot de passe"
           type="password"
           {...register("password")}
           error={errors.password?.message}
-          className="!py-4"
+          className="py-4!"
         />
         <Button
           type="submit"
@@ -56,6 +56,6 @@ export default function Login() {
           Se connecter
         </Button>
       </form>
-    </AuthLayout>
+    </GuestLayout>
   );
 }

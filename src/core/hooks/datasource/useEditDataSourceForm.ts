@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -6,15 +5,12 @@ import {
   useSourceByIdQuery,
 } from "@/data/repositories/datasources";
 import { useNotificationStore } from "@store/notification";
-import { useDashboardStore } from "@store/dashboard";
-import { ROUTES } from "@constants/routes";
 import { useSourceFormBase } from "@hooks/datasource/useSourceFormBase";
 import type { SourceFormState } from "@type/dataSource";
 import type { ApiError } from "@type/api";
 
 export function useEditDataSourceForm() {
   const { id } = useParams<{ id: string }>();
-  const setBreadcrumb = useDashboardStore((s) => s.setBreadcrumb);
   const {
     data: initial,
     isLoading,
@@ -26,18 +22,6 @@ export function useEditDataSourceForm() {
 
   // Centralisation de la logique via useSourceFormBase
   const base = useSourceFormBase(initial);
-
-  // Initialisation du breadcrumb à la réception de la source
-  useEffect(() => {
-    if (!initial) return;
-    setBreadcrumb([
-      { url: ROUTES.sources, label: "Sources" },
-      {
-        url: ROUTES.editSource.replace(":id", id || ""),
-        label: `Modifier : ${initial.name}`,
-      },
-    ]);
-  }, [initial, setBreadcrumb, id]);
 
   // Soumission finale (édition)
   const onSubmit = (data: SourceFormState) => {

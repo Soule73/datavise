@@ -38,7 +38,7 @@ export default function AIRefinementPanel({
                     onClick={onRefine}
                     disabled={isLoading || !refinementPrompt.trim()}
                     color="indigo"
-                    className="!w-max"
+                    className="w-max!"
                 >
                     Raffiner
                 </Button>
