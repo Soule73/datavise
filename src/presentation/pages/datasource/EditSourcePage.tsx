@@ -13,7 +13,7 @@ export default function EditSourcePage() {
     );
 
   return (
-    <div className="max-w-5xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
+    <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
       <h1 className="text-2xl font-bold mb-6">Modifier la source</h1>
       <SourceForm
         form={formProps.form}

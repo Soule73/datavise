@@ -74,6 +74,13 @@ export default function WidgetListPage() {
         label: "Type",
       },
       {
+        key: "isGeneratedByAI",
+        label: "Généré par IA",
+        render: (row: Widget) => (
+          row.isGeneratedByAI ? <Badge color="indigo">Oui</Badge> : <Badge color="gray">Non</Badge>
+        ),
+      },
+      {
         key: "dataSourceId",
         label: "Source",
       },
@@ -82,7 +89,7 @@ export default function WidgetListPage() {
   );
 
   return (
-    <div className="max-w-5xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow mt-2s">
+    <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow mt-2s">
       <div className="flex items-center justify-end mb-3">
         <div className="flex items-center gap-2">
           {hasPermission("widget:canCreate") && (

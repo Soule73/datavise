@@ -48,7 +48,7 @@ export default function UserManagementPage() {
   } = useUserManagement();
 
   return (
-    <div className="max-w-5xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
+    <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
       <div className="flex items-center justify-end mb-6">
         <div>
           {hasPermission("user:canCreate") && (
