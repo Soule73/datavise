@@ -7,21 +7,13 @@ import type {
     AIGeneratorState,
     AIRefineRequest,
 } from "@type/aiTypes";
-import type { WidgetType } from "@type/widgetTypes";
-import type { ApiResponse, ApiError } from "@type/api";
 import { useNotificationStore } from "@store/notification";
-
-/**
- * Helper pour extraire les données de l'ApiResponse
- */
-function extractData<T>(response: ApiResponse<T>): T {
-    if ("data" in response) {
-        return response.data;
-    }
-    // C'est une ApiError
-    const error = response as ApiError;
-    throw new Error(error.message || "Erreur inconnue");
-}
+import {
+    extractApiData,
+    formatErrorMessage,
+    toWidgetPayload,
+    aiLogger,
+} from "@utils/aiHelpers";
 
 /**
  * Hook pour gérer la génération de widgets par IA
@@ -52,15 +44,14 @@ export function useAIWidgetGenerator() {
             }));
 
             try {
-                console.log("🤖 [AI] Envoi de la requête de génération:", request);
+                aiLogger.generate("Envoi de la requête", request);
                 const response = await aiWidgetApi.generateWidgets(request);
-                console.log("🤖 [AI] Réponse brute de l'API:", response);
+                aiLogger.generate("Réponse brute de l'API", response);
 
-                const data = extractData(response);
-                console.log("🤖 [AI] Données extraites:", data);
-                console.log("🤖 [AI] Nombre de widgets générés:", data.widgets.length);
-                console.log("🤖 [AI] Titre de conversation:", data.conversationTitle);
-                console.log("🤖 [AI] Widgets détaillés:", JSON.stringify(data.widgets, null, 2));
+                const data = extractApiData(response);
+                aiLogger.generate("Données extraites", data);
+                aiLogger.generate("Widgets générés", `${data.widgets.length} widgets`);
+                aiLogger.generate("Titre de conversation", data.conversationTitle);
 
                 setState({
                     status: "success",
@@ -80,17 +71,12 @@ export function useAIWidgetGenerator() {
 
                 return data;
             } catch (error: any) {
-                console.error("❌ [AI] Erreur lors de la génération:", error);
-                console.error("❌ [AI] Détails de l'erreur:", {
-                    message: error.message,
-                    response: error.response?.data,
-                    stack: error.stack,
-                });
+                aiLogger.error("Erreur lors de la génération", error);
 
-                const errorMessage =
-                    error.response?.data?.message ||
-                    error.message ||
-                    "Erreur lors de la génération";
+                const errorMessage = formatErrorMessage(
+                    error,
+                    "Erreur lors de la génération"
+                );
 
                 setState((prev) => ({
                     ...prev,
@@ -124,12 +110,12 @@ export function useAIWidgetGenerator() {
             }));
 
             try {
-                console.log("🔧 [AI] Envoi de la requête de raffinement:", request);
+                aiLogger.refine("Envoi de la requête", request);
                 const response = await aiWidgetApi.refineWidgets(request);
-                console.log("🔧 [AI] Réponse du raffinement:", response);
+                aiLogger.refine("Réponse du raffinement", response);
 
-                const data = extractData(response);
-                console.log("🔧 [AI] Widgets raffinés:", data.widgets.length);
+                const data = extractApiData(response);
+                aiLogger.refine("Widgets raffinés", `${data.widgets.length} widgets`);
 
                 setState({
                     status: "success",
@@ -148,12 +134,12 @@ export function useAIWidgetGenerator() {
 
                 return data;
             } catch (error: any) {
-                console.error("❌ [AI] Erreur lors du raffinement:", error);
+                aiLogger.error("Erreur lors du raffinement", error);
 
-                const errorMessage =
-                    error.response?.data?.message ||
-                    error.message ||
-                    "Erreur lors du raffinement";
+                const errorMessage = formatErrorMessage(
+                    error,
+                    "Erreur lors du raffinement"
+                );
 
                 setState((prev) => ({
                     ...prev,
@@ -180,50 +166,26 @@ export function useAIWidgetGenerator() {
     const saveWidget = useCallback(
         async (widget: AIGeneratedWidget) => {
             try {
-                console.log("💾 [AI] Tentative de sauvegarde du widget:", {
+                aiLogger.save("Tentative de sauvegarde", {
                     id: widget.id,
                     name: widget.name,
                     type: widget.type,
-                    dataSourceId: widget.dataSourceId,
-                    config: widget.config,
-                    description: widget.description,
-                    reasoning: widget.reasoning,
-                    confidence: widget.confidence,
                 });
 
-                const payload = {
-                    title: widget.name, // ✅ Backend attend "title" pas "name"
-                    description: widget.description,
-                    type: widget.type as WidgetType,
-                    dataSourceId: widget.dataSourceId,
-                    config: widget.config,
-                    isGeneratedByAI: true,
-                    reasoning: widget.reasoning,
-                    confidence: widget.confidence,
-                };
+                const payload = toWidgetPayload(widget) as any;
 
-                console.log("💾 [AI] Payload envoyé au backend:", payload);
+                aiLogger.save("Payload envoyé au backend", payload);
                 const savedWidget = await createWidget(payload);
-                console.log("✅ [AI] Widget sauvegardé avec succès:", savedWidget);
+                aiLogger.success("Widget sauvegardé", savedWidget);
 
-                // Mettre à jour le widget dans la liste avec la version sauvegardée
                 if (savedWidget._id) {
-                    console.log("🔄 [AI] Mise à jour du widget avec _id:", savedWidget._id);
-                    setState((prev) => {
-                        const updatedWidgets = prev.widgets.map((w) =>
-                            w.id === widget.id
-                                ? {
-                                    ...w,
-                                    _id: savedWidget._id,
-                                }
-                                : w
-                        );
-                        console.log("🔄 [AI] Widgets après mise à jour:", updatedWidgets);
-                        return {
-                            ...prev,
-                            widgets: updatedWidgets,
-                        };
-                    });
+                    aiLogger.success("Mise à jour du widget avec _id", savedWidget._id);
+                    setState((prev) => ({
+                        ...prev,
+                        widgets: prev.widgets.map((w) =>
+                            w.id === widget.id ? { ...w, _id: savedWidget._id } : w
+                        ),
+                    }));
                 }
 
                 showNotification({
@@ -234,16 +196,12 @@ export function useAIWidgetGenerator() {
 
                 return savedWidget;
             } catch (error: any) {
-                console.error("❌ [AI] Erreur lors de la sauvegarde:", error);
-                console.error("❌ [AI] Détails:", {
-                    message: error.message,
-                    response: error.response?.data,
-                });
+                aiLogger.error("Erreur lors de la sauvegarde", error);
 
-                const errorMessage =
-                    error.response?.data?.message ||
-                    error.message ||
-                    "Erreur lors de la sauvegarde";
+                const errorMessage = formatErrorMessage(
+                    error,
+                    "Erreur lors de la sauvegarde"
+                );
 
                 showNotification({
                     open: true,

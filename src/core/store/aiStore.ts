@@ -1,19 +1,31 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { AIGeneratedWidget } from "@type/aiTypes";
+import type { AIConversation } from "@type/aiConversationTypes";
+import type { DataSource } from "@/core/types/dataSource";
 
 interface AIState {
     activeConversationId: string | null;
+    activeConversation: AIConversation | null;
+    conversations: AIConversation[];
+    dataSources: DataSource[];
     generatedWidgets: AIGeneratedWidget[];
     selectedSourceId: string;
     userPrompt: string;
     refinementPrompt: string;
     maxWidgets: number;
     isSidebarOpen: boolean;
+    isLoading: boolean;
+    error: string | null;
+    suggestions: string[];
+    widgetToDelete: { id: string; title: string; _id?: string } | null;
 }
 
 interface AIActions {
     setActiveConversationId: (id: string | null) => void;
+    setActiveConversation: (conversation: AIConversation | null) => void;
+    setConversations: (conversations: AIConversation[]) => void;
+    setDataSources: (sources: DataSource[]) => void;
     setGeneratedWidgets: (widgets: AIGeneratedWidget[]) => void;
     addWidget: (widget: AIGeneratedWidget) => void;
     removeWidget: (widgetId: string) => void;
@@ -23,6 +35,10 @@ interface AIActions {
     setRefinementPrompt: (prompt: string) => void;
     setMaxWidgets: (max: number) => void;
     setIsSidebarOpen: (isOpen: boolean) => void;
+    setIsLoading: (isLoading: boolean) => void;
+    setError: (error: string | null) => void;
+    setSuggestions: (suggestions: string[]) => void;
+    setWidgetToDelete: (widget: { id: string; title: string; _id?: string } | null) => void;
     resetState: () => void;
 }
 
@@ -30,12 +46,19 @@ type AIStore = AIState & AIActions;
 
 const initialState: AIState = {
     activeConversationId: null,
+    activeConversation: null,
+    conversations: [],
+    dataSources: [],
     generatedWidgets: [],
     selectedSourceId: "",
     userPrompt: "",
     refinementPrompt: "",
     maxWidgets: 5,
     isSidebarOpen: false,
+    isLoading: false,
+    error: null,
+    suggestions: [],
+    widgetToDelete: null,
 };
 
 export const useAIStore = create<AIStore>()(
@@ -45,6 +68,15 @@ export const useAIStore = create<AIStore>()(
 
             setActiveConversationId: (id) =>
                 set({ activeConversationId: id }),
+
+            setActiveConversation: (conversation) =>
+                set({ activeConversation: conversation }),
+
+            setConversations: (conversations) =>
+                set({ conversations }),
+
+            setDataSources: (dataSources) =>
+                set({ dataSources }),
 
             setGeneratedWidgets: (widgets) =>
                 set({ generatedWidgets: widgets }),
@@ -78,10 +110,22 @@ export const useAIStore = create<AIStore>()(
 
             setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
 
+            setIsLoading: (isLoading) => set({ isLoading }),
+
+            setError: (error) => set({ error }),
+
+            setSuggestions: (suggestions) => set({ suggestions }),
+
+            setWidgetToDelete: (widgetToDelete) => set({ widgetToDelete }),
+
             resetState: () => set({
+                activeConversationId: null,
+                activeConversation: null,
                 generatedWidgets: [],
                 userPrompt: "",
                 refinementPrompt: "",
+                error: null,
+                suggestions: [],
             }),
         }),
         {

@@ -5,16 +5,9 @@ import type {
     CreateConversationRequest,
     UpdateTitleRequest,
 } from "@type/aiConversationTypes";
-import type { ApiResponse } from "@type/api";
 import { useNotificationStore } from "@store/notification";
 import { isValidObjectId } from "@utils/validation";
-
-function extractData<T>(response: ApiResponse<T>): T {
-    if ('data' in response && response.data) {
-        return response.data;
-    }
-    throw new Error("Invalid response format");
-}
+import { extractApiData } from "@utils/aiHelpers";
 
 export const conversationKeys = {
     all: ["conversations"] as const,
@@ -29,7 +22,7 @@ export function useConversationsQuery() {
         queryKey: conversationKeys.list(),
         queryFn: async () => {
             const response = await aiConversationApi.getConversations();
-            return extractData(response);
+            return extractApiData(response);
         },
         // 5 minutes
         staleTime: 5 * 60 * 1000,
@@ -43,7 +36,7 @@ export function useConversationQuery(conversationId: string | null) {
         queryKey: conversationKeys.detail(conversationId!),
         queryFn: async () => {
             const response = await aiConversationApi.getConversationById(conversationId!);
-            return extractData(response);
+            return extractApiData(response);
         },
         enabled: isValidObjectId(conversationId),
         staleTime: 2 * 60 * 1000,
@@ -57,7 +50,7 @@ export function useCreateConversationMutation() {
     return useMutation({
         mutationFn: async (data: CreateConversationRequest) => {
             const response = await aiConversationApi.createConversation(data);
-            return extractData(response);
+            return extractApiData(response);
         },
         onSuccess: (newConversation) => {
             queryClient.setQueryData<AIConversation[]>(
@@ -86,7 +79,7 @@ export function useUpdateConversationTitleMutation() {
     return useMutation({
         mutationFn: async (data: UpdateTitleRequest) => {
             const response = await aiConversationApi.updateTitle(data);
-            return extractData(response);
+            return extractApiData(response);
         },
         onSuccess: (updatedConversation) => {
             queryClient.setQueryData<AIConversation[]>(

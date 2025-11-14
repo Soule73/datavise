@@ -14,7 +14,7 @@ function AddWidgetSlot({
   return (
     <div
       key="add-slot"
-      className="relative min-h-[160px] w-full max-w-full border-2 border-dashed rounded-lg flex items-center justify-center text-gray-400 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 cursor-pointer select-none overflow-x-auto transition-all duration-200 group"
+      className="relative min-h-40 w-full max-w-full border-2 border-dashed rounded-lg flex items-center justify-center text-gray-400 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 cursor-pointer select-none overflow-x-auto transition-all duration-200 group"
       style={{ ...getSlotStyle(), minHeight: 300 }}
       onClick={onClick}
     >

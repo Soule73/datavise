@@ -1,4 +1,11 @@
-import { useAIBuilderPage } from "@hooks/ai/useAIBuilderPage";
+import { useEffect } from "react";
+import { useAIStore } from "@store/aiStore";
+import { useAIActions } from "@hooks/ai/useAIActions";
+import {
+    useConversationsQuery,
+    useConversationQuery,
+} from "@hooks/ai/useConversationsQuery";
+import { useConversationWidgetsQuery } from "@hooks/ai/useAIWidgetsQuery";
 import AILoadingOverlay from "@components/ai/AILoadingOverlay";
 import AIGeneratedWidgetCard from "@components/ai/AIGeneratedWidgetCard";
 import AIConversationSidebar from "@components/ai/AIConversationSidebar";
@@ -9,6 +16,8 @@ import { SparklesIcon } from "@heroicons/react/24/outline";
 import { ROUTES } from "@/core/constants/routes";
 import type { BreadcrumbItem } from "@/presentation/components/layouts/Breadcrumb";
 import AIBuilderHeader from "@/presentation/components/ai/AIBuilderHeader";
+import { getSources } from "@services/datasource";
+import { getWidgetId, getWidgetName } from "@utils/aiHelpers";
 
 const aiBuilder = (conversationName?: string): BreadcrumbItem[] => [
     { label: "AI Builder", href: ROUTES.aiBuilder, icon: <SparklesIcon className="w-7 h-7 text-indigo-600 dark:text-indigo-400" /> },
@@ -16,42 +25,65 @@ const aiBuilder = (conversationName?: string): BreadcrumbItem[] => [
 ];
 
 export default function AIBuilderPage() {
-
-
     const {
-        dataSources,
-        conversations,
+        activeConversationId,
         activeConversation,
-        widgets,
-        suggestions,
+        generatedWidgets,
         error,
-        selectedSourceId,
-        userPrompt,
-        refinementPrompt,
-        maxWidgets,
         isLoading,
         isSidebarOpen,
-        setSelectedSourceId,
-        setUserPrompt,
-        setRefinementPrompt,
-        setMaxWidgets,
+        widgetToDelete,
         setIsSidebarOpen,
-        handleGenerate,
-        handleRefine,
+        setActiveConversation,
+        setConversations,
+        setDataSources,
+        setWidgetToDelete,
+    } = useAIStore();
+
+    const {
         handleSaveAll,
         handleReset,
         handleNewConversation,
         handleLoadConversation,
         handleDeleteConversation,
         handleUpdateTitle,
-        handleSuggestionClick,
-        setWidgetToDelete,
-        widgetToDelete,
         handleSaveWidget,
         handleConfirmDelete,
-    } = useAIBuilderPage();
+    } = useAIActions();
+
+    const { data: conversationsData } = useConversationsQuery();
+    const { data: conversationData } = useConversationQuery(activeConversationId || "");
+    const { data: conversationWidgetsData } = useConversationWidgetsQuery(activeConversationId || "");
+
+    useEffect(() => {
+        if (conversationsData) {
+            setConversations(conversationsData);
+        }
+    }, [conversationsData, setConversations]);
+
+    useEffect(() => {
+        if (conversationData) {
+            setActiveConversation(conversationData);
+        }
+    }, [conversationData, setActiveConversation]);
+
+    useEffect(() => {
+        const loadDataSources = async () => {
+            try {
+                const response = await getSources();
+                if (response && Array.isArray(response)) {
+                    setDataSources(response);
+                }
+            } catch (error) {
+                console.error("Failed to load data sources:", error);
+            }
+        };
+        loadDataSources();
+    }, [setDataSources]);
 
     const dataSourceSummary = activeConversation?.dataSourceSummary;
+    const conversations = conversationsData || [];
+    const widgets = conversationWidgetsData || generatedWidgets;
 
 
     return (
@@ -109,14 +141,14 @@ export default function AIBuilderPage() {
                     {/* Widgets Grid - Plus d'espace */}
                     {widgets.length > 0 && (
                         <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6 px-6 pb-6">
-                            {widgets.map((widget) => (
+                            {widgets.map((widget: any) => (
                                 <AIGeneratedWidgetCard
-                                    key={widget.id}
+                                    key={getWidgetId(widget)}
                                     widget={widget}
                                     onRemove={() =>
                                         setWidgetToDelete({
-                                            id: widget.id,
-                                            title: widget.name,
+                                            id: getWidgetId(widget),
+                                            title: getWidgetName(widget),
                                             _id: widget._id,
                                         })
                                     }
@@ -165,25 +197,7 @@ export default function AIBuilderPage() {
                             {activeConversation ? "Conversation avec l'IA" : "Configurez et démarrez"}
                         </p>
                     </div>
-                    <AIMessageHistory
-                        messages={activeConversation?.messages || []}
-                        refinementPrompt={refinementPrompt}
-                        isLoading={isLoading}
-                        suggestions={suggestions}
-                        hasActiveConversation={!!activeConversation}
-                        dataSources={dataSources}
-                        selectedSourceId={selectedSourceId}
-                        maxWidgets={maxWidgets}
-                        userPrompt={userPrompt}
-                        onPromptChange={setRefinementPrompt}
-                        onRefine={handleRefine}
-                        onSuggestionClick={handleSuggestionClick}
-                        onSourceChange={setSelectedSourceId}
-                        onMaxWidgetsChange={setMaxWidgets}
-                        onUserPromptChange={setUserPrompt}
-                        onGenerate={handleGenerate}
-                        className="flex-1"
-                    />
+                    <AIMessageHistory className="flex-1" />
                 </div>
             </div>
 

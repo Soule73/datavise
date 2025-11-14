@@ -1,94 +1,72 @@
-import type { AIMessage } from "@type/aiConversationTypes";
-import type { DataSource } from "@/core/types/dataSource";
 import { useRef, useEffect } from "react";
+import { useAIStore } from "@store/aiStore";
+import { useAIActions } from "@hooks/ai/useAIActions";
 import MessageBubble from "./MessageBubble";
 import SuggestionButtons from "./SuggestionButtons";
 import MessageInput from "./MessageInput";
 import EmptyMessageState from "./EmptyMessageState";
 import InitialConfigurationForm from "./InitialConfigurationForm";
+import { formatShortDateTime } from "@/core/utils/timeUtils";
 
 interface Props {
-    messages: AIMessage[];
-    refinementPrompt: string;
-    isLoading: boolean;
-    suggestions?: string[];
-    hasActiveConversation: boolean;
-    dataSources?: DataSource[];
-    selectedSourceId?: string;
-    maxWidgets?: number;
-    userPrompt?: string;
-    onPromptChange: (prompt: string) => void;
-    onRefine: () => void;
-    onSuggestionClick?: (suggestion: string) => void;
-    onSourceChange?: (sourceId: string) => void;
-    onMaxWidgetsChange?: (max: number) => void;
-    onUserPromptChange?: (prompt: string) => void;
-    onGenerate?: () => void;
     className?: string;
 }
 
-export default function AIMessageHistory({
-    messages = [],
-    refinementPrompt,
-    isLoading,
-    suggestions,
-    hasActiveConversation,
-    dataSources = [],
-    selectedSourceId = "",
-    maxWidgets = 5,
-    userPrompt = "",
-    onPromptChange,
-    onRefine,
-    onSuggestionClick,
-    onSourceChange,
-    onMaxWidgetsChange,
-    onUserPromptChange,
-    onGenerate,
-    className = "",
-}: Props) {
+export default function AIMessageHistory({ className = "" }: Props) {
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const {
+        activeConversation,
+        dataSources,
+        selectedSourceId,
+        maxWidgets,
+        userPrompt,
+        refinementPrompt,
+        isLoading,
+        suggestions,
+        setSelectedSourceId,
+        setMaxWidgets,
+        setUserPrompt,
+        setRefinementPrompt,
+    } = useAIStore();
+
+    const { handleGenerate, handleRefine, handleSuggestionClick } = useAIActions();
+
+    const messages = activeConversation?.messages || [];
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    const formatTimestamp = (date: Date) => {
-        const d = new Date(date);
-        return d.toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-    };
-
-    const handleSuggestionAction = (suggestion: string) => {
-        if (onSuggestionClick) {
-            onSuggestionClick(suggestion);
-        } else {
-            onPromptChange(suggestion);
-            setTimeout(() => onRefine(), 100);
-        }
-    };
-
+    const hasActiveConversation = !!activeConversation;
     const showInitialConfig = !hasActiveConversation && messages.length === 0;
     const canSendMessage = hasActiveConversation || (selectedSourceId && userPrompt.trim());
 
     const handleSubmit = () => {
         if (hasActiveConversation) {
-            onRefine();
-        } else if (onGenerate && canSendMessage) {
-            onGenerate();
+            handleRefine();
+        } else if (canSendMessage) {
+            handleGenerate();
+        }
+    };
+
+    const handlePromptChange = (value: string) => {
+        if (hasActiveConversation) {
+            setRefinementPrompt(value);
+        } else {
+            setUserPrompt(value);
         }
     };
 
     return (
         <div className={`flex flex-col h-full overflow-hidden bg-white dark:bg-gray-900 ${className}`}>
-            {showInitialConfig && onSourceChange && onMaxWidgetsChange && (
+            {showInitialConfig && (
                 <InitialConfigurationForm
                     dataSources={dataSources}
                     selectedSourceId={selectedSourceId}
                     maxWidgets={maxWidgets}
-                    onSourceChange={onSourceChange}
-                    onMaxWidgetsChange={onMaxWidgetsChange}
+                    onSourceChange={setSelectedSourceId}
+                    onMaxWidgetsChange={setMaxWidgets}
                 />
             )}
 
@@ -98,7 +76,7 @@ export default function AIMessageHistory({
                         <MessageBubble
                             key={index}
                             message={message}
-                            formatTimestamp={formatTimestamp}
+                            formatTimestamp={formatShortDateTime}
                         />
                     ))}
                     <div ref={messagesEndRef} />
@@ -107,18 +85,18 @@ export default function AIMessageHistory({
                 !showInitialConfig && <EmptyMessageState />
             )}
 
-            {suggestions && (
+            {suggestions && suggestions.length > 0 && (
                 <SuggestionButtons
                     suggestions={suggestions}
                     isLoading={isLoading}
-                    onSuggestionClick={handleSuggestionAction}
+                    onSuggestionClick={handleSuggestionClick}
                 />
             )}
 
             <MessageInput
                 value={hasActiveConversation ? refinementPrompt : userPrompt}
                 isLoading={isLoading}
-                onChange={hasActiveConversation ? onPromptChange : (onUserPromptChange || onPromptChange)}
+                onChange={handlePromptChange}
                 onSubmit={handleSubmit}
                 placeholder={
                     hasActiveConversation
