@@ -9,10 +9,11 @@ import type { ApiResponse } from "@type/api";
 import { useNotificationStore } from "@store/notification";
 
 function extractData<T>(response: ApiResponse<T>): T {
-    if ("data" in response) {
+    if (response.success && "data" in response) {
         return response.data;
     }
-    throw new Error(response.message || "Erreur inconnue");
+    const error = response as any;
+    throw new Error(error.error?.message || "Erreur inconnue");
 }
 
 interface UseAIConversationState {

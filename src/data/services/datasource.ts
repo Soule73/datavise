@@ -5,12 +5,12 @@ import type { ApiError, ApiResponse } from "@type/api";
 import { extractApiData } from "@utils/apiUtils";
 
 export async function getSources(): Promise<DataSource[]> {
-  const res = await api.get<ApiResponse<DataSource[]>>("/sources");
+  const res = await api.get<ApiResponse<DataSource[]>>("/v1/data-sources");
   return extractApiData(res);
 }
 
 export async function getSourceById(id: string): Promise<DataSource> {
-  const res = await api.get<ApiResponse<DataSource>>(`/sources/${id}`);
+  const res = await api.get<ApiResponse<DataSource>>(`/v1/data-sources/${id}`);
   return extractApiData(res);
 }
 
@@ -31,7 +31,7 @@ export async function createSource(
     if (data.esIndex) formData.append("esIndex", data.esIndex);
     if (data.esQuery) formData.append("esQuery", JSON.stringify(data.esQuery));
     formData.append("file", data.file);
-    const res = await api.post<ApiResponse<DataSource>>("/sources", formData, {
+    const res = await api.post<ApiResponse<DataSource>>("/v1/data-sources", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return extractApiData(res);
@@ -51,7 +51,7 @@ export async function createSource(
     if (data.esQuery) payload.esQuery = data.esQuery;
     // if (data.filePath) payload.filePath = data.filePath;
     if (data.config) payload.config = data.config;
-    const res = await api.post<ApiResponse<DataSource>>("/sources", payload);
+    const res = await api.post<ApiResponse<DataSource>>("/v1/data-sources", payload);
     return extractApiData(res);
   }
 }
@@ -60,13 +60,13 @@ export async function updateSource(
   id: string,
   data: SourceFormState
 ): Promise<DataSource> {
-  const res = await api.put<ApiResponse<DataSource>>(`/sources/${id}`, data);
+  const res = await api.patch<ApiResponse<DataSource>>(`/v1/data-sources/${id}`, data);
   return extractApiData(res);
 }
 
 export async function deleteSource(id: string): Promise<{ message: string }> {
   const res = await api.delete<ApiResponse<{ message: string }>>(
-    `/sources/${id}`
+    `/v1/data-sources/${id}`
   );
   return extractApiData(res);
 }
@@ -89,7 +89,7 @@ export async function detectColumns(params: DetectParams | null): Promise<{
         preview?: any[];
         types?: Record<string, string>;
       }>
-    >("/sources/detect-columns", formData, {
+    >("/v1/data-sources/detect-columns", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return extractApiData(res);
@@ -100,7 +100,7 @@ export async function detectColumns(params: DetectParams | null): Promise<{
         preview?: any[];
         types?: Record<string, string>;
       }>
-    >("/sources/detect-columns", params);
+    >("/v1/data-sources/detect-columns", params);
     return extractApiData(res);
   }
 }
@@ -139,7 +139,7 @@ export async function fetchSourceData(
 
   if (options?.shareId) params.append("shareId", options.shareId);
 
-  const url = `/sources/${sourceId}/data${params.toString() ? `?${params}` : ""
+  const url = `/v1/data-sources/${sourceId}/data${params.toString() ? `?${params}` : ""
     }`;
 
   const res = await api.get<ApiResponse<Record<string, any>>>(url);

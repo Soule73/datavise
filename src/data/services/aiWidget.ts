@@ -17,7 +17,7 @@ export const aiWidgetApi = {
         request: AIGenerateRequest
     ): Promise<ApiResponse<AIGenerateResponse>> {
         const response = await api.post<ApiResponse<AIGenerateResponse>>(
-            "/ai/generate-widgets",
+            "/v1/ai/generations",
             request
         );
         return response.data;
@@ -30,7 +30,7 @@ export const aiWidgetApi = {
         request: AIRefineRequest
     ): Promise<ApiResponse<AIGenerateResponse>> {
         const response = await api.post<ApiResponse<AIGenerateResponse>>(
-            "/ai/refine-widgets",
+            "/v1/ai/refinements",
             request
         );
         return response.data;
@@ -40,7 +40,7 @@ export const aiWidgetApi = {
      * Analyse une source de données
      */
     async analyzeDataSource(dataSourceId: string): Promise<any> {
-        const response = await api.post("/ai/analyze-source", { dataSourceId });
+        const response = await api.post("/v1/ai/analysis", { dataSourceId });
         return response.data;
     },
 };

@@ -29,7 +29,7 @@ export function useCreateDataSourceForm() {
     },
     onError: (e: ApiError) => {
       base.setGlobalError(
-        e?.message ||
+        e?.error?.message ||
         "Erreur lors de la création de la source"
       );
     },

@@ -1,19 +1,22 @@
-import type { ApiError, ApiData, ApiResponse } from "@type/api";
+import type { ApiError, ApiSuccess, ApiResponse } from "@type/api";
 
-export function extractApiError(
-  err: ApiError
-): string {
-  if (err.message) return err.message;
-
-  if (err.errors) return Object.values(err.errors).join(", ");
-
-
+export function extractApiError(err: ApiError): string {
+  if (err.error?.message) return err.error.message;
+  if (err.error?.details) {
+    if (typeof err.error.details === "string") return err.error.details;
+    if (typeof err.error.details === "object") {
+      return Object.values(err.error.details).join(", ");
+    }
+  }
   return "Erreur inconnue";
 }
 
 export function extractApiData<T>(res: { data: ApiResponse<T> }): T {
-  if ((res.data as ApiError).success === false) {
-    throw new Error(extractApiError(res.data as ApiError));
+  const response = res.data;
+
+  if (response.success === false) {
+    throw new Error(extractApiError(response as ApiError));
   }
-  return (res.data as ApiData<T>).data;
+
+  return (response as ApiSuccess<T>).data;
 }

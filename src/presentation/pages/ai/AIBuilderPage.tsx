@@ -188,17 +188,7 @@ export default function AIBuilderPage() {
                 </div>
 
                 {/* Sidebar droite - Historique des messages */}
-                <div className="w-96 rounded-r-lg border-l border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden">
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-purple-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
-                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            {activeConversation ? "Historique" : "Nouvelle conversation"}
-                        </h2>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                            {activeConversation ? "Conversation avec l'IA" : "Configurez et démarrez"}
-                        </p>
-                    </div>
-                    <AIMessageHistory className="flex-1" />
-                </div>
+                <AIMessageHistory />
             </div>
 
             {/* Modal de confirmation de suppression */}

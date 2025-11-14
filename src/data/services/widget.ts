@@ -4,17 +4,17 @@ import type { Widget } from "@type/widgetTypes";
 import type { ApiResponse } from "@type/api";
 
 export async function fetchWidgets(): Promise<Widget[]> {
-  const response = await api.get<ApiResponse<Widget[]>>("/widgets");
+  const response = await api.get<ApiResponse<Widget[]>>("/v1/widgets");
   return extractApiData(response);
 }
 
 export async function fetchWidgetById(id: string): Promise<Widget> {
-  const response = await api.get<ApiResponse<Widget>>(`/widgets/${id}`);
+  const response = await api.get<ApiResponse<Widget>>(`/v1/widgets/${id}`);
   return extractApiData(response);
 }
 
 export async function createWidget(payload: Partial<Widget>): Promise<Widget> {
-  const response = await api.post<ApiResponse<Widget>>("/widgets", payload);
+  const response = await api.post<ApiResponse<Widget>>("/v1/widgets", payload);
   return extractApiData(response);
 }
 
@@ -22,8 +22,8 @@ export async function updateWidget(
   id: string,
   payload: Partial<Widget>
 ): Promise<Widget> {
-  const response = await api.put<ApiResponse<Widget>>(
-    `/widgets/${id}`,
+  const response = await api.patch<ApiResponse<Widget>>(
+    `/v1/widgets/${id}`,
     payload
   );
   return extractApiData(response);
@@ -31,7 +31,7 @@ export async function updateWidget(
 
 export async function deleteWidget(id: string): Promise<{ success: boolean }> {
   const response = await api.delete<ApiResponse<{ success: boolean }>>(
-    `/widgets/${id}`
+    `/v1/widgets/${id}`
   );
   return extractApiData(response);
 }
@@ -43,7 +43,7 @@ export async function fetchConversationWidgets(
   conversationId: string
 ): Promise<Widget[]> {
   const response = await api.get<ApiResponse<Widget[]>>(
-    `/widgets/conversation/${conversationId}`
+    `/v1/widgets?conversationId=${conversationId}`
   );
   return extractApiData(response);
 }
@@ -53,7 +53,8 @@ export async function fetchConversationWidgets(
  */
 export async function publishWidget(widgetId: string): Promise<Widget> {
   const response = await api.patch<ApiResponse<Widget>>(
-    `/widgets/${widgetId}/publish`
+    `/v1/widgets/${widgetId}`,
+    { isDraft: false }
   );
   return extractApiData(response);
 }

@@ -6,7 +6,7 @@ import api from "@services/api";
 import { extractApiData } from "@utils/apiUtils";
 
 export async function fetchDashboard(id?: string): Promise<Dashboard> {
-  const res = await api.get<ApiResponse<Dashboard>>(`/dashboards/${id}`);
+  const res = await api.get<ApiResponse<Dashboard>>(`/v1/dashboards/${id}`);
   return extractApiData(res);
 }
 
@@ -21,8 +21,8 @@ export async function saveDashboardLayout(
     visibility?: "public" | "private";
   }
 ): Promise<Dashboard> {
-  const res = await api.put<ApiResponse<Dashboard>>(
-    `/dashboards/${dashboardId}`,
+  const res = await api.patch<ApiResponse<Dashboard>>(
+    `/v1/dashboards/${dashboardId}`,
     {
       layout,
       ...(title ? { title } : {}),
@@ -33,7 +33,7 @@ export async function saveDashboardLayout(
 }
 
 export async function fetchDashboards(): Promise<Dashboard[]> {
-  const res = await api.get<ApiResponse<Dashboard[]>>("/dashboards");
+  const res = await api.get<ApiResponse<Dashboard[]>>("/v1/dashboards");
   return extractApiData(res);
 }
 
@@ -42,15 +42,16 @@ export async function createDashboard(data: {
   layout?: DashboardLayoutItem[];
   visibility?: "public" | "private";
 }): Promise<Dashboard> {
-  const res = await api.post<ApiResponse<Dashboard>>("/dashboards", data);
+  const res = await api.post<ApiResponse<Dashboard>>("/v1/dashboards", data);
   return extractApiData(res);
 }
 
 export async function enableDashboardShare(
   dashboardId: string
 ): Promise<{ shareId: string }> {
-  const res = await api.post<ApiResponse<{ shareId: string }>>(
-    `/dashboards/${dashboardId}/share/enable`
+  const res = await api.patch<ApiResponse<{ shareId: string }>>(
+    `/v1/dashboards/${dashboardId}/sharing`,
+    { isShared: true }
   );
   return extractApiData(res);
 }
@@ -58,8 +59,9 @@ export async function enableDashboardShare(
 export async function disableDashboardShare(
   dashboardId: string
 ): Promise<{ success: boolean }> {
-  const res = await api.post<ApiResponse<{ success: boolean }>>(
-    `/dashboards/${dashboardId}/share/disable`
+  const res = await api.patch<ApiResponse<{ success: boolean }>>(
+    `/v1/dashboards/${dashboardId}/sharing`,
+    { isShared: false }
   );
   return extractApiData(res);
 }
@@ -68,14 +70,14 @@ export async function fetchSharedDashboard(
   shareId: string
 ): Promise<Dashboard> {
   const res = await api.get<ApiResponse<Dashboard>>(
-    `/dashboards/share/${shareId}`
+    `/v1/dashboards/shared/${shareId}`
   );
   return extractApiData(res);
 }
 
 export async function fetchSharedDashboardSources(shareId: string) {
   const res = await api.get<ApiResponse<any[]>>(
-    `/dashboards/share/${shareId}/sources`
+    `/v1/dashboards/shared/${shareId}/sources`
   );
   return extractApiData(res);
 }
@@ -84,7 +86,7 @@ export async function deleteDashboard(
   dashboardId: string
 ): Promise<{ message: string }> {
   const res = await api.delete<ApiResponse<{ message: string }>>(
-    `/dashboards/${dashboardId}`
+    `/v1/dashboards/${dashboardId}`
   );
   return extractApiData(res);
 }

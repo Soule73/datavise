@@ -22,8 +22,8 @@ export function useRegisterForm() {
       navigate(ROUTES.dashboard, { replace: true });
     },
     onError: (e: ApiError) => {
-      if (e?.errors) {
-        Object.entries(e?.errors).forEach(([field, message]) => {
+      if (e?.error?.details && typeof e.error.details === "object") {
+        Object.entries(e.error.details).forEach(([field, message]) => {
           form.setError(field as keyof RegisterForm, {
             type: "manual",
             message: message as string,
@@ -32,7 +32,7 @@ export function useRegisterForm() {
         setGlobalError("");
       } else {
         setGlobalError(
-          e?.message || "Erreur lors de la création du compte"
+          e.error?.message || "Erreur lors de la création du compte"
         );
       }
     },

@@ -6,11 +6,11 @@ import type { Widget } from "@type/widgetTypes";
  * Extrait les données d'une ApiResponse ou lance une erreur
  */
 export function extractApiData<T>(response: ApiResponse<T>): T {
-    if ("data" in response && response.data) {
+    if (response.success && "data" in response) {
         return response.data;
     }
     const error = response as ApiError;
-    throw new Error(error.message || "Erreur inconnue");
+    throw new Error(error.error?.message || "Erreur inconnue");
 }
 
 /**

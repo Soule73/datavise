@@ -21,8 +21,8 @@ export function useLoginForm() {
       navigate(ROUTES.dashboard);
     },
     onError: (e: ApiError) => {
-      if (e?.errors) {
-        Object.entries(e.errors).forEach(([field, message]) => {
+      if (e?.error?.details && typeof e.error.details === "object") {
+        Object.entries(e.error.details).forEach(([field, message]) => {
           form.setError(field as keyof LoginForm, {
             type: "manual",
             message: message as string,
@@ -30,7 +30,7 @@ export function useLoginForm() {
         });
         setGlobalError("");
       } else {
-        setGlobalError(e.message || "Erreur de connexion");
+        setGlobalError(e.error?.message || "Erreur de connexion");
       }
     },
   });

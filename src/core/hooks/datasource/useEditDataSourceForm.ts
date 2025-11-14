@@ -56,7 +56,7 @@ export function useEditDataSourceForm() {
     },
     onError: (e: ApiError) => {
       base.setGlobalError(
-        e?.message ||
+        e?.error?.message ||
         "Erreur lors de la modification de la source"
       );
     },

@@ -23,7 +23,7 @@ export const aiConversationApi = {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.post(
-                `${API_URL}/ai-conversations`,
+                `${API_URL}/v1/ai/conversations`,
                 data,
                 {
                     headers: {
@@ -44,7 +44,7 @@ export const aiConversationApi = {
     async getConversations(): Promise<ApiResponse<AIConversation[]>> {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get(`${API_URL}/ai-conversations`, {
+            const response = await axios.get(`${API_URL}/v1/ai/conversations`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -65,7 +65,7 @@ export const aiConversationApi = {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.get(
-                `${API_URL}/ai-conversations/${conversationId}`,
+                `${API_URL}/v1/ai/conversations/${conversationId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ export const aiConversationApi = {
             const token = localStorage.getItem("token");
             const { conversationId, ...messageData } = data;
             const response = await axios.post(
-                `${API_URL}/ai-conversations/${conversationId}/messages`,
+                `${API_URL}/v1/ai/conversations/${conversationId}/messages`,
                 messageData,
                 {
                     headers: {
@@ -114,7 +114,7 @@ export const aiConversationApi = {
             const token = localStorage.getItem("token");
             const { conversationId, title } = data;
             const response = await axios.patch(
-                `${API_URL}/ai-conversations/${conversationId}`,
+                `${API_URL}/v1/ai/conversations/${conversationId}`,
                 { title },
                 {
                     headers: {
@@ -138,7 +138,7 @@ export const aiConversationApi = {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.delete(
-                `${API_URL}/ai-conversations/${conversationId}`,
+                `${API_URL}/v1/ai/conversations/${conversationId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -161,7 +161,7 @@ export const aiConversationApi = {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.post(
-                `${API_URL}/ai/refine-widgets-db`,
+                `${API_URL}/v1/ai/refinements/database`,
                 data,
                 {
                     headers: {
