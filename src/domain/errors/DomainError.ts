@@ -36,3 +36,10 @@ export class DataSourceNotFoundError extends DomainError {
         this.name = "DataSourceNotFoundError";
     }
 }
+
+export class DataSourceValidationError extends DomainError {
+    constructor(message: string) {
+        super(message, "DATASOURCE_VALIDATION_ERROR");
+        this.name = "DataSourceValidationError";
+    }
+}
