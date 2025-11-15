@@ -7,4 +7,5 @@ export const WIDGET_ENDPOINTS = {
     update: (id: string) => `${BASE_PATH}/widgets/${id}`,
     delete: (id: string) => `${BASE_PATH}/widgets/${id}`,
     byConversation: (conversationId: string) => `${BASE_PATH}/widgets?conversationId=${conversationId}`,
+    publish: (id: string) => `${BASE_PATH}/widgets/${id}/publish`,
 };

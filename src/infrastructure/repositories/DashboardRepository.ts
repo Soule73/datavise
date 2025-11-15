@@ -114,8 +114,8 @@ export class DashboardRepository implements IDashboardRepository {
     }
 
     async enableShare(id: string): Promise<ShareDashboardResult> {
-        const response = await apiClient.patch<any>(DASHBOARD_ENDPOINTS.enableShare(id), {
-            isShared: true,
+        const response = await apiClient.patch<any>(DASHBOARD_ENDPOINTS.sharing(id), {
+            enabled: true,
         });
 
         if (!response.success) {
@@ -129,8 +129,8 @@ export class DashboardRepository implements IDashboardRepository {
     }
 
     async disableShare(id: string): Promise<{ success: boolean }> {
-        const response = await apiClient.patch<any>(DASHBOARD_ENDPOINTS.disableShare(id), {
-            isShared: false,
+        const response = await apiClient.patch<any>(DASHBOARD_ENDPOINTS.sharing(id), {
+            enabled: false,
         });
 
         if (!response.success) {

@@ -82,4 +82,14 @@ export class WidgetRepository implements IWidgetRepository {
     async findByConversation(conversationId: string): Promise<Widget[]> {
         return this.findAll({ conversationId });
     }
+
+    async publish(id: string): Promise<Widget> {
+        const response = await apiClient.patch<WidgetDTO>(WIDGET_ENDPOINTS.publish(id), {});
+
+        if (!response.success || !response.data) {
+            throw new Error(response.error?.message || "Erreur lors de la publication du widget");
+        }
+
+        return widgetMapper.toDomain(response.data);
+    }
 }

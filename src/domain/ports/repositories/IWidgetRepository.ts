@@ -14,4 +14,5 @@ export interface IWidgetRepository {
     update(id: string, updates: Partial<Widget>): Promise<Widget>;
     delete(id: string): Promise<void>;
     findByConversation(conversationId: string): Promise<Widget[]>;
+    publish(id: string): Promise<Widget>;
 }
