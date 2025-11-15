@@ -69,6 +69,15 @@
       ],
       "@validation/*": [
         "./src/core/validation/*"
+      ],
+      "@domain/*": [
+        "./src/domain/*"
+      ],
+      "@infrastructure/*": [
+        "./src/infrastructure/*"
+      ],
+      "@application/*": [
+        "./src/application/*"
       ]
     }
   },

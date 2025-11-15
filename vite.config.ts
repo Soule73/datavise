@@ -32,6 +32,9 @@ export default defineConfig({
       '@adapters': path.resolve(__dirname, './src/data/adapters'),
       '@validation': path.resolve(__dirname, './src/core/validation'),
       '@data': path.resolve(__dirname, './src/data'),
+      '@domain': path.resolve(__dirname, './src/domain'),
+      '@infrastructure': path.resolve(__dirname, './src/infrastructure'),
+      '@application': path.resolve(__dirname, './src/application'),
     }
   }
 })
