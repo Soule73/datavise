@@ -6,30 +6,101 @@ import type {
     LoginPayload,
     RegisterPayload,
 } from "@domain/ports/repositories/IAuthRepository";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+import { useUserStore } from "@store/user";
+import { loginSchema, type LoginForm } from "@validation/login";
+import { registerSchema, type RegisterForm } from "@validation/register";
+import { useState } from "react";
+import { ROUTES } from "@constants/routes";
+import type { ApiError } from "@type/api";
 
 const loginUseCase = new LoginUseCase(authRepository);
 const registerUseCase = new RegisterUseCase(authRepository);
 
-export function useAuth() {
-    const loginMutation = useMutation({
+export function useLoginForm() {
+    const setUser = useUserStore((s) => s.setUser);
+    const navigate = useNavigate();
+    const [globalError, setGlobalError] = useState("");
+    const form = useForm<LoginForm>({ resolver: zodResolver(loginSchema) });
+
+    const mutation = useMutation({
         mutationFn: (payload: LoginPayload) => loginUseCase.execute(payload),
+        onSuccess: (res: any) => {
+            setUser(res.user, res.token);
+            setGlobalError("");
+            navigate(ROUTES.dashboard);
+        },
+        onError: (e: ApiError) => {
+            if (e?.error?.details && typeof e.error.details === "object") {
+                Object.entries(e.error.details).forEach(([field, message]) => {
+                    form.setError(field as keyof LoginForm, {
+                        type: "manual",
+                        message: message as string,
+                    });
+                });
+                setGlobalError("");
+            } else {
+                setGlobalError(e.error?.message || "Erreur de connexion");
+            }
+        },
     });
 
-    const registerMutation = useMutation({
-        mutationFn: (payload: RegisterPayload) => registerUseCase.execute(payload),
-    });
+    const onSubmit = (data: LoginForm) => {
+        setGlobalError("");
+        mutation.mutate(data);
+    };
 
     return {
-        login: loginMutation.mutate,
-        loginAsync: loginMutation.mutateAsync,
-        isLoggingIn: loginMutation.isPending,
-        loginError: loginMutation.error,
-        loginData: loginMutation.data,
+        ...form,
+        onSubmit,
+        globalError,
+        setGlobalError,
+        loading: mutation.isPending,
+    };
+}
 
-        register: registerMutation.mutate,
-        registerAsync: registerMutation.mutateAsync,
-        isRegistering: registerMutation.isPending,
-        registerError: registerMutation.error,
-        registerData: registerMutation.data,
+export function useRegisterForm() {
+    const setUser = useUserStore((s) => s.setUser);
+    const form = useForm<RegisterForm>({ resolver: zodResolver(registerSchema) });
+    const [globalError, setGlobalError] = useState("");
+    const navigate = useNavigate();
+
+    const mutation = useMutation({
+        mutationFn: (payload: RegisterPayload) => registerUseCase.execute(payload),
+        onSuccess: (res: any) => {
+            setUser(res.user, res.token);
+            setGlobalError("");
+            navigate(ROUTES.dashboard, { replace: true });
+        },
+        onError: (e: ApiError) => {
+            if (e?.error?.details && typeof e.error.details === "object") {
+                Object.entries(e.error.details).forEach(([field, message]) => {
+                    form.setError(field as keyof RegisterForm, {
+                        type: "manual",
+                        message: message as string,
+                    });
+                });
+                setGlobalError("");
+            } else {
+                setGlobalError(
+                    e.error?.message || "Erreur lors de la création du compte"
+                );
+            }
+        },
+    });
+
+    const onSubmit = (data: RegisterForm) => {
+        setGlobalError("");
+        mutation.mutate(data);
+    };
+
+    return {
+        ...form,
+        onSubmit,
+        loading: mutation.isPending,
+        globalError,
+        setGlobalError,
     };
 }

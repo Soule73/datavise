@@ -1,5 +1,5 @@
 import InputField from "@components/forms/InputField";
-import { useLoginForm } from "@hooks/auth/useLoginForm";
+import { useLoginForm } from "@/application/hooks/auth/useAuth";
 import Button from "@components/forms/Button";
 import logoDataVise from "@assets/logo-datavise.svg";
 import GuestLayout from "@/presentation/components/layouts/GuestLayout";

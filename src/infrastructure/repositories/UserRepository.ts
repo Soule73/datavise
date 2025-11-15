@@ -6,7 +6,6 @@ import type {
 import type { User } from "@domain/entities/User.entity";
 import { USER_ENDPOINTS } from "@infrastructure/api/endpoints/auth.endpoints";
 import type { UserDTO } from "@infrastructure/api/dto/AuthDTO";
-import { authMapper } from "@infrastructure/mappers/authMapper";
 import { UserNotFoundError } from "@domain/errors/DomainError";
 import { apiClient } from "../api/client/apiClient";
 
@@ -20,7 +19,7 @@ export class UserRepository implements IUserRepository {
             );
         }
 
-        return response.data.map((dto) => authMapper.userToDomain(dto));
+        return response.data as unknown as User[];
     }
 
     async findById(userId: string): Promise<User | null> {
@@ -33,7 +32,7 @@ export class UserRepository implements IUserRepository {
                 return null;
             }
 
-            return authMapper.userToDomain(response.data);
+            return response.data as unknown as User;
         } catch {
             return null;
         }
@@ -51,20 +50,22 @@ export class UserRepository implements IUserRepository {
             );
         }
 
-        return authMapper.userToDomain(response.data);
+        return response.data as unknown as User;
     }
 
     async update(userId: string, payload: UpdateUserPayload): Promise<User> {
         const response = await apiClient.patch<UserDTO>(
             USER_ENDPOINTS.update(userId),
             payload
-        ); if (!response.success || !response.data) {
+        );
+
+        if (!response.success || !response.data) {
             throw new Error(
                 response.error?.message || "Erreur de mise à jour de l'utilisateur"
             );
         }
 
-        return authMapper.userToDomain(response.data);
+        return response.data as unknown as User;
     }
 
     async delete(userId: string): Promise<void> {

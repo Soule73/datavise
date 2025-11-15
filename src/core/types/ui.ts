@@ -1,4 +1,4 @@
-import type { User } from "@type/authTypes";
+import type { User } from "@domain/entities/User.entity";
 import type { UseFormReturn } from "react-hook-form";
 import type { InputFieldProps } from "@type/formTypes";
 import type { TextareaHTMLAttributes } from "react";

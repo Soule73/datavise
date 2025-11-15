@@ -94,11 +94,6 @@ export interface RoleInfoProps {
   onChangeDescription: (v: string) => void;
 }
 
-export interface RoleCreateForm {
-  name: string;
-  description: string;
-  permissions: string[];
-}
 
 export interface UserStoreWithPerms extends UserState {
   getPermissions: () => string[];

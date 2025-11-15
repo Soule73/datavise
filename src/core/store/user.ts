@@ -1,7 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { StateCreator } from "zustand";
-import type { Permission, User, UserStoreWithPerms } from "@type/authTypes";
+import type { User } from "@domain/entities/User.entity";
+import type { Permission } from "@domain/value-objects/Permission.vo";
+
+interface UserStoreWithPerms {
+  user: User | null;
+  token: string | null;
+  setUser: (user: User | null, token: string) => void;
+  logout: () => void;
+  getPermissions: () => string[];
+  hasPermission: (permName: string) => boolean;
+  isOwner: (ownerId: string) => boolean;
+}
 
 function getPermissionList(user: User | null): string[] {
   if (!user || !user.role || !user.role.permissions) return [];
@@ -29,8 +40,8 @@ export const useUserStore = create<UserStoreWithPerms>(
       },
       isOwner: (ownerId: string) => {
         const user = get().user;
-        if (!user || !user._id) return false;
-        return user._id === ownerId;
+        if (!user || !user.id) return false;
+        return user.id === ownerId;
       },
     }),
     {

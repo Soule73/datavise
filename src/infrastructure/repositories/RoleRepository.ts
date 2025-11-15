@@ -21,7 +21,7 @@ export class RoleRepository implements IRoleRepository {
             );
         }
 
-        return response.data.map((dto: RoleDTO) => authMapper.roleToDomain(dto));
+        return response.data as unknown as Role[];
     }
 
     async findById(roleId: string): Promise<Role | null> {
@@ -34,7 +34,7 @@ export class RoleRepository implements IRoleRepository {
                 return null;
             }
 
-            return authMapper.roleToDomain(response.data);
+            return response.data as unknown as Role;
         } catch {
             return null;
         }
@@ -52,7 +52,7 @@ export class RoleRepository implements IRoleRepository {
             );
         }
 
-        return authMapper.roleToDomain(response.data);
+        return response.data as unknown as Role;
     }
 
     async update(roleId: string, payload: UpdateRolePayload): Promise<Role> {
@@ -67,7 +67,7 @@ export class RoleRepository implements IRoleRepository {
             );
         }
 
-        return authMapper.roleToDomain(response.data);
+        return response.data as unknown as Role;
     }
 
     async delete(roleId: string): Promise<void> {

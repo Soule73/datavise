@@ -2,7 +2,6 @@ import Modal from "@components/Modal";
 import InputField from "@components/forms/InputField";
 import SelectField from "@components/SelectField";
 import Button from "@components/forms/Button";
-import type { User } from "@type/authTypes";
 import React from "react";
 import type { UserModalFormProps } from "@type/ui";
 
@@ -27,11 +26,11 @@ export default function UserModalForm({
     if (value && typeof value === "object" && "value" in value) {
       value = (value as { value: string | number }).value;
     }
-    setForm((f: User) => ({ ...f, [e.target.name]: value }));
+    setForm((f: any) => ({ ...f, [e.target.name]: value }));
     formHook.setValue(e.target.name, value);
   }
 
-  const formWithPassword = form as User & { password?: string };
+  const formWithPassword = form as any & { password?: string };
 
   return (
     <Modal

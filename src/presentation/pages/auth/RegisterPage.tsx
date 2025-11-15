@@ -1,7 +1,7 @@
 import GuestLayout from "@components/layouts/GuestLayout";
 import InputField from "@components/forms/InputField";
 import Button from "@components/forms/Button";
-import { useRegisterForm } from "@hooks/auth/useRegisterForm";
+import { useRegisterForm } from "@/application/hooks/auth/useAuth";
 import logoDataVise from "@assets/logo-datavise.svg";
 
 export default function Register() {

@@ -1,7 +1,7 @@
-import { useUserManagement } from "@hooks/auth/useUserManagement";
+import { useUserManagement } from "@/application/hooks/auth/useUserManagement";
 import Table from "@components/Table";
 import Button from "@components/forms/Button";
-import type { User } from "@type/authTypes";
+import type { User } from "@domain/entities/User.entity";
 import UserModalForm from "@components/auth/UserModalForm";
 import UserDeleteModal from "@components/auth/UserDeleteModal";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";

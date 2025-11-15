@@ -1,9 +1,10 @@
-import { useRoleCreate } from "@hooks/auth/useRoleCreate";
+import { useRoleCreate } from "@/application/hooks/auth/useRoleManagement";
 import Button from "@components/forms/Button";
 import InputField from "@components/forms/InputField";
 import CheckboxField from "@components/forms/CheckboxField";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
+import type { Permission } from "@domain/value-objects/Permission.vo";
 
 export default function RoleCreatePage() {
   const {
@@ -78,13 +79,13 @@ export default function RoleCreatePage() {
                     {model}
                   </div>
                   <div className="space-y-1 grid">
-                    {(perms ?? []).map((perm) => (
+                    {(perms ?? []).map((perm: Permission) => (
                       <CheckboxField
-                        key={perm._id}
+                        key={perm.id}
                         label={perm.description || perm.name}
-                        checked={form.permissions.includes(perm._id)}
-                        onChange={() => handleTogglePerm(perm._id)}
-                        id={`perm-${perm._id}`}
+                        checked={form.permissions.includes(perm.id)}
+                        onChange={() => handleTogglePerm(perm.id)}
+                        id={`perm-${perm.id}`}
                         name="permissions"
                       />
                     ))}

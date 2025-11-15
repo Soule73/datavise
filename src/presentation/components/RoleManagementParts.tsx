@@ -1,9 +1,34 @@
 import Button from "@components/forms/Button";
 import InputField from "@components/forms/InputField";
 import CheckboxField from "@components/forms/CheckboxField";
-import type { PermissionGroupProps, RoleActionsProps, RoleInfoProps } from "@type/authTypes";
+import type { Permission } from "@domain/value-objects/Permission.vo";
 
+interface PermissionGroupProps {
+  model: string;
+  perms: Permission[];
+  checkedPerms: string[];
+  onToggle: (permId: string) => void;
+  editable: boolean;
+}
 
+interface RoleActionsProps {
+  isEditing: boolean;
+  onEdit: () => void;
+  onCancel: () => void;
+  onSave: () => void;
+  onTogglePerms: () => void;
+  showPerms: boolean;
+  canDelete?: boolean;
+  onDelete?: () => void;
+}
+
+interface RoleInfoProps {
+  isEditing: boolean;
+  name: string;
+  description?: string;
+  onChangeName: (v: string) => void;
+  onChangeDescription: (v: string) => void;
+}
 
 export function PermissionGroup({
   model,
@@ -19,11 +44,11 @@ export function PermissionGroup({
       </div>
       <ul className="space-y-1">
         {perms.map((perm) => (
-          <li key={perm._id} className="flex items-center">
+          <li key={perm.id} className="flex items-center">
             <CheckboxField
               label={perm.description || perm.name}
-              checked={checkedPerms.includes(perm._id)}
-              onChange={() => onToggle(perm._id)}
+              checked={checkedPerms.includes(perm.id)}
+              onChange={() => onToggle(perm.id)}
               disabled={!editable}
             />
           </li>

@@ -1,4 +1,5 @@
-import type { Role, Permission } from "@type/authTypes";
+import type { Role } from "@domain/entities/Role.entity";
+import type { Permission } from "@domain/value-objects/Permission.vo";
 import {
   PermissionGroup,
   RoleActions,
@@ -8,8 +9,7 @@ import AlertModal from "@components/AlertModal";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@constants/routes";
 import CheckboxField from "@components/forms/CheckboxField";
-import { usePermissionsQuery } from "@repositories/roles";
-import { useRoleManagement } from "@hooks/auth/useRoleManagement";
+import { useRoleManagement } from "@/application/hooks/auth/useRoleManagement";
 import { useUserStore } from "@store/user";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
@@ -17,6 +17,7 @@ import breadcrumbs from "@/core/utils/breadcrumbs";
 export default function RoleManagementPage() {
   const {
     roles,
+    permissions,
     isLoading,
     showPerms,
     setShowPerms,
@@ -37,7 +38,6 @@ export default function RoleManagementPage() {
     formHook,
   } = useRoleManagement();
 
-  const { data: permissions } = usePermissionsQuery();
   const hasPermission = useUserStore((s) => s.hasPermission);
 
   return (
@@ -63,11 +63,11 @@ export default function RoleManagementPage() {
         <div className="space-y-6">
           {(Array.isArray(roles) ? roles : []).map((role: Role) => (
             <div
-              key={role._id}
+              key={role.id}
               className="bg-white dark:bg-gray-900 rounded p-4 border border-gray-200 dark:border-gray-700"
             >
               <RoleActions
-                isEditing={editRoleId === role._id}
+                isEditing={editRoleId === role.id}
                 onEdit={
                   hasPermission("role:canUpdate")
                     ? () => startEdit(role)
@@ -76,9 +76,9 @@ export default function RoleManagementPage() {
                 onCancel={cancelEdit}
                 onSave={saveEdit}
                 onTogglePerms={() =>
-                  setShowPerms(showPerms === role._id ? null : role._id)
+                  setShowPerms(showPerms === role.id ? null : role.id)
                 }
-                showPerms={showPerms === role._id}
+                showPerms={showPerms === role.id}
                 canDelete={role.canDelete && hasPermission("role:canDelete")}
                 onDelete={
                   role.canDelete && hasPermission("role:canDelete")
@@ -88,10 +88,10 @@ export default function RoleManagementPage() {
               />
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <RoleInfo
-                  isEditing={editRoleId === role._id}
-                  name={editRoleId === role._id ? editRole.name : role.name}
+                  isEditing={editRoleId === role.id}
+                  name={editRoleId === role.id ? editRole.name : role.name}
                   description={
-                    editRoleId === role._id
+                    editRoleId === role.id
                       ? editRole.description
                       : role.description
                   }
@@ -103,7 +103,7 @@ export default function RoleManagementPage() {
                   }
                 />
               </div>
-              {showPerms === role._id && editRoleId === role._id && (
+              {showPerms === role.id && editRoleId === role.id && (
                 <div className="mb-3 flex items-center justify-between">
                   <span className="font-medium">Permissions</span>
                   <CheckboxField
@@ -116,7 +116,7 @@ export default function RoleManagementPage() {
                     onChange={() => {
                       if (!editRole) return;
                       const allPermissionIds = (permissions ?? []).map(
-                        (p: Permission) => p._id
+                        (p: Permission) => p.id
                       );
                       const shouldSelectAll =
                         editRole.permissions.length !== allPermissionIds.length;
@@ -129,12 +129,12 @@ export default function RoleManagementPage() {
                         shouldSelectAll ? allPermissionIds : []
                       );
                     }}
-                    id={`select-all-edit-${role._id}`}
+                    id={`select-all-edit-${role.id}`}
                     name="selectAllEditPerms"
                   />
                 </div>
               )}
-              {showPerms === role._id && (
+              {showPerms === role.id && (
                 <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                   {Object.entries(groupedPermissions).map(([model, perms]) => (
                     <PermissionGroup
@@ -142,12 +142,12 @@ export default function RoleManagementPage() {
                       model={model}
                       perms={perms as Permission[]}
                       checkedPerms={
-                        editRoleId === role._id
+                        editRoleId === role.id
                           ? editRole.permissions
                           : role.permissions
                       }
                       onToggle={togglePermission}
-                      editable={editRoleId === role._id}
+                      editable={editRoleId === role.id}
                     />
                   ))}
                 </div>
@@ -163,7 +163,7 @@ export default function RoleManagementPage() {
         <div className="flex flex-wrap gap-2">
           {(permissions ?? []).map((perm: Permission) => (
             <span
-              key={perm._id}
+              key={perm.id}
               className="inline-block bg-gray-100 dark:bg-gray-800 text-xs px-2 py-1 rounded border border-gray-200 dark:border-gray-700 mb-1"
             >
               {perm.name}
@@ -172,7 +172,7 @@ export default function RoleManagementPage() {
         </div>
       </div> */}
       <AlertModal
-        key={roleToDelete ? `delete-${roleToDelete._id}` : "delete-modal"}
+        key={roleToDelete ? `delete-${roleToDelete.id}` : "delete-modal"}
         open={!!roleToDelete}
         onClose={() => setRoleToDelete(null)}
         onConfirm={handleDeleteRole}
