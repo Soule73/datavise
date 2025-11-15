@@ -43,3 +43,10 @@ export class DataSourceValidationError extends DomainError {
         this.name = "DataSourceValidationError";
     }
 }
+
+export class DashboardValidationError extends DomainError {
+    constructor(message: string) {
+        super(message, "DASHBOARD_VALIDATION_ERROR");
+        this.name = "DashboardValidationError";
+    }
+}
