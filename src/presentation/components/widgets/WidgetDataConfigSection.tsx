@@ -6,8 +6,8 @@ import WidgetKPIGroupDataConfigSection from "@components/widgets/WidgetKPIGroupD
 import BaseDataConfigSection from "@components/widgets/BaseDataConfigSection";
 import DefaultMetricConfigSection from "@components/widgets/DefaultMetricConfigSection";
 import MultiBucketSection from "@components/widgets/MultiBucketSection";
-import { WIDGETS, WIDGET_DATA_CONFIG } from "@adapters/visualizations";
-import { useMultiBuckets } from "@hooks/useMultiBuckets";
+import { WIDGETS, WIDGET_DATA_CONFIG } from "@/core/config/visualizations";
+import { useMultiBuckets } from "@/application/hooks/useMultiBuckets";
 import type { BubbleMetricConfig, RadarMetricConfig } from "@type/metricBucketTypes";
 
 export default function WidgetDataConfigSection({
@@ -90,7 +90,7 @@ export default function WidgetDataConfigSection({
     );
   }
 
-  if (type === "kpi_group") {
+  if (type === "kpiGroup") {
     return (
       <WidgetKPIGroupDataConfigSection
         dataConfig={dataConfig}

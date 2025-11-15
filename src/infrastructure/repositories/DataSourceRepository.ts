@@ -183,4 +183,15 @@ export class DataSourceRepository implements IDataSourceRepository {
 
         return [];
     }
+
+    async downloadFile(filename: string): Promise<Blob> {
+        const url = `/api/uploads/${filename}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("Erreur lors du téléchargement du fichier");
+        }
+
+        return await response.blob();
+    }
 }

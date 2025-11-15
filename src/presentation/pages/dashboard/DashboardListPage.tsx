@@ -1,11 +1,11 @@
 import Button from "@components/forms/Button";
 import Table from "@components/Table";
-import type { Dashboard } from "@type/dashboardTypes";
+import type { Dashboard } from "@domain/entities/Dashboard.entity";
 import Modal from "@components/Modal";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@constants/routes";
-import { useDashboardList } from "@hooks/dashboard/useDashboardList";
+import { useDashboardListPage } from "@/application/hooks/dashboard/useDashboardListPage";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 
 export default function DashboardListPage() {
@@ -20,7 +20,7 @@ export default function DashboardListPage() {
     columns,
     navigate,
     hasPermission,
-  } = useDashboardList();
+  } = useDashboardListPage();
 
   return (
     <AuthLayout permission="dashboard:canView">
@@ -53,7 +53,7 @@ export default function DashboardListPage() {
             columns={columns}
             data={dashboards}
             emptyMessage="Aucun dashboard."
-            onClickItem={(row) => navigate(`/dashboards/${row._id}`)}
+            onClickItem={(row) => navigate(`/dashboards/${row.id}`)}
             actionsColumn={{
               key: "actions",
               label: "",
@@ -68,7 +68,7 @@ export default function DashboardListPage() {
                       className=" w-max border-none! bg-transparent! hover:bg-gray-100! dark:hover:bg-gray-800!"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/dashboards/${row._id}`);
+                        navigate(`/dashboards/${row.id}`);
                       }}
                     >
                       <EyeIcon className="w-4 h-4 ml-1 inline" />

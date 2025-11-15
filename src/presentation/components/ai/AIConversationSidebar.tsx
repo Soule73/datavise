@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { AIConversation } from "@type/aiConversationTypes";
+import type { AIConversation } from "@/domain/entities/AIConversation.entity";
 import Button from "@components/forms/Button";
 import {
     PlusIcon,
@@ -35,7 +35,7 @@ export default function AIConversationSidebar({
     const [editTitle, setEditTitle] = useState("");
 
     const handleStartEdit = (conversation: AIConversation) => {
-        setEditingId(conversation._id);
+        setEditingId(conversation.id);
         setEditTitle(conversation.title);
     };
 
@@ -51,7 +51,8 @@ export default function AIConversationSidebar({
         setEditTitle("");
     };
 
-    const formatDate = (date: Date) => {
+    const formatDate = (date?: Date) => {
+        if (!date) return "";
         const d = new Date(date);
         const today = new Date();
         const yesterday = new Date(today);
@@ -112,17 +113,17 @@ export default function AIConversationSidebar({
                         ) : (
                             <div className="py-2">
                                 {conversations.map((conv) => {
-                                    const isActive = activeConversation?._id === conv._id;
-                                    const isEditing = editingId === conv._id;
+                                    const isActive = activeConversation?.id === conv.id;
+                                    const isEditing = editingId === conv.id;
 
                                     return (
                                         <div
-                                            key={conv._id}
+                                            key={conv.id}
                                             className={`group relative px-3 py-2 mx-2 mb-1 rounded-lg cursor-pointer transition-all ${isActive
                                                 ? "bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-500"
                                                 : "hover:bg-gray-50 dark:hover:bg-gray-800"
                                                 }`}
-                                            onClick={() => !isEditing && onSelectConversation(conv._id)}
+                                            onClick={() => !isEditing && onSelectConversation(conv.id)}
                                         >
                                             {isEditing ? (
                                                 <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
@@ -133,12 +134,12 @@ export default function AIConversationSidebar({
                                                         className="flex-1 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-800 dark:text-white"
                                                         autoFocus
                                                         onKeyDown={(e) => {
-                                                            if (e.key === "Enter") handleSaveEdit(conv._id);
+                                                            if (e.key === "Enter") handleSaveEdit(conv.id);
                                                             if (e.key === "Escape") handleCancelEdit();
                                                         }}
                                                     />
                                                     <button
-                                                        onClick={() => handleSaveEdit(conv._id)}
+                                                        onClick={() => handleSaveEdit(conv.id)}
                                                         className="p-1 text-green-600 hover:bg-green-100 dark:hover:bg-green-900/30 rounded"
                                                     >
                                                         <CheckIcon className="w-4 h-4" />
@@ -161,9 +162,9 @@ export default function AIConversationSidebar({
                                                                 <span className="text-xs text-gray-500 dark:text-gray-400">
                                                                     {formatDate(conv.updatedAt)}
                                                                 </span>
-                                                                {conv.widgets && conv.widgets.length > 0 && (
+                                                                {conv.widgetIds && conv.widgetIds.length > 0 && (
                                                                     <span className="text-xs px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded">
-                                                                        {conv.widgets.length} widgets
+                                                                        {conv.widgetIds.length} widgets
                                                                     </span>
                                                                 )}
                                                             </div>
@@ -185,7 +186,7 @@ export default function AIConversationSidebar({
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
                                                                     if (confirm("Supprimer cette conversation ?")) {
-                                                                        onDeleteConversation(conv._id);
+                                                                        onDeleteConversation(conv.id);
                                                                     }
                                                                 }}
                                                                 className="p-1 text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded"

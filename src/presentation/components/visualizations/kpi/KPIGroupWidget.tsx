@@ -2,7 +2,7 @@ import { ChartBarIcon } from "@heroicons/react/24/outline";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
 import KPIWidget from "@components/visualizations/kpi/KPIWidget";
-import { useKPIGroupVM } from "@hooks/visualizations/kpi/useKPIGroupVM";
+import { useKPIGroupVM } from "@/application/hooks/visualizations/kpi/useKPIGroupVM";
 import type { Metric } from "@type/metricBucketTypes";
 import type { KPIGroupWidgetProps } from "@type/widgetTypes";
 

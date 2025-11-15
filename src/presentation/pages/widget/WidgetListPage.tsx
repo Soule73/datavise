@@ -2,26 +2,25 @@ import { useNavigate, Link } from "react-router-dom";
 import { ROUTES } from "@constants/routes";
 import Table from "@components/Table";
 import Modal from "@components/Modal";
-import { useWidgetListPage } from "@hooks/widget/useWidgetListPage";
+import { useWidgetListPage } from "@/application/hooks/widget/useWidgetListPage";
 import { DeleteWidgetModal } from "@components/widgets/DeleteWidgetModal";
 import Button from "@components/forms/Button";
-import type { Widget, WidgetType } from "@type/widgetTypes";
+import type { Widget } from "@domain/entities/Widget.entity";
+import type { WidgetType } from "@/domain/value-objects";
 import { useMemo, useState } from "react";
-import { WIDGETS } from "@adapters/visualizations";
+import { WIDGETS } from "@/core/config/visualizations";
 import Badge from "@components/Badge";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import WidgetTypeSelectionModal from "@components/widgets/WidgetTypeSelectionModal";
-import { useSourcesQuery } from "@/data/repositories/datasources";
-import { useQueryClient } from "@tanstack/react-query";
+import { useDataSourceList } from "@/application/hooks/datasource/useDataSourceList";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function WidgetListPage() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const { data: sources = [] } = useSourcesQuery({ queryClient });
+  const { dataSources: sources } = useDataSourceList();
 
   const {
     tableData,
@@ -126,7 +125,7 @@ export default function WidgetListPage() {
                 {hasPermission("widget:canUpdate") && (
                   <Link
                     to={
-                      row._id ? ROUTES.editWidget.replace(":id", row._id) : "#"
+                      row.id ? ROUTES.editWidget.replace(":id", row.id) : "#"
                     }
                   >
                     <Button
@@ -196,7 +195,7 @@ export default function WidgetListPage() {
         open={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onDelete={() =>
-          selectedWidget && deleteMutation.mutate(selectedWidget._id!)
+          selectedWidget && deleteMutation.mutate(selectedWidget.id)
         }
         loading={deleteMutation.isPending}
         widget={selectedWidget}

@@ -5,7 +5,7 @@ import {
   ChevronDownIcon,
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
-import { useKPIWidgetVM } from "@hooks/visualizations/kpi/useKPIWidgetVM";
+import { useKPIWidgetVM } from "@/application/hooks/visualizations/kpi/useKPIWidgetVM";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
 import type { KPIWidgetProps } from "@type/widgetTypes";

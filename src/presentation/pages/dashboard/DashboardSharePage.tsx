@@ -1,6 +1,6 @@
 import DashboardGrid from "@components/dashoards/DashboardGrid";
 import { useParams } from "react-router-dom";
-import { useDashboardShare } from "@hooks/dashboard/useDashboardShare";
+import { useDashboardShareView } from "@/application/hooks/dashboard/useDashboardShareView";
 import BaseLayout from "@components/layouts/BaseLayout";
 import ErrorPage from "@components/layouts/ErrorPage";
 
@@ -16,7 +16,7 @@ function EmptyDashboard() {
 export default function DashboardSharePage() {
   const { shareId } = useParams<{ shareId: string }>();
   const { dashboard, sources, loading, error, errorCode } =
-    useDashboardShare(shareId);
+    useDashboardShareView(shareId);
 
   if (loading) return <div className="p-8 text-center">Chargement…</div>;
   if (error) {

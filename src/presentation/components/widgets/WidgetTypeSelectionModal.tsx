@@ -3,7 +3,16 @@ import Modal from "@components/Modal";
 import SelectField from "@components/SelectField";
 import VisualizationTypeSelector from "@components/visualizations/VisualizationTypeSelector";
 import Button from "@components/forms/Button";
-import type { WidgetType, WidgetTypeSelectionModalProps } from "@type/widgetTypes";
+import type { WidgetType } from "@/domain/value-objects";
+import type { DataSource } from "@domain/entities/DataSource.entity";
+
+interface WidgetTypeSelectionModalProps {
+    open: boolean;
+    onClose: () => void;
+    onConfirm: (sourceId: string, type: WidgetType) => void;
+    sources: DataSource[];
+    loading?: boolean;
+}
 
 
 
@@ -38,7 +47,7 @@ export default function WidgetTypeSelectionModal({
     const sourceOptions = [
         { value: "", label: "Sélectionner une source de données" },
         ...sources.map((source) => ({
-            value: source._id || "",
+            value: source.id || "",
             label: source.name,
         })),
     ];
@@ -96,7 +105,7 @@ export default function WidgetTypeSelectionModal({
                     </div>)
             }
         >
-            <div className="space-y-6 !min-h-[70vh]">
+            <div className="space-y-6 min-h-[70vh]!">
                 {error && (
                     <div className="text-red-500 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded">
                         {error}

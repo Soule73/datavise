@@ -14,6 +14,7 @@ export class Widget {
     readonly isDraft: boolean;
     readonly isGeneratedByAI: boolean;
     readonly conversationId?: string;
+    readonly isUsed?: boolean;
     readonly createdAt?: Date;
     readonly updatedAt?: Date;
 
@@ -28,6 +29,7 @@ export class Widget {
         isDraft: boolean,
         isGeneratedByAI: boolean,
         conversationId?: string,
+        isUsed?: boolean,
         createdAt?: Date,
         updatedAt?: Date
     ) {
@@ -41,6 +43,7 @@ export class Widget {
         this.isDraft = isDraft;
         this.isGeneratedByAI = isGeneratedByAI;
         this.conversationId = conversationId;
+        this.isUsed = isUsed;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
 
@@ -86,6 +89,7 @@ export class Widget {
             overrides.isDraft ?? this.isDraft,
             overrides.isGeneratedByAI ?? this.isGeneratedByAI,
             overrides.conversationId ?? this.conversationId,
+            overrides.isUsed ?? this.isUsed,
             this.createdAt,
             this.updatedAt
         );
@@ -103,6 +107,7 @@ export class Widget {
             isDraft: this.isDraft,
             isGeneratedByAI: this.isGeneratedByAI,
             conversationId: this.conversationId,
+            isUsed: this.isUsed,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
         };

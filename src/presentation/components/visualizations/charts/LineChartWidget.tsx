@@ -1,4 +1,4 @@
-import { useLineChartLogic } from "@hooks/visualizations/charts";
+import { useLineChartLogic } from "@/application/hooks/visualizations/charts";
 import { PresentationChartLineIcon } from "@heroicons/react/24/outline";
 import {
   Chart as ChartJS,

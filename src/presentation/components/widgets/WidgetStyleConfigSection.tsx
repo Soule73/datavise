@@ -5,7 +5,7 @@ import SelectField from "@components/SelectField";
 import {
   WIDGETS,
   WIDGET_CONFIG_FIELDS,
-} from "@adapters/visualizations";
+} from "@/core/config/visualizations";
 import type {
   WidgetStyleConfigSectionProps,
   WidgetType,

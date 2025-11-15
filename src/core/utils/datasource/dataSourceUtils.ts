@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DataSource, SourceOption } from "@type/dataSource";
+import type { DataSource as LegacyDataSource, SourceOption } from "@type/dataSource";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
 
 
 /**
  * Transforme les sources de données en options pour un SelectField
  */
-export function generateSourceOptions(sources: DataSource[]): SourceOption[] {
+export function generateSourceOptions(sources: DataSource[] | LegacyDataSource[]): SourceOption[] {
     return [
         { value: "", label: "Sélectionner une source" },
-        ...sources.map((s: DataSource) => ({
-            value: s._id || "",
+        ...sources.map((s: DataSource | LegacyDataSource) => ({
+            value: "id" in s ? s.id : (s as any)._id || "",
             label: s.name,
         })),
     ];
@@ -18,8 +19,10 @@ export function generateSourceOptions(sources: DataSource[]): SourceOption[] {
 /**
  * Trouve une source de données par son ID
  */
-export function findSourceById(sources: DataSource[], sourceId: string): DataSource | undefined {
-    return sources.find((s: DataSource) => s._id === sourceId);
+export function findSourceById(sources: DataSource[] | LegacyDataSource[], sourceId: string): DataSource | LegacyDataSource | undefined {
+    return sources.find((s: DataSource | LegacyDataSource) =>
+        ("id" in s ? s.id : (s as any)._id) === sourceId
+    );
 }
 
 /**

@@ -1,6 +1,6 @@
 import Modal from "@components/Modal";
 import Button from "@components/forms/Button";
-import type { Widget } from "@type/widgetTypes";
+import type { Widget } from "@domain/entities/Widget.entity";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
 export function DeleteWidgetModal({
@@ -28,12 +28,6 @@ export function DeleteWidgetModal({
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
           Cette action est irréversible.
         </p>
-        {widget?.isUsed && (
-          <div className="mt-2 text-yellow-700 bg-yellow-100 rounded p-2 text-xs">
-            Ce widget est utilisé dans au moins un dashboard. Vous ne pouvez pas
-            le supprimer tant qu'il est utilisé.
-          </div>
-        )}
       </div>
       <div className="flex gap-2 justify-end">
         <Button
@@ -47,7 +41,7 @@ export function DeleteWidgetModal({
           className=" w-max!"
           onClick={onDelete}
           loading={loading}
-          disabled={!!widget?.isUsed}
+          disabled={loading}
         >
           Supprimer
         </Button>

@@ -3,12 +3,46 @@ import WidgetDataConfigSection from "@components/widgets/WidgetDataConfigSection
 import WidgetSaveTitleModal from "@components/widgets/WidgetSaveTitleModal";
 import WidgetMetricStyleConfigSection from "@components/widgets/WidgetMetricStyleConfigSection";
 import WidgetParamsConfigSection from "@components/widgets/WidgetParamsConfigSection";
-import { WIDGET_DATA_CONFIG } from "@adapters/visualizations";
-import type { WidgetFormLayoutProps, WidgetType } from "@type/widgetTypes";
-import { useWidgetTabs } from "@hooks/widget/useWidgetTabs";
+import { WIDGET_DATA_CONFIG } from "@/core/config/visualizations";
+import type { WidgetType } from "@/domain/value-objects";
+import { useWidgetTabs } from "@/application/hooks/widget/useWidgetTabs";
 import Button from "@components/forms/Button";
+import type { ReactNode } from "react";
 
-
+interface WidgetFormLayoutProps {
+    title: string;
+    isLoading: boolean;
+    onSave: () => void;
+    onCancel?: () => void;
+    saveButtonText?: string;
+    showCancelButton?: boolean;
+    WidgetComponent: React.ComponentType<any>;
+    dataPreview: any[];
+    config: any;
+    metricsWithLabels: any[];
+    isPreviewReady: boolean;
+    type: WidgetType;
+    tab: string;
+    setTab: (tab: string) => void;
+    columns: string[];
+    handleConfigChange: (field: string, value: unknown) => void;
+    handleDragStart: (idx: number) => void;
+    handleDragOver: (idx: number) => void;
+    handleDrop: (idx: number) => void;
+    handleMetricAggOrFieldChange: (idx: number, field: string, value: unknown) => void;
+    handleMetricStyleChange: (idx: number, style: string, value: unknown) => void;
+    showSaveModal: boolean;
+    setShowSaveModal: (show: boolean) => void;
+    widgetTitle: string;
+    setWidgetTitle: (title: string) => void;
+    visibility: "public" | "private";
+    setVisibility: (visibility: "public" | "private") => void;
+    widgetTitleError: string;
+    setWidgetTitleError: (error: string) => void;
+    onModalConfirm: () => void;
+    error?: string;
+    additionalHeaderContent?: ReactNode;
+}
 
 export default function WidgetFormLayout({
     title,
@@ -71,7 +105,7 @@ export default function WidgetFormLayout({
                             <Button
                                 variant="outline"
                                 color="gray"
-                                className=" !w-max"
+                                className=" w-max!"
 
                                 onClick={onCancel}
                                 disabled={isLoading}
@@ -82,7 +116,7 @@ export default function WidgetFormLayout({
                         <Button
                             variant="solid"
                             color="indigo"
-                            className=" !w-max"
+                            className=" w-max!"
                             onClick={onSave}
                             disabled={isLoading || !isPreviewReady}
                         >
@@ -93,7 +127,7 @@ export default function WidgetFormLayout({
 
                 <div className="flex flex-col md:flex-row lg:flex-row h-full min-h-0 gap-6">
                     {/* Colonne aperçu (preview): sticky/fixée, jamais scrollable */}
-                    <div className="order-1 md:w-1/2 lg:w-2/3 flex-shrink-0 flex flex-col lg:sticky lg:top-0 h-full">
+                    <div className="order-1 md:w-1/2 lg:w-2/3 shrink-0 flex flex-col lg:sticky lg:top-0 h-full">
                         <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg h-full">
                             <WidgetComponent
                                 data={dataPreview}

@@ -1,6 +1,7 @@
 import DashboardGrid from "@components/dashoards/DashboardGrid";
 import WidgetSelectModal from "@components/widgets/WidgetSelectModal";
-import { useDashboard } from "@hooks/dashboard/useDashboard";
+import { useDashboardActions } from "@/application/hooks/dashboard/useDashboardActions";
+import { useDashboardShare } from "@/application/hooks/dashboard/useDashboardShare";
 import DashboardHeader from "@components/dashoards/DashboardHeader";
 import { EmptyDashboard } from "@components/dashoards/EmptyDashboard";
 import { DashboardSaveModal } from "@components/DashboardSaveModal";
@@ -50,18 +51,19 @@ export default function DashboardPage() {
     setVisibility,
     hasPermission,
     openAddWidgetModal,
-    shareLoading,
-    shareError,
-    shareLink,
-    isShareEnabled,
-    currentShareId,
-    handleEnableShare,
-    handleDisableShare,
-    handleCopyShareLink,
     handleExportPDF,
     exportPDFModalOpen,
     setExportPDFModalOpen,
-  } = useDashboard();
+    dashboardId,
+  } = useDashboardActions();
+
+  const {
+    shareId,
+    enableShare,
+    disableShare,
+    isEnabling,
+    isDisabling,
+  } = useDashboardShare(dashboardId || "");
 
   const canUpdate = hasPermission("dashboard:canUpdate");
   const isEditing = editMode || isCreate;
@@ -109,14 +111,18 @@ export default function DashboardPage() {
         handleCancelEdit={handleCancelEdit}
         setEditMode={setEditMode}
         saving={saving}
-        shareLoading={shareLoading}
-        shareError={shareError}
-        shareLink={shareLink}
-        isShareEnabled={isShareEnabled}
-        currentShareId={currentShareId}
-        handleEnableShare={handleEnableShare}
-        handleDisableShare={handleDisableShare}
-        handleCopyShareLink={handleCopyShareLink}
+        shareLoading={isEnabling || isDisabling}
+        shareError={null}
+        shareLink={shareId ? `${window.location.origin}/share/${shareId}` : null}
+        isShareEnabled={!!shareId}
+        currentShareId={shareId}
+        handleEnableShare={() => enableShare()}
+        handleDisableShare={() => disableShare()}
+        handleCopyShareLink={() => {
+          if (shareId) {
+            navigator.clipboard.writeText(`${window.location.origin}/share/${shareId}`);
+          }
+        }}
         handleExportPDF={() => setExportPDFModalOpen(true)}
       >
         {canUpdate && (

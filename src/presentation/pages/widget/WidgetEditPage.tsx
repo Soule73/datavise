@@ -1,11 +1,16 @@
-import { useWidgetEditForm } from "@hooks/widget/useWidgetEditForm";
+import { useWidgetEdit } from "@/application/hooks/widget/useWidgetActions";
+import { useEffect } from "react";
 import WidgetFormLayout from "@components/widgets/WidgetFormLayout";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function WidgetEditPage() {
-  const { loading, error, widget, formReady, form, handleConfirmSave } =
-    useWidgetEditForm();
+  const { loading, error, widget, formReady, form, loadWidget, handleConfirmSave } =
+    useWidgetEdit();
+
+  useEffect(() => {
+    loadWidget();
+  }, []);
 
   if (loading || !formReady) return <div>Chargement…</div>;
   if (error) return <div className="text-red-500">{error}</div>;

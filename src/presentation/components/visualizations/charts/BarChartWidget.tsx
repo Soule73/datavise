@@ -1,4 +1,4 @@
-import { useBarChartLogic } from "@hooks/visualizations/charts";
+import { useBarChartLogic } from "@/application/hooks/visualizations/charts";
 import {
   Chart as ChartJS,
   BarElement,

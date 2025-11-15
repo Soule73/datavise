@@ -1,9 +1,36 @@
 import { EllipsisVerticalIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useGridItem } from "@hooks/dashboard/useGridItem";
-import type { DashboardGridItemProps } from "@type/dashboardTypes";
+import { useGridItem } from "@/application/hooks/dashboard/useGridItem";
+import type { DashboardLayoutItem } from "@/domain/value-objects";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
+import type { Widget } from "@/domain/entities/Widget.entity";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@constants/routes";
+
+interface DashboardGridItemProps {
+  idx: number;
+  hydratedLayout: DashboardLayoutItem[];
+  editMode: boolean;
+  item: DashboardLayoutItem;
+  widget: Widget;
+  hoveredIdx: number | null;
+  draggedIdx: number | null;
+  isMobile?: boolean;
+  handleDragStart: (idx: number, e?: React.DragEvent) => void;
+  handleDragOver: (idx: number, e?: React.DragEvent) => void;
+  handleDrop: (idx: number, e?: React.DragEvent) => void;
+  handleDragEnd: () => void;
+  onSwapLayout?: (newLayout: DashboardLayoutItem[]) => void;
+  timeRangeFrom?: string | null;
+  timeRangeTo?: string | null;
+  sources: DataSource[];
+  onRemove?: () => void;
+  forceRefreshKey?: number;
+  page?: number;
+  pageSize?: number;
+  shareId?: string;
+  refreshMs?: number;
+}
 
 function RefreshOverlay() {
   return (
@@ -97,9 +124,9 @@ export default function DashboardGridItem(props: DashboardGridItemProps) {
               </button>
             </MenuItem>
             <MenuItem>
-              {item && (
+              {widget && (
                 <Link
-                  to={ROUTES.editWidget.replace(":id", item?.widget?._id ?? "")}
+                  to={ROUTES.editWidget.replace(":id", widget.id)}
                   className="flex items-center w-full px-3 py-2 text-sm rounded-md gap-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
                 >
                   <EllipsisVerticalIcon className="w-4 h-4" />

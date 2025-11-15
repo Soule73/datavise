@@ -2,7 +2,7 @@ import { Radar } from "react-chartjs-2";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
-import { useRadarChartLogic } from "@hooks/visualizations/charts";
+import { useRadarChartLogic } from "@/application/hooks/visualizations/charts";
 import {
   Chart as ChartJS,
   RadialLinearScale,

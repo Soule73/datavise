@@ -9,6 +9,7 @@ export interface WidgetDTO {
     isDraft?: boolean;
     isGeneratedByAI?: boolean;
     conversationId?: string;
+    isUsed?: boolean;
     createdAt?: string;
     updatedAt?: string;
 }

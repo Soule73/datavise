@@ -11,7 +11,53 @@ import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { Radio, RadioGroup } from "@headlessui/react";
 import TextareaField from "@components/forms/TextareaField";
-import type { SourceFormProps } from "@type/dataSource";
+import type { DataSourceType } from "@/domain/value-objects";
+
+interface SourceFormState {
+  name: string;
+  type: DataSourceType;
+  endpoint?: string;
+  visibility: "public" | "private";
+  timestampField?: string;
+  file?: File | null;
+  httpMethod?: "GET" | "POST";
+  authType?: "none" | "basic" | "bearer" | "apiKey";
+  authConfig?: {
+    token?: string;
+    apiKey?: string;
+    username?: string;
+    password?: string;
+    headerName?: string;
+  };
+  esIndex?: string;
+  esQuery?: string;
+}
+
+interface SourceFormProps {
+  form: SourceFormState;
+  setFormField: (field: string, value: unknown) => void;
+  step: number;
+  setStep: (s: number) => void;
+  csvOrigin: "url" | "upload";
+  setCsvOrigin: (v: "url" | "upload") => void;
+  csvFile: File | null;
+  setCsvFile: (f: File | null) => void;
+  columns: { name: string; type: string }[];
+  columnsLoading: boolean;
+  columnsError?: string;
+  dataPreview: Record<string, unknown>[];
+  showModal: boolean;
+  setShowModal: (b: boolean) => void;
+  globalError: string;
+  handleNext: () => void;
+  onSubmit: (data: SourceFormState) => void;
+  isEdit?: boolean;
+  filePath?: string | null;
+  setFilePath?: (v: string | null) => void;
+  showFileField?: boolean;
+  setShowFileField?: (v: boolean) => void;
+  fieldErrors?: Record<string, string>;
+}
 
 const SourceForm: React.FC<SourceFormProps> = ({
   form,
@@ -128,7 +174,7 @@ const SourceForm: React.FC<SourceFormProps> = ({
                   size="sm"
                   color="red"
                   type="button"
-                  className="ml-4 w-max border-none !bg-transparent text-red-600 hover:underline text-sm"
+                  className="ml-4 w-max border-none bg-transparent! text-red-600 hover:underline text-sm"
                   onClick={() => {
 
                     if (setFilePath) setFilePath(null);

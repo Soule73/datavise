@@ -1,11 +1,11 @@
 import Button from "@components/forms/Button";
 import Table from "@components/Table";
 import Modal from "@components/Modal";
-import { useSourcesPage } from "@hooks/datasource/useSourcesPage";
+import { useDataSourceListPage } from "@/application/hooks/datasource/useDataSourceListPage";
 import { ROUTES } from "@constants/routes";
 import { Link } from "react-router-dom";
 import { DeleteSourceForm } from "@components/source/DeleteSourceForm";
-import type { DataSource } from "@type/dataSource";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
 import Badge from "@components/Badge";
 import { DocumentTextIcon, TableCellsIcon } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
@@ -22,11 +22,12 @@ export default function SourcesPage() {
     setSelectedSource,
     modalType,
     setModalType,
-    deleteMutation,
+    isDeleting,
     hasPermission,
     handleDownload,
+    handleConfirmDelete,
     navigate,
-  } = useSourcesPage();
+  } = useDataSourceListPage();
 
   const columns = useMemo(
     () => [
@@ -135,7 +136,7 @@ export default function SourcesPage() {
                         title="Modfier la source"
                         className=" w-max border-none!"
                         onClick={() => {
-                          navigate(`/sources/edit/${row._id}`);
+                          navigate(`/sources/edit/${row.id}`);
                         }}
                       >
                         Modifier
@@ -181,11 +182,9 @@ export default function SourcesPage() {
           {modalType === "delete" && selectedSource && (
             <DeleteSourceForm
               source={selectedSource}
-              onDelete={() =>
-                selectedSource && deleteMutation.mutate(selectedSource._id)
-              }
+              onDelete={handleConfirmDelete}
               onCancel={() => setModalOpen(false)}
-              loading={deleteMutation.isPending}
+              loading={isDeleting}
             />
           )}
         </Modal>

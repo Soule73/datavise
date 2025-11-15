@@ -10,7 +10,7 @@ import {
 import { useSidebarAutoClose } from "@store/sidebar";
 import SidebarItem from "@components/SidebarItem";
 import { ROUTES } from "@constants/routes";
-import { useSidebar } from "@hooks/useSidebar";
+import { useSidebar } from "@/application/hooks/useSidebar";
 import { Transition } from "@headlessui/react";
 import type {
   SidebarGroup,

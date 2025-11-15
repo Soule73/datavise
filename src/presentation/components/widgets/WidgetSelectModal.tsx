@@ -1,17 +1,23 @@
 import ModalSidebarRight from "@components/ModalSidebarRight";
 import Button from "@components/forms/Button";
 import InputField from "@components/forms/InputField";
-import type { Widget, WidgetSelectModalProps } from "@type/widgetTypes";
-import { WIDGETS } from "@adapters/visualizations";
+import type { Widget } from "@domain/entities/Widget.entity";
+import { WIDGETS } from "@/core/config/visualizations";
 import { useState, useMemo } from "react";
-import { useWidgetsQuery } from "@repositories/widgets";
+import { useWidgetList } from "@/application/hooks/widget/useWidgetList";
+
+interface WidgetSelectModalProps {
+  open: boolean;
+  onClose: () => void;
+  onSelect: (widget: Widget) => void;
+}
 
 export default function WidgetSelectModal({
   open,
   onClose,
   onSelect,
 }: WidgetSelectModalProps) {
-  const { data: widgets = [], isLoading } = useWidgetsQuery();
+  const { widgets, isLoading } = useWidgetList();
   const [search, setSearch] = useState("");
   const filteredWidgets = useMemo(() => {
     const s = search.trim().toLowerCase();
@@ -57,7 +63,7 @@ export default function WidgetSelectModal({
               const Icon = widgetDef?.icon;
               return (
                 <div
-                  key={w._id}
+                  key={w.id}
                   className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded px-3 py-2 border border-gray-200 dark:border-gray-700"
                 >
                   <div className="flex items-center gap-2">

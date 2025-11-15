@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { WidgetType } from "@type/widgetTypes";
+import type { WidgetType } from "@/domain/value-objects";
 import {
     WIDGETS,
     WIDGET_CONFIG_FIELDS,
-} from "@adapters/visualizations";
+} from "@/core/config/visualizations";
 
 /**
  * Génère une configuration par défaut pour un widget donné en fonction de ses colonnes
@@ -43,7 +43,7 @@ export function generateDefaultWidgetConfig(type: WidgetType, columns: string[])
             return configureKPIWidget(baseConfig, columns);
         case "card":
             return configureCardWidget(baseConfig, columns);
-        case "kpi_group":
+        case "kpiGroup":
             return configureKPIGroupWidget(baseConfig, columns);
         default:
             return baseConfig;

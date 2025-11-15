@@ -9,7 +9,7 @@ import { useNotificationStore } from "@store/notification";
 import { ROUTES } from "@constants/routes";
 import type { DataSource } from "@/domain/entities/DataSource.entity";
 import type { DetectColumnsParams } from "@/domain/ports/repositories/IDataSourceRepository";
-import type { DataSourceType } from "@type/dataSource";
+import type { DataSourceType } from "@/domain/value-objects";
 import { createConnectionConfig } from "@/domain/value-objects/ConnectionConfig.vo";
 
 const dataSourceRepository = new DataSourceRepository();
@@ -66,6 +66,9 @@ export function useDataSourceForm(isEdit: boolean = false) {
     const [csvFile, setCsvFile] = useState<File | null>(null);
     const [globalError, setGlobalError] = useState("");
     const [detectParams, setDetectParams] = useState<DetectColumnsParams | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const [filePath, setFilePath] = useState("");
+    const [showFileField, setShowFileField] = useState(false);
 
     const { detectionResult, isDetecting, detectionError } = useColumnDetection(detectParams, !!detectParams);
 
@@ -205,5 +208,17 @@ export function useDataSourceForm(isEdit: boolean = false) {
         detectionResult,
         isDetecting,
         detectionError: detectionError?.message,
+        error: isEdit && !isLoadingExisting && !existingDataSource ? new Error("Source non trouvée") : undefined,
+        columns: detectionResult?.columns || [],
+        columnsError: detectionError?.message || "",
+        columnsLoading: isDetecting,
+        dataPreview: detectionResult?.preview || [],
+        showModal,
+        setShowModal,
+        filePath,
+        setFilePath,
+        showFileField,
+        setShowFileField,
+        fieldErrors: {},
     };
 }

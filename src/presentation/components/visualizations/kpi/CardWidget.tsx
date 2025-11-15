@@ -1,4 +1,4 @@
-import { useCardWidgetVM } from "@hooks/visualizations/kpi/useCardWidgetVM";
+import { useCardWidgetVM } from "@/application/hooks/visualizations/kpi/useCardWidgetVM";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";

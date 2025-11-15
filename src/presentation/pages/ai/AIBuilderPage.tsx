@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { useAIStore } from "@store/aiStore";
-import { useAIActions } from "@hooks/ai/useAIActions";
-import {
-    useConversationsQuery,
-    useConversationQuery,
-} from "@hooks/ai/useConversationsQuery";
-import { useConversationWidgetsQuery } from "@hooks/ai/useAIWidgetsQuery";
+import { useAIBuilderActions } from "@/application/hooks/ai/useAIBuilderActions";
+import { useAIConversationList } from "@/application/hooks/ai/useAIConversationList";
+import { useAIConversation } from "@/application/hooks/ai/useAIConversation";
+import { useConversationWidgets } from "@/application/hooks/ai/useConversationWidgets";
+import { useDataSourceList } from "@/application/hooks/datasource/useDataSourceList";
 import AILoadingOverlay from "@components/ai/AILoadingOverlay";
 import AIGeneratedWidgetCard from "@components/ai/AIGeneratedWidgetCard";
 import AIConversationSidebar from "@components/ai/AIConversationSidebar";
@@ -16,7 +15,6 @@ import { SparklesIcon } from "@heroicons/react/24/outline";
 import { ROUTES } from "@/core/constants/routes";
 import type { BreadcrumbItem } from "@/presentation/components/layouts/Breadcrumb";
 import AIBuilderHeader from "@/presentation/components/ai/AIBuilderHeader";
-import { getSources } from "@services/datasource";
 import { getWidgetId, getWidgetName } from "@utils/aiHelpers";
 
 const aiBuilder = (conversationName?: string): BreadcrumbItem[] => [
@@ -49,11 +47,12 @@ export default function AIBuilderPage() {
         handleUpdateTitle,
         handleSaveWidget,
         handleConfirmDelete,
-    } = useAIActions();
+    } = useAIBuilderActions();
 
-    const { data: conversationsData } = useConversationsQuery();
-    const { data: conversationData } = useConversationQuery(activeConversationId || "");
-    const { data: conversationWidgetsData } = useConversationWidgetsQuery(activeConversationId || "");
+    const { conversations: conversationsData } = useAIConversationList();
+    const { data: conversationData } = useAIConversation(activeConversationId || null);
+    const { data: conversationWidgetsData } = useConversationWidgets(activeConversationId || null);
+    const { dataSources } = useDataSourceList();
 
     useEffect(() => {
         if (conversationsData) {
@@ -68,18 +67,10 @@ export default function AIBuilderPage() {
     }, [conversationData, setActiveConversation]);
 
     useEffect(() => {
-        const loadDataSources = async () => {
-            try {
-                const response = await getSources();
-                if (response && Array.isArray(response)) {
-                    setDataSources(response);
-                }
-            } catch (error) {
-                console.error("Failed to load data sources:", error);
-            }
-        };
-        loadDataSources();
-    }, [setDataSources]);
+        if (dataSources) {
+            setDataSources(dataSources);
+        }
+    }, [dataSources, setDataSources]);
 
     const dataSourceSummary = activeConversation?.dataSourceSummary;
     const conversations = conversationsData || [];

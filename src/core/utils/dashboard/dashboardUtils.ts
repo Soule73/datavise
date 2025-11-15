@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Dashboard, IntervalUnit } from "@type/dashboardTypes";
+import type { IntervalUnit } from "@/domain/value-objects";
+import type { Dashboard } from "@type/dashboardTypes";
 
 /**
  * Calcule la période effective selon le mode (absolu/relatif).

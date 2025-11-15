@@ -15,6 +15,7 @@ export const widgetMapper = {
             dto.isDraft ?? false,
             dto.isGeneratedByAI ?? false,
             dto.conversationId,
+            dto.isUsed,
             dto.createdAt ? new Date(dto.createdAt) : undefined,
             dto.updatedAt ? new Date(dto.updatedAt) : undefined
         );
@@ -32,6 +33,7 @@ export const widgetMapper = {
             isDraft: widget.isDraft,
             isGeneratedByAI: widget.isGeneratedByAI,
             conversationId: widget.conversationId,
+            isUsed: widget.isUsed,
         };
     },
 

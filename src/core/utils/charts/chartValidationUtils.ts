@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ChartData, ChartOptions } from "chart.js";
-import type { ChartType, ChartValidationContext, ValidationResult } from "@type/widgetTypes";
-
+import type { ChartType } from "@/domain/value-objects";
+import type { ChartValidationContext, ValidationResult } from "@type/widgetTypes";
 
 
 /**

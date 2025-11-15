@@ -7,7 +7,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   WIDGETS,
   WIDGET_CONFIG_FIELDS,
-} from "@adapters/visualizations";
+} from "@/core/config/visualizations";
 import type {
   MetricStyleFieldSchema,
   WidgetMetricStyleConfigSectionProps,

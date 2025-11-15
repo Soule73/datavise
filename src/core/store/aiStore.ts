@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { AIGeneratedWidget } from "@type/aiTypes";
-import type { AIConversation } from "@type/aiConversationTypes";
-import type { DataSource } from "@/core/types/dataSource";
+import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
+import type { AIConversation } from "@/domain/entities/AIConversation.entity";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
 
 interface AIState {
     activeConversationId: string | null;
@@ -96,7 +96,7 @@ export const useAIStore = create<AIStore>()(
             updateWidget: (widgetId, updates) =>
                 set((state) => ({
                     generatedWidgets: state.generatedWidgets.map((w) =>
-                        w.id === widgetId ? { ...w, ...updates } : w
+                        w.id === widgetId ? w.clone({ ...updates }) : w
                     ),
                 })),
 

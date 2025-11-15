@@ -1,5 +1,14 @@
 import { create } from "zustand";
-import type { DashboardStore } from "@type/dashboardTypes";
+import type { DashboardLayoutItem } from "@/domain/value-objects";
+
+interface DashboardStore {
+  editMode: boolean;
+  setEditMode: (v: boolean) => void;
+  hasUnsavedChanges: boolean;
+  setHasUnsavedChanges: (v: boolean) => void;
+  layout: DashboardLayoutItem[];
+  setLayout: (l: DashboardLayoutItem[]) => void;
+}
 
 export const useDashboardStore = create<DashboardStore>((set) => ({
   editMode: false,

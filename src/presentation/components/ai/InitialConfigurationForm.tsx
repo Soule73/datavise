@@ -1,4 +1,4 @@
-import type { DataSource } from "@/core/types/dataSource";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
 
 interface Props {
     dataSources: DataSource[];
@@ -29,7 +29,7 @@ export default function InitialConfigurationForm({
                 >
                     <option value="">Sélectionnez une source</option>
                     {dataSources.map((source) => (
-                        <option key={source._id} value={source._id}>
+                        <option key={source.id} value={source.id}>
                             {source.name}
                         </option>
                     ))}

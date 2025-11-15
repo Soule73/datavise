@@ -9,7 +9,7 @@ export const dashboardMapper = {
                 from: dto.timeRange.from,
                 to: dto.timeRange.to,
                 intervalValue: dto.timeRange.intervalValue,
-                intervalUnit: dto.timeRange.intervalUnit as any,
+                intervalUnit: dto.timeRange.intervalUnit,
             })
             : undefined;
 
@@ -23,7 +23,7 @@ export const dashboardMapper = {
             dto.shareEnabled ?? false,
             timeRange,
             dto.autoRefreshIntervalValue,
-            dto.autoRefreshIntervalUnit as any,
+            dto.autoRefreshIntervalUnit,
             dto.shareId,
             dto.createdAt ? new Date(dto.createdAt) : undefined,
             dto.updatedAt ? new Date(dto.updatedAt) : undefined

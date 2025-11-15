@@ -2,6 +2,8 @@ import { AIConversationValidationError } from "../errors/DomainError";
 import type { AIMessage } from "../value-objects/AIMessage.vo";
 import type { DataSourceSummary } from "../value-objects/DataSourceSummary.vo";
 
+export type { AIMessage };
+
 export class AIConversation {
     readonly id: string;
     readonly userId: string;

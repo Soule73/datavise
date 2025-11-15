@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useAIStore } from "@store/aiStore";
-import { useAIActions } from "@hooks/ai/useAIActions";
+import { useAIBuilderActions } from "@/application/hooks/ai/useAIBuilderActions";
 import MessageBubble from "./MessageBubble";
 import SuggestionButtons from "./SuggestionButtons";
 import MessageInput from "./MessageInput";
@@ -26,7 +26,7 @@ export default function AIMessageHistory() {
         setRefinementPrompt,
     } = useAIStore();
 
-    const { handleGenerate, handleRefine, handleSuggestionClick } = useAIActions();
+    const { handleGenerate, handleRefine, handleSuggestionClick } = useAIBuilderActions();
 
     const messages = activeConversation?.messages || [];
 

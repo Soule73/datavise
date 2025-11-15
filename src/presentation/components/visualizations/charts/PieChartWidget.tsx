@@ -1,5 +1,5 @@
 import "@utils/charts/chartjs-register";
-import { usePieChartLogic } from "@hooks/visualizations/charts";
+import { usePieChartLogic } from "@/application/hooks/visualizations/charts";
 import { Pie } from "react-chartjs-2";
 import { ChartPieIcon } from "@heroicons/react/24/outline";
 import { InvalideConfigWidget } from "@components/widgets/InvalideConfigWidget";

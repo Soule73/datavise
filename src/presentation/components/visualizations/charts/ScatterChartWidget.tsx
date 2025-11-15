@@ -1,4 +1,4 @@
-import { useScatterChartLogic } from "@hooks/visualizations/charts";
+import { useScatterChartLogic } from "@/application/hooks/visualizations/charts";
 import {
   Chart as ChartJS,
   ScatterController,

@@ -1,10 +1,10 @@
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import SourceForm from "@components/source/SourceForm";
-import { useEditDataSourceForm } from "@hooks/datasource/useEditDataSourceForm";
+import { useDataSourceForm } from "@/application/hooks/datasource/useDataSourceForm";
 
 export default function EditSourcePage() {
-  const formProps = useEditDataSourceForm();
+  const formProps = useDataSourceForm(true);
 
   if (formProps.isLoading) return <div className="p-8">Chargement…</div>;
   if (formProps.error)

@@ -1,7 +1,7 @@
-import { useWidgetCreateForm } from "@hooks/widget/useWidgetCreateForm";
+import { useWidgetCreate } from "@/application/hooks/widget/useWidgetActions";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-import type { WidgetType } from "@type/widgetTypes";
+import type { WidgetType } from "@/domain/value-objects";
 import WidgetFormLayout from "@components/widgets/WidgetFormLayout";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
@@ -42,7 +42,7 @@ export default function WidgetCreatePage() {
     metricsWithLabels,
     handleMetricStyleChange,
     error
-  } = useWidgetCreateForm({
+  } = useWidgetCreate({
     sourceId: sourceIdFromUrl,
     type: typeFromUrl,
   });

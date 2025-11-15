@@ -1,5 +1,5 @@
-import type { DashboardLayoutItem } from "@type/dashboardTypes";
-import type { Widget } from "@type/widgetTypes";
+import type { DashboardLayoutItem, IntervalUnit } from "@/domain/value-objects";
+import type { Widget } from "./Widget.entity";
 import { DashboardValidationError } from "../errors/DomainError";
 import type { TimeRange } from "../value-objects/TimeRange.vo";
 
@@ -11,7 +11,7 @@ export class Dashboard {
     readonly timeRange?: TimeRange;
     readonly visibility: "public" | "private";
     readonly autoRefreshIntervalValue?: number;
-    readonly autoRefreshIntervalUnit?: "second" | "minute" | "hour" | "day" | "week" | "month" | "year";
+    readonly autoRefreshIntervalUnit?: IntervalUnit;
     readonly widgets: Widget[];
     readonly shareEnabled: boolean;
     readonly shareId?: string | null;
@@ -28,7 +28,7 @@ export class Dashboard {
         shareEnabled: boolean = false,
         timeRange?: TimeRange,
         autoRefreshIntervalValue?: number,
-        autoRefreshIntervalUnit?: "second" | "minute" | "hour" | "day" | "week" | "month" | "year",
+        autoRefreshIntervalUnit?: IntervalUnit,
         shareId?: string | null,
         createdAt?: Date,
         updatedAt?: Date

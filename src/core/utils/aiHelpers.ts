@@ -1,6 +1,6 @@
 import type { ApiResponse, ApiError } from "@type/api";
-import type { AIGeneratedWidget } from "@type/aiTypes";
-import type { Widget } from "@type/widgetTypes";
+import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
+import type { Widget } from "@/domain/entities/Widget.entity";
 
 /**
  * Extrait les données d'une ApiResponse ou lance une erreur
@@ -28,14 +28,14 @@ export function getWidgetName(widget: AIGeneratedWidget | Widget | any): string 
 }
 
 /**
- * Vérifie si un widget est sauvegardé en base
+ * Vérifie si un widget AI a été sauvegardé dans la BDD
  */
-export function isWidgetSaved(widget: AIGeneratedWidget | Widget | any): boolean {
-    return !!widget._id;
+export function isWidgetSaved(widget: AIGeneratedWidget): boolean {
+    return !!widget.mongoId;
 }
 
 /**
- * Filtre les widgets sauvegardés
+ * Filtre les widgets qui ont été sauvegardés
  */
 export function getSavedWidgets(widgets: AIGeneratedWidget[]): AIGeneratedWidget[] {
     return widgets.filter(isWidgetSaved);
@@ -45,7 +45,7 @@ export function getSavedWidgets(widgets: AIGeneratedWidget[]): AIGeneratedWidget
  * Récupère les IDs MongoDB des widgets sauvegardés
  */
 export function getSavedWidgetIds(widgets: AIGeneratedWidget[]): string[] {
-    return getSavedWidgets(widgets).map((w) => w._id!);
+    return getSavedWidgets(widgets).map((w) => w.mongoId!);
 }
 
 /**

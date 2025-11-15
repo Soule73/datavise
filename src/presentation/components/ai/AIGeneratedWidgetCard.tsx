@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import type { AIGeneratedWidget } from "@type/aiTypes";
-import { WIDGETS } from "@adapters/visualizations";
+import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
+import { WIDGETS } from "@/core/config/visualizations";
 import { useState, useEffect } from "react";
-import { fetchSourceData } from "@services/datasource";
+import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
 import Button from "@components/forms/Button";
 import {
     CheckIcon,
@@ -23,12 +23,12 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
     const widgetMeta = WIDGETS[widget.type as keyof typeof WIDGETS];
 
     // Vérifier si le widget est déjà sauvegardé
-    const isSaved = !!widget._id;
+    const isSaved = !!widget.mongoId;
 
     console.log("🎨 [AIGeneratedWidgetCard] Render:", {
         id: widget.id,
         name: widget.name,
-        _id: widget._id,
+        mongoId: widget.mongoId,
         isSaved,
     });
 
@@ -36,36 +36,27 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
     const [previewData, setPreviewData] = useState<any[]>([]);
     const [isLoadingPreview, setIsLoadingPreview] = useState(true);
 
-    // Logger les changements de _id
+    // Logger les changements de mongoId
     useEffect(() => {
-        console.log("🔄 [AIGeneratedWidgetCard] _id changed:", {
+        console.log("🔄 [AIGeneratedWidgetCard] mongoId changed:", {
             id: widget.id,
-            _id: widget._id,
+            mongoId: widget.mongoId,
             isSaved,
         });
-    }, [widget._id, widget.id, isSaved]);
+    }, [widget.mongoId, widget.id, isSaved]);
 
     // Charger les données pour la prévisualisation
     useEffect(() => {
         const loadPreviewData = async () => {
             try {
                 setIsLoadingPreview(true);
-                const result = await fetchSourceData({
-                    sourceId: widget.dataSourceId,
-                    options: {
-                        page: 1,
-                        pageSize: 100, // Limiter pour la preview
-                    }
+                const dataSourceRepository = new DataSourceRepository();
+                const result = await dataSourceRepository.fetchData(widget.dataSourceId, {
+                    page: 1,
+                    pageSize: 100,
                 });
 
-                // Gérer les différents formats de retour
-                if (Array.isArray(result)) {
-                    setPreviewData(result);
-                } else if (result && 'data' in result && Array.isArray(result.data)) {
-                    setPreviewData(result.data);
-                } else {
-                    setPreviewData([]);
-                }
+                setPreviewData(result || []);
             } catch (error) {
                 console.error("Erreur chargement preview:", error);
                 setPreviewData([]);
@@ -228,7 +219,7 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
                     </Button>
                 ) : (
                     <Button
-                        onClick={() => navigate(`/widgets/edit/${widget._id}`)}
+                        onClick={() => navigate(`/widgets/edit/${widget.mongoId}`)}
                         color="indigo"
                         className="flex-1"
                     >

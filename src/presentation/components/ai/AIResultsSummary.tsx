@@ -1,7 +1,11 @@
-import type { AIGenerateResponse } from "@type/aiTypes";
+interface DataSourceSummary {
+    name: string;
+    rowCount: number;
+    columns: Array<{ name: string; type: string }>;
+}
 
 interface AIResultsSummaryProps {
-    dataSourceSummary: AIGenerateResponse["dataSourceSummary"] | null;
+    dataSourceSummary: DataSourceSummary | null;
 }
 
 export default function AIResultsSummary({

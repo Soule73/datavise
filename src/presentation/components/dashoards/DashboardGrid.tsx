@@ -1,7 +1,26 @@
-import { useDashboardGrid } from "@hooks/dashboard/useDashboardGrid";
-import type { DashboardGridProps } from "@type/dashboardTypes";
+import { useDashboardGrid } from "@/application/hooks/dashboard/useDashboardGrid";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
+import type { DashboardLayoutItem } from "@/domain/value-objects";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import DashboardGridItem from "@components/dashoards/DashboardGridItem";
+
+interface DashboardGridProps {
+  layout: DashboardLayoutItem[];
+  onSwapLayout?: (newLayout: DashboardLayoutItem[]) => void;
+  sources: DataSource[];
+  editMode?: boolean;
+  hasUnsavedChanges?: boolean;
+  handleAddWidget: (e: React.MouseEvent) => void;
+  autoRefreshIntervalValue?: number;
+  autoRefreshIntervalUnit?: string;
+  timeRangeFrom?: string | null;
+  timeRangeTo?: string | null;
+  forceRefreshKey?: number;
+  page?: number;
+  pageSize?: number;
+  shareId?: string;
+  refreshMs?: number;
+}
 
 // Slot d'ajout de widget
 function AddWidgetSlot({
@@ -98,7 +117,7 @@ export default function DashboardGrid({
             handleDrop={handleDrop}
             handleDragEnd={handleDragEnd}
             isMobile={isMobile}
-            sources={sources}
+            sources={sources as any}
             onRemove={editMode ? () => handleRemove(idx) : undefined}
             onSwapLayout={onSwapLayout}
             timeRangeFrom={timeRangeFrom}
