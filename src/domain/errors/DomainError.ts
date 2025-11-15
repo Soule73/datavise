@@ -50,3 +50,31 @@ export class DashboardValidationError extends DomainError {
         this.name = "DashboardValidationError";
     }
 }
+
+export class AIConversationNotFoundError extends DomainError {
+    constructor(conversationId: string) {
+        super(`Conversation AI avec l'ID ${conversationId} introuvable`, "AI_CONVERSATION_NOT_FOUND");
+        this.name = "AIConversationNotFoundError";
+    }
+}
+
+export class AIConversationValidationError extends DomainError {
+    constructor(message: string) {
+        super(message, "AI_CONVERSATION_VALIDATION_ERROR");
+        this.name = "AIConversationValidationError";
+    }
+}
+
+export class AIWidgetValidationError extends DomainError {
+    constructor(message: string) {
+        super(message, "AI_WIDGET_VALIDATION_ERROR");
+        this.name = "AIWidgetValidationError";
+    }
+}
+
+export class AIGenerationError extends DomainError {
+    constructor(message: string) {
+        super(message, "AI_GENERATION_ERROR");
+        this.name = "AIGenerationError";
+    }
+}
