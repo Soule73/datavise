@@ -78,3 +78,38 @@ export class AIGenerationError extends DomainError {
         this.name = "AIGenerationError";
     }
 }
+
+export class UserNotFoundError extends DomainError {
+    constructor(userId: string) {
+        super(`Utilisateur avec l'ID ${userId} introuvable`, "USER_NOT_FOUND");
+        this.name = "UserNotFoundError";
+    }
+}
+
+export class UserValidationError extends DomainError {
+    constructor(message: string) {
+        super(message, "USER_VALIDATION_ERROR");
+        this.name = "UserValidationError";
+    }
+}
+
+export class RoleNotFoundError extends DomainError {
+    constructor(roleId: string) {
+        super(`Rôle avec l'ID ${roleId} introuvable`, "ROLE_NOT_FOUND");
+        this.name = "RoleNotFoundError";
+    }
+}
+
+export class RoleValidationError extends DomainError {
+    constructor(message: string) {
+        super(message, "ROLE_VALIDATION_ERROR");
+        this.name = "RoleValidationError";
+    }
+}
+
+export class AuthenticationError extends DomainError {
+    constructor(message: string) {
+        super(message, "AUTHENTICATION_ERROR");
+        this.name = "AuthenticationError";
+    }
+}
