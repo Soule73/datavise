@@ -29,7 +29,7 @@ import type {
   MultiBucketConfig,
 } from "@/domain/value-objects/widgets/metricBucketTypes";
 import type { ReactNode } from "react";
-import type { DataSource } from "@type/dataSource";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
 import type { ChartData, ChartOptions } from "chart.js";
 import type {
   WidgetType,

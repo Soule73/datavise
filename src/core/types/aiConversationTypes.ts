@@ -1,5 +1,5 @@
 import type { Widget } from "../../domain/value-objects/widgets/widgetTypes";
-import type { DataSource } from "./dataSource";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
 
 /**
  * Message dans une conversation AI

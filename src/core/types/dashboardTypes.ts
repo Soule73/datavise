@@ -1,6 +1,6 @@
 // Types principaux
 import type { ReactNode } from "react";
-import type { DataSource } from "@type/dataSource";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
 import type { Widget } from "@/domain/value-objects/widgets/widgetTypes";
 
 // =====================

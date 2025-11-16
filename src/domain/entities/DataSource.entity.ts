@@ -1,6 +1,7 @@
-import type { DataSourceType, DataSourceVisibility } from "@type/dataSource";
+import type { DataSourceType } from "../value-objects/DataSourceType";
+import type { DataSourceVisibility } from "../value-objects/datasource/DataSourceVisibility";
 import { DataSourceValidationError } from "../errors/DomainError";
-import type { ConnectionConfig } from "../value-objects/ConnectionConfig.vo";
+import type { ConnectionConfig } from "../value-objects/datasource/ConnectionConfig.vo";
 
 /**
  * Entité DataSource représentant une source de données dans le domaine

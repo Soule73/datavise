@@ -10,7 +10,7 @@ import { ROUTES } from "@constants/routes";
 import type { DataSource } from "@/domain/entities/DataSource.entity";
 import type { DetectColumnsParams } from "@/domain/ports/repositories/IDataSourceRepository";
 import type { DataSourceType } from "@/domain/value-objects";
-import { createConnectionConfig } from "@/domain/value-objects/ConnectionConfig.vo";
+import { createConnectionConfig } from "@/domain/value-objects/datasource/ConnectionConfig.vo";
 
 const dataSourceRepository = new DataSourceRepository();
 const createDataSourceUseCase = new CreateDataSourceUseCase(dataSourceRepository);

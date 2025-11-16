@@ -1,6 +1,6 @@
 import type { DataSource } from "../../entities/DataSource.entity";
 import type { DetectionResult } from "../../value-objects/ColumnMetadata.vo";
-import type { DataSourceType } from "@type/dataSource";
+import type { DataSourceType } from "@/domain/value-objects";
 
 export interface DataSourceFilters {
     type?: DataSourceType;

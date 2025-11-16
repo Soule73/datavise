@@ -1,4 +1,5 @@
-import type { AuthType, HttpMethod } from "@type/dataSource";
+import type { AuthType } from "./AuthType";
+import type { HttpMethod } from "./HttpMethod";
 
 /**
  * Configuration de connexion pour les sources de données distantes
