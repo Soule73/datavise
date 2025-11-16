@@ -1,6 +1,7 @@
 
+import type { ThemeMode } from '@/core/store/theme';
 import { useEffect } from 'react';
-import type { ThemeMode } from '@type/themeTypes';
+
 export function useApplyThemeClass(theme: ThemeMode) {
     useEffect(() => {
         const setHtmlDarkClass = () => {

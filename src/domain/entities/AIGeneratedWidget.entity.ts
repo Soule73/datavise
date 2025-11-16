@@ -1,5 +1,5 @@
+import type { WidgetConfig } from "@/domain/value-objects";
 import { AIWidgetValidationError } from "../errors/DomainError";
-import type { WidgetConfig } from "@/domain/value-objects/widgets/widgetTypes";
 
 export class AIGeneratedWidget {
     readonly id: string;

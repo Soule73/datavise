@@ -1,6 +1,14 @@
-import type { UserDeleteModalProps } from "@type/ui";
+import type { User } from "@/domain/entities/User.entity";
 import AlertModal from "@components/AlertModal";
 
+
+export interface UserDeleteModalProps {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  loading: boolean;
+  userToDelete: User | null;
+}
 
 export default function UserDeleteModal({
   open,

@@ -3,7 +3,32 @@ import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useTableSearchStore } from "@store/tableSearch";
 import Pagination from "@components/Pagination";
 import TableSearch from "@components/TableSearch";
-import type { TableProps } from "@type/tableTypes";
+
+
+export interface TableColumn<T> {
+  key: string;
+  label: string;
+  render?: (row: T) => React.ReactNode;
+  className?: string;
+}
+
+export interface TableProps<T> {
+  columns: TableColumn<T>[];
+  data: T[];
+  name?: string;
+  emptyMessage?: string;
+  paginable?: boolean;
+  searchable?: boolean;
+  rowPerPage?: number;
+  actionsColumn?: TableColumn<T>;
+  onClickItem?: (row: T) => void;
+  onSearch?: (value: string) => void;
+  onPageChange?: (page: number) => void;
+  page?: number;
+  totalRows?: number;
+  searchValue?: string;
+}
+
 
 export default function Table<T extends { [key: string]: any }>({
   columns,

@@ -1,4 +1,10 @@
-import type { BadgeColor, BadgeProps } from "@type/ui";
+type BadgeColor = "gray" | "indigo" | "green" | "yellow";
+
+interface BadgeProps {
+  color?: BadgeColor;
+  children: React.ReactNode;
+  className?: string;
+}
 
 const colorClasses: Record<BadgeColor, string> = {
   gray: "bg-gray-100 text-gray-800",

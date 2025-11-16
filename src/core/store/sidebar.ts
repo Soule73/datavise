@@ -1,6 +1,14 @@
 import { useEffect } from "react";
 import { create } from "zustand";
-import type { SidebarStore } from "@type/themeTypes";
+
+
+export interface SidebarStore {
+  open: boolean;
+  isMobile: boolean;
+  setIsMobile: (mobile: boolean) => void;
+  openSidebar: () => void;
+  closeSidebar: () => void;
+}
 
 export const useSidebarStore = create<SidebarStore>((set) => ({
   open: false,

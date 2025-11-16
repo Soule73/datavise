@@ -8,7 +8,6 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import Button from '@components/forms/Button';
-import type { AlertModalProps } from '@type/notificationTypes';
 
 const ICONS = {
   error: ExclamationCircleIcon,
@@ -32,7 +31,19 @@ const BUTTON_COLORS: Record<string, 'indigo' | 'red' | 'green' | 'gray'> = {
   success: 'green',
   info: 'indigo',
   default: 'gray',
-};
+}
+
+interface AlertModalProps {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  type?: 'error' | 'success' | 'info' | 'warning' | 'default';
+  title: string;
+  description?: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  loading?: boolean;
+}
 
 
 export default function AlertModal({

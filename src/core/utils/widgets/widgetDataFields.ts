@@ -6,7 +6,7 @@ import type {
   BubbleMetricConfig,
   RadarMetricConfig,
   MultiBucketConfig,
-} from "@/domain/value-objects/widgets/metricBucketTypes";
+} from "@/application/types/metricBucketTypes";
 
 // Extraction de tous les champs utilisés par les métriques, incluant les champs spécialisés
 function extractAllMetricFields(

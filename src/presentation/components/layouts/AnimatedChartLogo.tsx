@@ -1,5 +1,7 @@
-import type { AnimatedChartLogoProps } from "@type/themeTypes";
-import * as React from "react";
+export interface AnimatedChartLogoProps {
+  width?: number | string;
+  height?: number | string;
+}
 
 export const AnimatedChartLogo: React.FC<AnimatedChartLogoProps> = ({
   width = 120,

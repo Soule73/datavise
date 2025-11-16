@@ -13,7 +13,8 @@ import {
   Legend,
   Title,
 } from "chart.js";
-import type { RadarChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { RadarChartWidgetProps } from "@/application/hooks/visualizations/charts/useRadarChartVM";
+
 
 ChartJS.register(
   RadialLinearScale,

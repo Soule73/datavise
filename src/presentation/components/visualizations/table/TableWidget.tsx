@@ -4,7 +4,7 @@ import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import { TableCellsIcon } from "@heroicons/react/24/outline";
 import { useTableWidgetLogic } from "@/application/hooks/visualizations/useTableWidgetVM";
 import { validateTableConfig } from "@utils/kpi/tableDataUtils";
-import type { TableWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { TableWidgetProps } from "@/application/hooks/visualizations/useTableWidgetVM";
 
 export default function TableWidget({
   data,

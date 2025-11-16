@@ -6,10 +6,14 @@ import {
   WIDGETS,
   WIDGET_CONFIG_FIELDS,
 } from "@/core/config/visualizations";
-import type {
-  WidgetStyleConfigSectionProps,
-  WidgetType,
-} from "@/domain/value-objects/widgets/widgetTypes";
+import type { WidgetType } from "@/domain/value-objects";
+
+export interface WidgetStyleConfigSectionProps<TConfig = any> {
+  type: WidgetType;
+  config: TConfig;
+  columns: string[];
+  handleConfigChange: (field: string, value: any) => void;
+}
 
 export default function WidgetStyleConfigSection({
   type,

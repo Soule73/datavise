@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { WidgetType, WidgetConfig } from '@/domain/value-objects';
-import type { MultiBucketConfig } from '@/domain/value-objects/widgets/metricBucketTypes';
+import type { MultiBucketConfig } from '@/application/types/metricBucketTypes';
 import { createDefaultWidgetConfig, optimizeWidgetConfig } from '@utils/widgets/widgetConfigDefaults';
 
 interface UseWidgetAutoConfigProps {

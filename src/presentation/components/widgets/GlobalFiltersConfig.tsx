@@ -1,7 +1,12 @@
-import type { GlobalFiltersConfigProps } from "@/domain/value-objects/widgets/widgetTypes";
 import BaseFilterConfig from "@components/widgets/BaseFilterConfig";
 import type { Filter } from "@/domain/value-objects";
 
+export interface GlobalFiltersConfigProps {
+    filters: Filter[];
+    columns: string[];
+    data?: Record<string, any>[];
+    onFiltersChange: (filters: Filter[]) => void;
+}
 
 export default function GlobalFiltersConfig({
     filters = [],

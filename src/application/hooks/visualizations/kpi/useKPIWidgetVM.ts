@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { useMultiBucketProcessor } from "@/application/hooks/common/useMultiBucketProcessor";
-import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
-import type { FilterableConfig, KPIWidgetProps, KPIWidgetVM, StylableConfig } from "@/domain/value-objects/widgets/widgetTypes";
+import type { Metric } from "@/application/types/metricBucketTypes";
 import {
   applyKPIFilters,
   calculateKPIValue,
@@ -11,7 +10,37 @@ import {
   getKPITitle,
   getKPIValueColor,
   getKPIWidgetParams,
+  type StylableConfig,
+  type FilterableConfig,
 } from "@utils/kpi/kpiUtils";
+import type { KPIWidgetConfig } from "@/domain/value-objects/widgets/visualization";
+
+export interface KPIWidgetVM {
+  filteredData: Record<string, unknown>[];
+  value: number;
+  title: string;
+  valueColor: string;
+  titleColor: string;
+  showTrend: boolean;
+  showValue: boolean;
+  format: string;
+  currency: string;
+  decimals: number;
+  trendType: string;
+  showPercent: boolean;
+  threshold: number;
+  trend: "up" | "down" | null;
+  trendValue: number;
+  trendPercent: number;
+  formatValue: (val: number) => string;
+  getTrendColor: () => string;
+}
+
+
+export interface KPIWidgetProps {
+  data: Record<string, any>[];
+  config: KPIWidgetConfig;
+}
 
 export function useKPIWidgetVM({
   data,

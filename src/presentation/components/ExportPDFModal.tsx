@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import Modal from "@components/Modal";
 import SelectField from "@components/SelectField";
 import Button from "@components/forms/Button";
-import type { ExportPDFModalProps } from "@type/dashboardTypes";
+
+
+interface ExportPDFModalProps {
+  open: boolean;
+  onClose: () => void;
+  onExport: (options: { orientation: "portrait" | "landscape" }) => void;
+}
 
 const ExportPDFModal: React.FC<ExportPDFModalProps> = ({
   open,

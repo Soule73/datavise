@@ -1,7 +1,7 @@
-import type { WidgetType } from "../WidgetType";
+import type { WidgetType } from "./WidgetType";
 import type { ComponentType } from "react";
 
-export interface WidgetDefinition<T extends WidgetType = WidgetType> {
+export interface WidgetDefinition<T extends WidgetType> {
     type: T;
     label: string;
     description: string;

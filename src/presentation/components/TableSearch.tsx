@@ -1,5 +1,12 @@
-import type { TableSearchProps } from "@type/tableTypes";
 import InputField from "@components/forms/InputField";
+
+
+export interface TableSearchProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  mountCountRef: React.RefObject<number>;
+}
 
 export default function TableSearch({
   value,
@@ -17,7 +24,7 @@ export default function TableSearch({
         placeholder="Rechercher..."
         value={value}
         onChange={onChange}
-        className="w-full max-w-xs !text-sm !py-1 !px-2 !rounded-md !bg-white dark:!bg-gray-800 !border-gray-300 dark:!border-gray-700 focus:!outline-indigo-600"
+        className="w-full max-w-xs text-sm! py-1! px-2! rounded-md! bg-white! dark:bg-gray-800! border-gray-300! dark:border-gray-700! focus:outline-indigo-600!"
         autoComplete="off"
       />
     </div>

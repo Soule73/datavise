@@ -1,6 +1,19 @@
 import { useChartLogic } from "@/application/hooks/visualizations/charts/useChartVM";
 import { createLineChartDataset } from "@utils/charts/chartDatasetUtils";
-import type { LineChartVM, LineChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { LineChartConfig } from "@/domain/value-objects/widgets/visualization";
+import type { ChartData, ChartOptions } from "chart.js";
+import type { BaseChartWidgetVM } from "@/application/types/baseChartVM";
+
+export interface LineChartVM extends BaseChartWidgetVM {
+    chartData: ChartData<"line">;
+    options: ChartOptions<"line">;
+}
+
+
+export interface LineChartWidgetProps {
+    data: Record<string, any>[];
+    config: LineChartConfig;
+}
 
 export function useLineChartLogic({
     data,

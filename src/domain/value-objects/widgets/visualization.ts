@@ -4,7 +4,7 @@ import type {
   RadarMetricConfig,
   ScatterMetricConfig,
   MultiBucketConfig,
-} from "@/domain/value-objects/widgets/metricBucketTypes";
+} from "@/application/types/metricBucketTypes";
 import type { Filter } from "@/domain/value-objects";
 
 // --- Base params communs à la plupart des visualisations ---

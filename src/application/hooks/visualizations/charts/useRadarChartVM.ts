@@ -1,18 +1,34 @@
 import { useMemo } from "react";
-import type { ChartData } from "chart.js";
+import type { ChartData, ChartOptions } from "chart.js";
 import { createRadarChartDataset } from "@utils/charts/chartDatasetUtils";
 import { createBaseOptions, mergeOptions } from "@utils/charts/chartConfigUtils";
 import { mergeWidgetParams } from "@utils/widgets/widgetParamsUtils";
 import { prepareMetricStyles } from "@utils/charts/chartDatasetUtils";
 import { getCustomChartOptions } from "@utils/charts/chartOptionsUtils";
-import type { RadarMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { RadarMetricConfig } from "@/application/types/metricBucketTypes";
 import {
     getRadarLabels,
     processRadarMetrics,
     validateRadarConfiguration,
     generateRadarMetricLabel
 } from "@utils/charts/radarChartUtils";
-import type { RadarChartVM, RadarChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { RadarChartConfig } from "@/domain/value-objects/widgets/visualization";
+import type { BaseChartWidgetVM } from "@/application/types/baseChartVM";
+
+
+export interface RadarChartVM extends BaseChartWidgetVM {
+    chartData: ChartData<"radar">;
+    options: ChartOptions<"radar">;
+    validDatasets: any[];
+    isValid: boolean;
+    validationErrors: string[];
+    validationWarnings: string[];
+}
+
+export interface RadarChartWidgetProps {
+    data: Record<string, any>[];
+    config: RadarChartConfig;
+}
 
 export function useRadarChartLogic({
     data,

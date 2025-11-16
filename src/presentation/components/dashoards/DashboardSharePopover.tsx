@@ -1,4 +1,3 @@
-import type { DashboardSharePopoverProps } from "@type/dashboardTypes";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import {
   ClipboardDocumentIcon,
@@ -10,6 +9,17 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "@components/forms/Button";
+
+interface DashboardSharePopoverProps {
+  isShareEnabled?: boolean;
+  shareLoading?: boolean;
+  shareError?: string | null;
+  shareLink?: string | null;
+  currentShareId?: string | null;
+  handleEnableShare?: () => void;
+  handleDisableShare?: () => void;
+  handleCopyShareLink?: () => void;
+}
 
 const DashboardSharePopover: React.FC<DashboardSharePopoverProps> = ({
   isShareEnabled,
@@ -30,7 +40,7 @@ const DashboardSharePopover: React.FC<DashboardSharePopoverProps> = ({
           variant="outline"
           size="sm"
           color="indigo"
-          className="w-max !border-none flex items-center gap-1"
+          className="w-max border-none! flex items-center gap-1"
         >
           <ShareIcon className="w-4 h-4 text-indigo-500" />
           Partage
@@ -38,7 +48,7 @@ const DashboardSharePopover: React.FC<DashboardSharePopoverProps> = ({
       </PopoverButton>
       <PopoverPanel
         anchor="right end"
-        className="z-50 mt-2 !w-xs rounded-xl bg-white dark:bg-gray-900 p-4 shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col gap-3"
+        className="z-50 mt-2 w-xs! rounded-xl bg-white dark:bg-gray-900 p-4 shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col gap-3"
       >
         <span className="font-medium text-sm text-gray-700 dark:text-gray-200 mb-1">
           Partage le tableau de bord

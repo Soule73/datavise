@@ -1,7 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ChartData, ChartOptions } from "chart.js";
-import type { ChartType } from "@/domain/value-objects";
-import type { ChartValidationContext, ValidationResult } from "@/domain/value-objects/widgets/widgetTypes";
+import type { ChartType, Metric, MultiBucketConfig } from "@/domain/value-objects";
+
+/**
+ * Interface pour le contexte de validation d'un graphique
+ */
+export interface ChartValidationContext {
+    chartType: ChartType;
+    data: Record<string, any>[];
+    metrics?: Metric[];
+    buckets?: MultiBucketConfig[];
+}
+
+/**
+ * Interface pour le résultat de validation
+ */
+export interface ValidationResult {
+    isValid: boolean;
+    errors: string[];
+    warnings: string[];
+}
 
 
 /**

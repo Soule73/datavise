@@ -1,8 +1,21 @@
 import Modal from "@components/Modal";
 import InputField from "@components/forms/InputField";
 import Button from "@components/forms/Button";
-import type { WidgetSaveTitleModalProps } from "@/domain/value-objects/widgets/widgetTypes";
 import CheckboxField from "@components/forms/CheckboxField";
+
+
+export interface WidgetSaveTitleModalProps {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  setTitle: (t: string) => void;
+  error: string;
+  setError: (e: string) => void;
+  onConfirm: () => void;
+  loading: boolean;
+  visibility: "public" | "private";
+  setVisibility: (p: "public" | "private") => void;
+}
 
 export default function WidgetSaveTitleModal({
   open,

@@ -11,8 +11,8 @@ import {
 import { Bar } from "react-chartjs-2";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import type { BarChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 import NoDataWidget from "@components/widgets/NoDataWidget";
+import type { BarChartWidgetProps } from "@/application/hooks/visualizations/charts/useBarChartVM";
 
 ChartJS.register(
   BarElement,

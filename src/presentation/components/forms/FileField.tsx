@@ -1,8 +1,15 @@
 import { Field, Label } from "@headlessui/react";
 import { forwardRef } from "react";
-import type { FileFieldProps } from "@type/ui";
 
 
+export interface FileFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  error?: string;
+  id?: string;
+  className?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  accept?: string;
+}
 const FileField = forwardRef<HTMLInputElement, FileFieldProps>(
   function FileField(
     { label, error, id, className, accept, onChange, ...props },

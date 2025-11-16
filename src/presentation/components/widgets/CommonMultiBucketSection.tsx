@@ -1,5 +1,14 @@
+import type { MultiBucketConfig } from "@/domain/value-objects";
 import MultiBucketSection from "@components/widgets/MultiBucketSection";
-import type { CommonMultiBucketSectionProps } from "@/domain/value-objects/widgets/metricBucketTypes";
+
+export interface CommonMultiBucketSectionProps {
+    config?: { buckets?: MultiBucketConfig[] };
+    columns: string[];
+    availableFields?: string[];
+    onConfigChange: (field: string, value: unknown) => void;
+    sectionLabel?: string;
+    allowMultiple?: boolean;
+}
 
 export default function CommonMultiBucketSection({
     config,

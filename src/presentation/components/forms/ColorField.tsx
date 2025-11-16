@@ -1,4 +1,11 @@
-import type { ColorFieldProps } from "@type/formTypes";
+interface ColorFieldProps {
+  label?: string;
+  value: string;
+  onChange: (value: string) => void;
+  name?: string;
+  id?: string;
+  disabled?: boolean;
+}
 
 export default function ColorField({
   label = "Couleur",

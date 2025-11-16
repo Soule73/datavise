@@ -2,9 +2,32 @@ import SelectField from "@components/SelectField";
 import InputField from "@components/forms/InputField";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
-import { OPERATOR_OPTIONS, type BaseFilterConfigProps } from "@/domain/value-objects/widgets/widgetTypes";
 import type { Filter } from "@/domain/value-objects";
 
+export const OPERATOR_OPTIONS = [
+    { value: "equals", label: "Égal à" },
+    { value: "not_equals", label: "Différent de" },
+    { value: "contains", label: "Contient" },
+    { value: "not_contains", label: "Ne contient pas" },
+    { value: "greater_than", label: "Supérieur à" },
+    { value: "less_than", label: "Inférieur à" },
+    { value: "greater_equal", label: "Supérieur ou égal" },
+    { value: "less_equal", label: "Inférieur ou égal" },
+    { value: "starts_with", label: "Commence par" },
+    { value: "ends_with", label: "Finit par" },
+];
+
+interface BaseFilterConfigProps {
+    filters: Filter[];
+    columns: string[];
+    data?: Record<string, unknown>[];
+    onFiltersChange: (filters: Filter[]) => void;
+    title: string;
+    description: string;
+    createNewFilter: (columns: string[]) => Filter;
+    prefix?: string;
+    className?: string;
+}
 
 export default function BaseFilterConfig({
     filters = [],

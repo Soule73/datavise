@@ -1,5 +1,5 @@
 import React from "react";
-import type { IntervalUnit } from "@type/dashboardTypes";
+import type { IntervalUnit } from "@/domain/value-objects";
 import {
   Popover,
   PopoverButton,
@@ -258,12 +258,12 @@ export default function DashboardConfigFields({
         color="gray"
         variant="outline"
         size="sm"
-        className={`flex items-center gap-2 !border-gray-200 dark:!border-gray-700 ${className}`}
+        className={`flex items-center gap-2 border-gray-200! dark:border-gray-700! ${className}`}
       >
         {icon}
         {label}
       </PopoverButton>
-      <PopoverPanel className="absolute top-full left-0 z-[150] mt-2 w-max min-w-80 rounded-xl bg-white dark:bg-gray-900 p-4 shadow-xl border border-gray-200 dark:border-gray-700">
+      <PopoverPanel className="absolute top-full left-0 z-150 mt-2 w-max min-w-80 rounded-xl bg-white dark:bg-gray-900 p-4 shadow-xl border border-gray-200 dark:border-gray-700">
         {panel}
       </PopoverPanel>
     </Popover>
@@ -280,7 +280,7 @@ export default function DashboardConfigFields({
           variant="outline"
           color="gray"
           size="sm"
-          className="flex items-center gap-2 w-max !border-gray-200 dark:!border-gray-700 md:rounded-l-none"
+          className="flex items-center gap-2 w-max border-gray-200! dark:border-gray-700! md:rounded-l-none"
           onClick={onForceRefresh}
           title="Rafraîchir toutes les sources de données"
         >

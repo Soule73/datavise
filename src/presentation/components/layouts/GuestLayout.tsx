@@ -1,12 +1,18 @@
-import type { AuthLayoutProps } from "@type/layoutTypes";
 import ThemeDropdown from "@components/ThemeDropdown";
 
-const GuestLayout: React.FC<AuthLayoutProps> = ({
+export interface GuestLayoutProps {
+  title: string;
+  children: React.ReactNode;
+  logoUrl?: string;
+  bottomText?: React.ReactNode;
+}
+
+const GuestLayout: React.FC<GuestLayoutProps> = ({
   title,
   children,
   logoUrl,
   bottomText,
-}: AuthLayoutProps) => {
+}: GuestLayoutProps) => {
   return (
     <>
       <div className="hidden">

@@ -1,5 +1,5 @@
-import type { WidgetType } from "@/domain/value-objects/widgets/widgetTypes";
-import type { BubbleMetricConfig, RadarMetricConfig, ScatterMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { WidgetType } from "@/domain/value-objects";
+import type { BubbleMetricConfig, RadarMetricConfig, ScatterMetricConfig } from "@/application/types/metricBucketTypes";
 
 /**
  * Hook pour déterminer si un widget nécessite une configuration spécialisée

@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import type { ChartData } from "chart.js";
+import type { ChartData, ChartOptions } from "chart.js";
 import { useMultiBucketProcessor } from "@utils/bucketMetrics/multiBucketProcessor";
-import type { ChartType, UseChartVM } from "@/domain/value-objects/widgets/widgetTypes";
 import { createBaseOptions, createValueLabelsPlugin, mergeOptions } from "@utils/charts/chartConfigUtils";
 import { mergeWidgetParams } from "@utils/widgets/widgetParamsUtils";
 import { validateChartInput, sanitizeChartData } from "@utils/charts/chartValidationUtils";
@@ -9,8 +8,24 @@ import { getChartLabels, createGetValuesFunction } from "@utils/charts/chartData
 import { createChartDatasets, prepareMetricStyles } from "@utils/charts/chartDatasetUtils";
 import { getCustomChartOptions } from "@utils/charts/chartOptionsUtils";
 import { applyAllFilters } from "@utils/filterUtils";
+import type { ChartType, Filter, Metric, MultiBucketConfig } from "@/domain/value-objects";
 
 
+export interface BaseChartConfig {
+    metrics?: Metric[];
+    buckets?: MultiBucketConfig[];
+    metricStyles?: any;
+    widgetParams?: any;
+    globalFilters?: Filter[];
+}
+
+export interface UseChartVM {
+    chartType: ChartType;
+    data: Record<string, any>[];
+    config: BaseChartConfig;
+    customDatasetCreator?: (metric: Metric, idx: number, values: number[], labels: string[], widgetParams: any, metricStyle: any) => any;
+    customOptionsCreator?: (params: any) => Partial<ChartOptions>;
+}
 /**
  * Hook commun optimisé pour toutes les visualisations Chart.js
  */

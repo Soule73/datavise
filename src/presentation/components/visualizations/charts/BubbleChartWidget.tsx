@@ -3,7 +3,7 @@ import { ChartBarIcon } from "@heroicons/react/24/outline";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
 import { useBubbleChartLogic } from "@/application/hooks/visualizations/charts";
-import type { BubbleChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { BubbleChartWidgetProps } from "@/application/hooks/visualizations/charts/useBubbleChartVM";
 
 export default function BubbleChartWidget({
   data,

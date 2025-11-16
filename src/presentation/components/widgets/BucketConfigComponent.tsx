@@ -7,7 +7,7 @@ import {
     PlusCircleIcon,
     TrashIcon,
 } from "@heroicons/react/24/solid";
-import type { MultiBucketConfig, BucketType, BucketConfigComponentProps } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { MultiBucketConfig, BucketType } from "@/application/types/metricBucketTypes";
 import {
     BUCKET_TYPES,
     DATE_INTERVALS,
@@ -18,6 +18,22 @@ import {
     validateBucket,
 } from "@utils/bucketMetrics/bucketUtils";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
+
+export interface BucketConfigComponentProps {
+    bucket: MultiBucketConfig;
+    index: number;
+    // isCollapsed: boolean;
+    columns: string[];
+    data?: Record<string, unknown>[];
+    isOnlyBucket: boolean;
+    canMoveUp: boolean;
+    canMoveDown: boolean;
+    // onToggleCollapse: () => void;
+    onUpdate: (bucket: MultiBucketConfig) => void;
+    onDelete: () => void;
+    onMoveUp: () => void;
+    onMoveDown: () => void;
+}
 
 export default function BucketConfigComponent({
     bucket,

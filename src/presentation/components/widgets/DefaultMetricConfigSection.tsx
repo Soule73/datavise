@@ -3,7 +3,16 @@ import SelectField from "@components/SelectField";
 import MetricLabelInput from "@components/widgets/MetricLabelInput";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
-import type { DefaultMetricConfigSectionProps } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { WidgetDataConfig } from "@/application/types/widgetDataConfigType";
+
+export interface DefaultMetricConfigSectionProps {
+    dataConfig: WidgetDataConfig;
+    config: any;
+    columns: string[];
+    handleConfigChange: (field: string, value: any) => void;
+    handleMetricAggOrFieldChange?: (idx: number, field: "agg" | "field", value: string) => void;
+    allowMultipleMetrics?: boolean;
+}
 
 
 

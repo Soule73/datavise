@@ -1,4 +1,3 @@
-import type { SelectFieldProps } from "@type/formTypes";
 import { forwardRef, useState, useMemo } from "react";
 import {
   Combobox,
@@ -10,6 +9,20 @@ import {
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 
+
+interface Option {
+  value: string | number;
+  label: string;
+}
+
+
+interface SelectFieldProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  options: Option[];
+  label?: string;
+  error?: string;
+  textSize?: 'sm' | 'md' | 'lg';
+}
 
 const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
   (

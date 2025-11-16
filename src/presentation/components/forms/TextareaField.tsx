@@ -1,8 +1,14 @@
-import type { TextareaFieldProps } from "@type/ui";
 import { Field, Label } from "@headlessui/react";
-import { forwardRef } from "react";
+import { forwardRef, type TextareaHTMLAttributes } from "react";
 
 
+interface TextareaFieldProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+  error?: string;
+  className?: string;
+  minRows?: number;
+}
 const TextareaField = forwardRef<HTMLTextAreaElement, TextareaFieldProps>(
   function TextareaField({ label, error, id, className, ...props }, ref) {
     return (

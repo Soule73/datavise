@@ -1,17 +1,5 @@
-import type { ApiResponse, ApiError } from "@type/api";
 import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
 import type { Widget } from "@/domain/entities/Widget.entity";
-
-/**
- * Extrait les données d'une ApiResponse ou lance une erreur
- */
-export function extractApiData<T>(response: ApiResponse<T>): T {
-    if (response.success && "data" in response) {
-        return response.data;
-    }
-    const error = response as ApiError;
-    throw new Error(error.error?.message || "Erreur inconnue");
-}
 
 /**
  * Récupère l'ID d'un widget (temporaire ou MongoDB)

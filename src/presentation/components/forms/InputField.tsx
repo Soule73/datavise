@@ -1,7 +1,12 @@
-import type { InputFieldProps } from "@type/formTypes";
 import { Field, Input, Label } from "@headlessui/react";
 import { forwardRef, useMemo } from "react";
 
+interface InputFieldProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  error?: string;
+  textSize?: 'sm' | 'md' | 'lg';
+}
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
   function InputField({ label, error, textSize, id, className, ...props }, ref) {
     const inputTextSize = useMemo(() => {

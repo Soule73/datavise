@@ -17,8 +17,8 @@ export interface AuthLayoutProps {
     children: ReactNode;
     permission?: string;
     breadcrumb?: BreadcrumbItem[];
-
 }
+
 
 function AuthLayout({
     hideSidebar = false,

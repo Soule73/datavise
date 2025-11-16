@@ -4,9 +4,8 @@ import {
   SunIcon,
   ComputerDesktopIcon,
 } from "@heroicons/react/24/outline";
-import { useThemeStore } from "@store/theme";
+import { useThemeStore, type ThemeMode } from "@store/theme";
 import { useApplyThemeClass } from "@/application/hooks/useTheme";
-import type { ThemeMode } from "@type/themeTypes";
 
 const themes = [
   {

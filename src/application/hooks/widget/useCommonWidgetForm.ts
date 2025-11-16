@@ -24,6 +24,7 @@ export interface WidgetFormInitialValues {
     disableAutoConfig?: boolean;
 }
 
+
 export function useCommonWidgetForm(
     initialValues?: WidgetFormInitialValues
 ) {

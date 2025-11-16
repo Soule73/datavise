@@ -2,8 +2,19 @@ import InputField from "@components/forms/InputField";
 import CheckboxField from "@components/forms/CheckboxField";
 import DatasetSection from "@components/widgets/DatasetSection";
 import DatasetFiltersConfig from "@components/widgets/DatasetFiltersConfig";
-import type { WidgetRadarDataConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
-import type { RadarMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { RadarMetricConfig } from "@/application/types/metricBucketTypes";
+import type { WidgetDataConfig } from "@/application/types/widgetDataConfigType";
+
+
+export interface WidgetRadarDataConfigSectionProps {
+  metrics: RadarMetricConfig[];
+  columns: string[];
+  handleConfigChange: (field: string, value: any) => void;
+  configSchema: { dataConfig: WidgetDataConfig };
+  data?: Record<string, any>[];
+  config?: any;
+  availableFields?: string[];
+}
 
 /**
  * Configuration spécialisée pour les graphiques radar

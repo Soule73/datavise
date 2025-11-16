@@ -1,7 +1,17 @@
 import { useChartLogic } from '@/application/hooks/visualizations/charts/useChartVM';
 import { createPieChartDataset } from '@utils/charts/chartDatasetUtils';
-import type { PieChartVM, PieChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { PieChartConfig } from '@/domain/value-objects/widgets/visualization';
+import type { ChartData, ChartOptions } from "chart.js";
+import type { BaseChartWidgetVM } from "@/application/types/baseChartVM";
 
+export interface PieChartVM extends BaseChartWidgetVM {
+    chartData: ChartData<"pie">;
+    options: ChartOptions<"pie">;
+}
+export interface PieChartWidgetProps {
+    data: Record<string, any>[];
+    config: PieChartConfig;
+}
 export function usePieChartLogic({
     data,
     config,

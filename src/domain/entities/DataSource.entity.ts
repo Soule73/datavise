@@ -1,4 +1,4 @@
-import type { DataSourceType } from "../value-objects/DataSourceType";
+import type { DataSourceType } from "../value-objects/datasource/DataSourceType";
 import type { DataSourceVisibility } from "../value-objects/datasource/DataSourceVisibility";
 import { DataSourceValidationError } from "../errors/DomainError";
 import type { ConnectionConfig } from "../value-objects/datasource/ConnectionConfig.vo";

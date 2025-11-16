@@ -1,8 +1,16 @@
 import BucketConfigComponent from "@components/widgets/BucketConfigComponent";
-import type { MultiBucketConfig, MultiBucketSectionProps } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { MultiBucketConfig } from "@/application/types/metricBucketTypes";
 import { createDefaultBucket } from "@utils/bucketMetrics/bucketUtils";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
 
+export interface MultiBucketSectionProps {
+    buckets: MultiBucketConfig[];
+    columns: string[];
+    data?: Record<string, unknown>[];
+    allowMultiple?: boolean;
+    sectionLabel?: string;
+    onBucketsChange: (buckets: MultiBucketConfig[]) => void;
+}
 
 export default function MultiBucketSection({
     buckets,

@@ -1,6 +1,10 @@
-import type { RadioFieldProps } from "@type/ui";
 import React from "react";
 
+
+export interface RadioFieldProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
 const RadioField: React.FC<RadioFieldProps> = ({
   children,

@@ -8,11 +8,42 @@ import {
   WIDGETS,
   WIDGET_CONFIG_FIELDS,
 } from "@/core/config/visualizations";
-import type {
-  MetricStyleFieldSchema,
-  WidgetMetricStyleConfigSectionProps,
-} from "@/domain/value-objects/widgets/widgetTypes";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
+import type {
+  BubbleMetricConfig,
+  Metric,
+  RadarMetricConfig,
+  ScatterMetricConfig,
+} from "@/application/types/metricBucketTypes";
+
+import type {
+  WidgetType
+} from "@/domain/value-objects";
+
+export interface MetricStyleFieldSchema {
+  label?: string;
+  default?: string | number | boolean | string[];
+  inputType?: "color" | "number" | "text" | "color-array" | "select" | "checkbox";
+  options?: { value: string; label: string }[];
+}
+
+export interface WidgetMetricStyleConfigSectionProps<
+  TMetric =
+  | Metric
+  | ScatterMetricConfig
+  | BubbleMetricConfig
+  | RadarMetricConfig,
+  TMetricStyle = any
+> {
+  type: WidgetType;
+  metrics: TMetric[];
+  metricStyles: TMetricStyle[];
+  handleMetricStyleChange: (
+    metricIdx: number,
+    field: string,
+    value: any
+  ) => void;
+}
 
 export default function WidgetMetricStyleConfigSection({
   type,

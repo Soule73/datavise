@@ -22,6 +22,7 @@ interface DashboardGridProps {
   refreshMs?: number;
 }
 
+
 // Slot d'ajout de widget
 function AddWidgetSlot({
   onClick,

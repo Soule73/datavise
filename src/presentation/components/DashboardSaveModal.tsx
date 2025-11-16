@@ -2,7 +2,20 @@ import Button from "@components/forms/Button";
 import Modal from "@components/Modal";
 import InputField from "@components/forms/InputField";
 import CheckboxField from "@components/forms/CheckboxField";
-import type { SaveModalProps } from "@type/dashboardTypes";
+
+interface SaveModalProps {
+  saving: boolean;
+  saveModalOpen: boolean;
+  setSaveModalOpen: (open: boolean) => void;
+  pendingTitle: string;
+  setPendingTitle: (title: string) => void;
+  isCreate: boolean;
+  setLocalTitle?: (title: string) => void;
+  visibility: "public" | "private";
+  setVisibility: (visibility: "public" | "private") => void;
+  handleConfirmSave: (visibility: "public" | "private") => void;
+}
+
 
 export function DashboardSaveModal(props: SaveModalProps) {
   const {

@@ -3,8 +3,13 @@ import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
 import KPIWidget from "@components/visualizations/kpi/KPIWidget";
 import { useKPIGroupVM } from "@/application/hooks/visualizations/kpi/useKPIGroupVM";
-import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
-import type { KPIGroupWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { Metric } from "@/application/types/metricBucketTypes";
+import type { KPIGroupWidgetConfig } from "@/domain/value-objects/widgets/visualization";
+
+export interface KPIGroupWidgetProps {
+  data: Record<string, any>[];
+  config: KPIGroupWidgetConfig;
+}
 
 export default function KPIGroupWidget({
   data,

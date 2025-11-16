@@ -1,8 +1,18 @@
 import { useChartLogic } from "@/application/hooks/visualizations/charts/useChartVM";
 import { createBarChartDataset } from "@utils/charts/chartDatasetUtils";
-import type { BarChartVM, BarChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { BarChartConfig } from "@/domain/value-objects/widgets/visualization";
+import type { ChartData, ChartOptions } from "chart.js";
+import type { BaseChartWidgetVM } from "@/application/types/baseChartVM";
 
+export interface BarChartVM extends BaseChartWidgetVM {
+    chartData: ChartData<"bar">;
+    options: ChartOptions<"bar">;
+}
 
+export interface BarChartWidgetProps {
+    data: Record<string, any>[];
+    config: BarChartConfig;
+}
 
 
 export function useBarChartLogic({

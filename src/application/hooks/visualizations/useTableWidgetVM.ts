@@ -7,7 +7,20 @@ import {
   processRawData,
   generateTableTitle,
 } from "@utils/kpi/tableDataUtils";
-import type { TableWidgetProps, TableWidgetVM } from "@/domain/value-objects/widgets/widgetTypes";
+import type { TableWidgetConfig } from "@/domain/value-objects/widgets/visualization";
+import type { TableColumn } from "@/presentation/components/Table";
+
+export interface TableWidgetVM {
+  columns: TableColumn<any>[];
+  displayData: Record<string, any>[];
+  tableTitle: string;
+}
+
+
+export interface TableWidgetProps {
+  data: Record<string, any>[];
+  config: TableWidgetConfig;
+}
 
 export function useTableWidgetLogic({
   data,

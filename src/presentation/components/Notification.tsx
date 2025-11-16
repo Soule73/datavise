@@ -1,14 +1,18 @@
-import type { NotificationProps } from "@type/notificationTypes";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef } from "react";
 import Button from "@components/forms/Button";
+import type { NotificationType } from "@/core/store/notification";
 
-export type NotificationType =
-  | "success"
-  | "error"
-  | "warning"
-  | "info"
-  | "default";
+
+export interface NotificationProps {
+  open: boolean;
+  onClose: () => void;
+  type?: NotificationType;
+  title: string;
+  description?: string;
+  duration?: number; // ms
+  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+}
 
 const typeStyles: Record<NotificationType, string> = {
   success: "bg-green-50 border-green-500 text-green-800",

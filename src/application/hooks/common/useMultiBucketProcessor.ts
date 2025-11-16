@@ -1,6 +1,10 @@
 import { useMemo } from "react";
 import { processMultiBucketData } from "@utils/bucketMetrics/multiBucketProcessor";
-import type { ProcessedBucketItem, SupportedConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { ProcessedBucketItem } from "@/core/utils/kpi/kpiUtils";
+
+import type { BarChartConfig, LineChartConfig, PieChartConfig } from "@/domain/value-objects/widgets/visualization";
+
+export type SupportedConfig = BarChartConfig | LineChartConfig | PieChartConfig;
 
 
 /**

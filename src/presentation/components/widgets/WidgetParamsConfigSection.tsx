@@ -7,7 +7,13 @@ import {
   WIDGET_CONFIG_FIELDS,
 } from "@/core/config/visualizations";
 import * as HeroIcons from "@heroicons/react/24/outline";
-import type { WidgetParamsConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { WidgetType } from "@/domain/value-objects";
+
+export interface WidgetParamsConfigSectionProps<TConfig = any> {
+  type: WidgetType;
+  config: TConfig;
+  handleConfigChange: (field: string, value: any) => void;
+}
 
 export default function WidgetParamsConfigSection({
   type,

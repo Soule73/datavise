@@ -1,6 +1,22 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import type { NotificationStore } from "@type/notificationTypes";
+
+
+export type NotificationType = 'success' | 'error' | 'warning' | 'info' | 'default';
+
+export interface NotificationState {
+  open: boolean;
+  type: NotificationType;
+  title: string;
+  description?: string;
+}
+
+export interface NotificationStore {
+  notification: NotificationState;
+  showNotification: (notif: NotificationState) => void;
+  closeNotification: () => void;
+}
+
 
 export const useNotificationStore = create<NotificationStore>()(
   devtools((set) => ({

@@ -4,8 +4,18 @@ import type {
   KPIGroupWidgetConfig,
   MetricStyleConfig,
 } from "@/domain/value-objects/widgets/visualization";
-import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
-import type { KPIGroupWidgetVM } from "@/domain/value-objects/widgets/widgetTypes";
+import type { Metric } from "@/application/types/metricBucketTypes";
+
+export interface KPIGroupWidgetVM {
+  gridColumns: number;
+  metrics: Metric[];
+  metricStyles: MetricStyleConfig[];
+  filters: Filter[] | undefined;
+  groupTitle: string;
+  widgetParamsList: Array<Record<string, unknown>>;
+  hasMultiBuckets: boolean;
+  bucketsConfig: unknown[];
+}
 
 /**
  * Hook pour gérer un groupe de KPI avec support multi-bucket

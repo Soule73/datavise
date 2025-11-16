@@ -4,7 +4,16 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/24/outline";
-import type { PaginationProps } from "@type/tableTypes";
+
+
+export interface PaginationProps {
+  effectivePage: number;
+  pageCount: number;
+  handlePageChange: (page: number) => void;
+  effectiveRowPerPage: number;
+  handleRowPerPageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  total: number;
+}
 
 export default function Pagination({
   effectivePage,
@@ -105,7 +114,7 @@ export default function Pagination({
           }))}
           value={String(effectiveRowPerPage)}
           onChange={handleRowPerPageChange}
-          className="!w-16 mb-2 !text-xs !py-0.5 !px-1 !rounded"
+          className="w-16! mb-2 text-xs! py-0.5! px-1! rounded!"
           style={{ minWidth: 60 }}
           aria-label="Lignes par page"
         />

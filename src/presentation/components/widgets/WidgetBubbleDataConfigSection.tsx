@@ -2,8 +2,21 @@ import SelectField from "@components/SelectField";
 import InputField from "@components/forms/InputField";
 import DatasetSection from "@components/widgets/DatasetSection";
 import DatasetFiltersConfig from "@components/widgets/DatasetFiltersConfig";
-import type { BubbleMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
-import type { WidgetBubbleDataConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { BubbleMetricConfig } from "@/application/types/metricBucketTypes";
+
+
+
+export interface WidgetBubbleDataConfigSectionProps {
+  metrics: BubbleMetricConfig[];
+  columns: string[];
+  data?: any[];
+  handleConfigChange: (
+    field: string,
+    value: BubbleMetricConfig[] | BubbleMetricConfig | any
+  ) => void;
+  config?: any;
+  availableFields?: string[];
+}
 
 /**
  * Configuration spécialisée pour les graphiques bubble

@@ -1,5 +1,10 @@
-import type { WidgetConfigTabsProps } from "@/domain/value-objects/widgets/widgetTypes";
 import React from "react";
+
+export interface WidgetConfigTabsProps {
+  tab: "data" | "metricsAxes" | "params";
+  setTab: (tab: "data" | "metricsAxes" | "params") => void;
+  availableTabs?: { key: string; label: string }[];
+}
 
 function TabButton({
   active,

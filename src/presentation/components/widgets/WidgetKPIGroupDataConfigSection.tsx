@@ -1,12 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import SelectField from "@components/SelectField";
 import InputField from "@components/forms/InputField";
-import type { WidgetKPIGroupDataConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
-import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { Metric } from "@/application/types/metricBucketTypes";
 import type { KPIGroupWidgetConfig } from "@/domain/value-objects/widgets/visualization";
 import GlobalFiltersConfig from "@components/widgets/GlobalFiltersConfig";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
+import type { WidgetDataConfig } from "@/application/types/widgetDataConfigType";
+import type { WidgetConfig } from "@/domain/value-objects";
+
+
+export interface WidgetKPIGroupDataConfigSectionProps {
+  dataConfig: WidgetDataConfig;
+  config: WidgetConfig;
+  columns: string[];
+  handleConfigChange: (field: string, value: any) => void;
+  handleDragStart: (idx: number) => void;
+  handleDragOver: (idx: number, e: React.DragEvent) => void;
+  handleDrop: (idx: number) => void;
+  handleMetricAggOrFieldChange?: (
+    idx: number,
+    field: "agg" | "field",
+    value: string
+  ) => void;
+  data?: Record<string, any>[];
+}
+
 
 export default function WidgetKPIGroupDataConfigSection({
   dataConfig,

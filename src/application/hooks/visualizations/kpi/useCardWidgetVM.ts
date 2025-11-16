@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import * as HeroIcons from "@heroicons/react/24/outline";
 import { useMultiBucketProcessor } from "@/application/hooks/common/useMultiBucketProcessor";
-import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { Metric } from "@/application/types/metricBucketTypes";
 import {
   applyKPIFilters,
   calculateKPIValue,
@@ -9,8 +9,28 @@ import {
   getKPITitle,
   getKPIWidgetParams,
   formatKPIValue,
+  type StylableConfig,
+  type FilterableConfig,
 } from "@utils/kpi/kpiUtils";
-import type { CardWidgetProps, CardWidgetVM, FilterableConfig, StylableConfig } from "@/domain/value-objects/widgets/widgetTypes";
+import type { CardWidgetConfig } from "@/domain/value-objects/widgets/visualization";
+
+
+export interface CardWidgetVM {
+  formattedValue: string;
+  title: string;
+  description: string;
+  iconColor: string;
+  valueColor: string;
+  descriptionColor: string;
+  showIcon: boolean;
+  IconComponent: React.ElementType;
+}
+
+
+export interface CardWidgetProps {
+  data: Record<string, any>[];
+  config: CardWidgetConfig;
+}
 
 export function useCardWidgetVM({
   data,

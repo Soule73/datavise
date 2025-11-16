@@ -1,7 +1,33 @@
-import type { ProcessedBucketItem } from "@/domain/value-objects/widgets/metricBucketTypes";
-import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { Metric } from "@/application/types/metricBucketTypes";
 import { applyAllFilters } from "@utils/filterUtils";
-import type { FilterableConfig, StylableConfig } from "@/domain/value-objects/widgets/widgetTypes";
+import type { Filter, MetricStyleConfig } from "@/domain/value-objects/widgets/visualization";
+
+
+export interface ProcessedBucketItem {
+    key: string | Record<string, string>;
+    metrics: Array<{
+        value: number;
+        field: string;
+        agg: string;
+    }>;
+    count: number;
+}
+
+/**
+ * Interface pour les configurations de widget avec filtre
+ */
+export interface FilterableConfig {
+    globalFilters?: Filter[];
+}
+
+
+/**
+ * Interface pour les configurations de widget avec styles
+ */
+export interface StylableConfig {
+    metricStyles?: MetricStyleConfig | MetricStyleConfig[];
+    widgetParams?: Record<string, unknown>;
+}
 
 
 

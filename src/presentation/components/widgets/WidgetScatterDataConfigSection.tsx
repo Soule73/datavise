@@ -1,9 +1,28 @@
-import type { ScatterMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { ScatterMetricConfig } from "@/application/types/metricBucketTypes";
 import SelectField from "@components/SelectField";
 import InputField from "@components/forms/InputField";
 import DatasetSection from "@components/widgets/DatasetSection";
 import DatasetFiltersConfig from "@components/widgets/DatasetFiltersConfig";
-import type { WidgetScatterDataConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
+
+
+
+export interface WidgetScatterDataConfigSectionProps {
+  metrics: ScatterMetricConfig[];
+  columns: string[];
+  data?: Record<string, any>[];
+  handleConfigChange: (
+    field: string,
+    value:
+      | string
+      | number
+      | boolean
+      | ScatterMetricConfig
+      | ScatterMetricConfig[]
+      | any
+  ) => void;
+  config?: any;
+  availableFields?: string[];
+}
 
 /**
  * Configuration spécialisée pour les graphiques scatter

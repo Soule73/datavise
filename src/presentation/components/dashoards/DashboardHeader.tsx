@@ -1,8 +1,30 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import DashboardSharePopover from "@components/dashoards/DashboardSharePopover";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import Button from "@components/forms/Button";
-import type { DashboardHeaderProps } from "@type/dashboardTypes";
+
+
+export interface DashboardHeaderProps {
+  editMode: boolean;
+  isCreate: boolean;
+  hasPermission: (perm: string) => boolean;
+  openAddWidgetModal: (e: React.MouseEvent) => void;
+  handleSave: () => void;
+  handleCancelEdit: () => void;
+  setEditMode: (v: boolean) => void;
+  saving: boolean;
+  shareLoading?: boolean;
+  shareError?: string | null;
+  shareLink?: string | null;
+  isShareEnabled?: boolean;
+  currentShareId?: string | null;
+  handleEnableShare?: () => void;
+  handleDisableShare?: () => void;
+  handleCopyShareLink?: () => void;
+  handleExportPDF: () => void;
+
+  children?: ReactNode;
+}
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   editMode,
@@ -35,7 +57,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           color="indigo"
           size="sm"
           variant="outline"
-          className="!border-none !min-w-max"
+          className="border-none! min-w-max!"
           onClick={openAddWidgetModal}
         >
           Ajouter un widget
@@ -46,7 +68,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           color="indigo"
           size="sm"
           variant="solid"
-          className="!border-none !min-w-max"
+          className="border-none! min-w-max!"
           onClick={(e) => {
             e.preventDefault();
             handleSave();
@@ -61,7 +83,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           variant="outline"
           color="gray"
           size="sm"
-          className="!border-none !min-w-max"
+          className="border-none! min-w-max!"
           onClick={(e) => {
             e.preventDefault();
             handleCancelEdit();
@@ -81,7 +103,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           color="indigo"
           size="sm"
           variant="outline"
-          className="!border-none !min-w-max"
+          className="border-none! min-w-max!"
           onClick={(e) => {
             e.preventDefault();
             setEditMode(true);
@@ -108,7 +130,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         variant="outline"
         size="sm"
         color="gray"
-        className="!border-none !min-w-max"
+        className="border-none! min-w-max!"
         onClick={handleExportPDF}
       >
         <ArrowDownTrayIcon className="w-4 h-4 mr-1" />

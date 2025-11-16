@@ -1,5 +1,11 @@
 import { create } from 'zustand';
-import type { TableSearchState } from '@type/themeTypes';
+
+
+export interface TableSearchState {
+  search: string;
+  setSearch: (search: string) => void;
+  reset: () => void;
+}
 
 export const useTableSearchStore = create<TableSearchState>((set) => ({
   search: '',

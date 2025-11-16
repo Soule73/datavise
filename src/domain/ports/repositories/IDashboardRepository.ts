@@ -1,5 +1,5 @@
 import type { Dashboard } from "../../entities/Dashboard.entity";
-import type { DashboardLayoutItem } from "@type/dashboardTypes";
+import type { DashboardLayoutItem } from "@/domain/value-objects";
 import type { TimeRange } from "../../value-objects/TimeRange.vo";
 
 export interface DashboardFilters {

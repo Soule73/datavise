@@ -1,4 +1,4 @@
-import type { WidgetDataConfigSectionFixedProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { WidgetDataConfig } from "@/application/types/widgetDataConfigType";
 import WidgetBubbleDataConfigSection from "@components/widgets/WidgetBubbleDataConfigSection";
 import WidgetScatterDataConfigSection from "@components/widgets/WidgetScatterDataConfigSection";
 import WidgetRadarDataConfigSection from "@components/widgets/WidgetRadarDataConfigSection";
@@ -8,7 +8,25 @@ import DefaultMetricConfigSection from "@components/widgets/DefaultMetricConfigS
 import MultiBucketSection from "@components/widgets/MultiBucketSection";
 import { WIDGETS, WIDGET_DATA_CONFIG } from "@/core/config/visualizations";
 import { useMultiBuckets } from "@/application/hooks/useMultiBuckets";
-import type { BubbleMetricConfig, RadarMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { BubbleMetricConfig, RadarMetricConfig } from "@/application/types/metricBucketTypes";
+import type { WidgetConfig, WidgetType } from "@/domain/value-objects";
+
+export interface WidgetDataConfigSectionFixedProps {
+  dataConfig: WidgetDataConfig;
+  config: WidgetConfig;
+  columns: string[];
+  handleConfigChange: (field: string, value: any) => void;
+  handleDragStart: (idx: number) => void;
+  handleDragOver: (idx: number, e: React.DragEvent) => void;
+  handleDrop: (idx: number) => void;
+  handleMetricAggOrFieldChange?: (
+    idx: number,
+    field: "agg" | "field",
+    value: string
+  ) => void;
+  type: WidgetType;
+  data?: Record<string, any>[];
+}
 
 export default function WidgetDataConfigSection({
   type,

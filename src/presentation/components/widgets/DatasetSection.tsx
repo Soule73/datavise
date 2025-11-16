@@ -1,7 +1,17 @@
-import type { DatasetSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
+import type { ReactNode } from "react";
 
+
+export interface DatasetSectionProps<T> {
+    title: string;
+    datasets: T[];
+    onDatasetsChange: (datasets: T[]) => void;
+    renderDatasetContent: (dataset: T, index: number, onUpdate: (updatedDataset: T) => void) => ReactNode;
+    createNewDataset: () => T;
+    getDatasetLabel?: (dataset: T, index: number) => string;
+    minDatasets?: number;
+}
 
 export default function DatasetSection<T>({
     title,

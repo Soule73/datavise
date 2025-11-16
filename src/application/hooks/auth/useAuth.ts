@@ -5,6 +5,7 @@ import { RegisterUseCase } from "@domain/use-cases/auth/Register.usecase";
 import type {
     LoginPayload,
     RegisterPayload,
+    LoginResult,
 } from "@domain/ports/repositories/IAuthRepository";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +15,9 @@ import { loginSchema, type LoginForm } from "@validation/login";
 import { registerSchema, type RegisterForm } from "@validation/register";
 import { useState } from "react";
 import { ROUTES } from "@constants/routes";
-import type { ApiError } from "@type/api";
+import type { ApiResponse } from "@/infrastructure/api/dto/ApiResponse.dto";
+
+type ApiError = ApiResponse<never> & { success: false };
 
 const loginUseCase = new LoginUseCase(authRepository);
 const registerUseCase = new RegisterUseCase(authRepository);
@@ -27,7 +30,7 @@ export function useLoginForm() {
 
     const mutation = useMutation({
         mutationFn: (payload: LoginPayload) => loginUseCase.execute(payload),
-        onSuccess: (res: any) => {
+        onSuccess: (res: LoginResult) => {
             setUser(res.user, res.token);
             setGlobalError("");
             navigate(ROUTES.dashboard);
@@ -69,7 +72,7 @@ export function useRegisterForm() {
 
     const mutation = useMutation({
         mutationFn: (payload: RegisterPayload) => registerUseCase.execute(payload),
-        onSuccess: (res: any) => {
+        onSuccess: (res: LoginResult) => {
             setUser(res.user, res.token);
             setGlobalError("");
             navigate(ROUTES.dashboard, { replace: true });

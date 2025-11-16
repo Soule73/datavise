@@ -1,11 +1,18 @@
-import type { CollapsibleProps } from "@type/dashboardTypes";
 import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import type { ReactNode } from "react";
 
+
+interface CollapsibleProps {
+  title: ReactNode;
+  children: ReactNode;
+  defaultOpen?: boolean;
+  className?: string;
+}
 export default function Collapsible({
   title,
   children,

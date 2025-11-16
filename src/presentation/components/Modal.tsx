@@ -7,7 +7,17 @@ import {
 } from "@headlessui/react";
 import { Button as HeadlessButton } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import type { ModalProps } from "@type/layoutTypes";
+
+export interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  title?: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  children: React.ReactNode;
+  footer?: React.ReactNode;
+  hideCloseButton?: boolean;
+  className?: string;
+}
 
 const sizeMap = {
   sm: "max-w-sm",

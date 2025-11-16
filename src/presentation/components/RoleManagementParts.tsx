@@ -11,6 +11,7 @@ interface PermissionGroupProps {
   editable: boolean;
 }
 
+
 interface RoleActionsProps {
   isEditing: boolean;
   onEdit: () => void;

@@ -1,18 +1,35 @@
 import { useMemo } from "react";
-import type { ChartData, TooltipItem } from "chart.js";
+import type { ChartData, ChartOptions, TooltipItem } from "chart.js";
 import { createBubbleChartDataset } from "@utils/charts/chartDatasetUtils";
 import { createBaseOptions, mergeOptions } from "@utils/charts/chartConfigUtils";
 import { mergeWidgetParams } from "@utils/widgets/widgetParamsUtils";
 import { prepareMetricStyles } from "@utils/charts/chartDatasetUtils";
 import { getCustomChartOptions } from "@utils/charts/chartOptionsUtils";
-import type { BubbleMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { BubbleMetricConfig } from "@/application/types/metricBucketTypes";
 import {
     processBubbleMetrics,
     validateBubbleConfiguration,
     generateBubbleMetricLabel,
     calculateBubbleScales
 } from "@utils/charts/bubbleChartUtils";
-import type { BubbleChartVM, BubbleChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { BubbleChartConfig } from "@/domain/value-objects/widgets/visualization";
+import type { BaseChartWidgetVM } from "@/application/types/baseChartVM";
+
+
+export interface BubbleChartVM extends BaseChartWidgetVM {
+    chartData: ChartData<"bubble">;
+    options: ChartOptions<"bubble">;
+    validDatasets: any[];
+    isValid: boolean;
+    validationErrors: string[];
+    validationWarnings: string[];
+}
+
+
+export interface BubbleChartWidgetProps {
+    data: Record<string, any>[];
+    config: BubbleChartConfig;
+}
 
 export function useBubbleChartLogic({
     data,

@@ -1,8 +1,12 @@
 import type { ReactNode } from "react";
 import GlobalFiltersConfig from "@components/widgets/GlobalFiltersConfig";
-import type { WidgetDataConfigSectionFixedProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { WidgetConfig } from "@/domain/value-objects";
 
-interface BaseDataConfigSectionProps extends Pick<WidgetDataConfigSectionFixedProps, 'config' | 'columns' | 'data' | 'handleConfigChange'> {
+interface BaseDataConfigSectionProps {
+    config: WidgetConfig;
+    columns: string[];
+    handleConfigChange: (field: string, value: any) => void;
+    data?: Record<string, any>[];
     children: ReactNode;
     showGlobalFilters?: boolean;
 }

@@ -1,6 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { BucketLevel, MultiBucketConfig, ProcessedData, SplitData, SplitItem } from '@/domain/value-objects/widgets/metricBucketTypes';
-import type { MultiBucketCompatibleConfig } from '@/domain/value-objects/widgets/widgetTypes';
+import type { MultiBucketConfig } from '@/application/types/metricBucketTypes';
+
+
+
+export interface BucketLevel {
+    bucket: MultiBucketConfig;
+    level: number;
+    buckets: BucketItem[];
+    data: Record<string, any>[];
+}
+
+export interface BucketItem {
+    key: string;
+    key_as_string?: string;
+    doc_count: number;
+    data: Record<string, any>[];
+}
+
+export interface ProcessedData {
+    groupedData: Record<string, any>[];
+    labels: string[];
+    bucketHierarchy: BucketLevel[];
+    splitData: SplitData;
+}
+
+export interface SplitData {
+    series: SplitItem[];
+    rows: SplitItem[];
+    charts: SplitItem[];
+}
+
+export interface SplitItem {
+    key: string;
+    data: Record<string, any>[];
+    bucket: MultiBucketConfig;
+}
+
+
+/**
+ * Interface pour les configurations de widget avec support des buckets multiples
+ */
+export interface MultiBucketCompatibleConfig {
+    buckets?: MultiBucketConfig[];
+    [key: string]: any;
+}
 
 // Fonction pour s'assurer que nous avons des buckets multiples
 function ensureMultiBuckets(config: MultiBucketCompatibleConfig): MultiBucketConfig[] {

@@ -1,7 +1,16 @@
-import type { CheckboxFieldProps } from "@type/formTypes";
 import { Checkbox } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/16/solid";
 import React from "react";
+
+interface CheckboxFieldProps {
+  label?: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  name?: string;
+  id?: string;
+  className?: string;
+  disabled?: boolean;
+}
 
 const CheckboxField: React.FC<CheckboxFieldProps> = ({
   label,

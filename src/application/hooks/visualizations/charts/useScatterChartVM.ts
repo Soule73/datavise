@@ -1,18 +1,33 @@
 import { useMemo } from "react";
-import type { ChartData, TooltipItem } from "chart.js";
+import type { ChartData, ChartOptions, TooltipItem } from "chart.js";
 import { createScatterChartDataset } from "@utils/charts/chartDatasetUtils";
 import { createBaseOptions, mergeOptions } from "@utils/charts/chartConfigUtils";
 import { mergeWidgetParams } from "@utils/widgets/widgetParamsUtils";
 import { prepareMetricStyles } from "@utils/charts/chartDatasetUtils";
 import { getCustomChartOptions } from "@utils/charts/chartOptionsUtils";
-import type { ScatterMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { ScatterMetricConfig } from "@/application/types/metricBucketTypes";
 import {
     processScatterMetrics,
     validateScatterConfiguration,
     generateScatterMetricLabel,
     calculateScatterScales
 } from "@utils/charts/scatterChartUtils";
-import type { ScatterChartVM, ScatterChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { ScatterChartConfig } from "@/domain/value-objects/widgets/visualization";
+import type { BaseChartWidgetVM } from "@/application/types/baseChartVM";
+
+export interface ScatterChartVM extends BaseChartWidgetVM {
+    chartData: ChartData<"scatter">;
+    options: ChartOptions<"scatter">;
+    validDatasets: any[];
+    isValid: boolean;
+    validationErrors: string[];
+    validationWarnings: string[];
+}
+
+export interface ScatterChartWidgetProps {
+    data: Record<string, any>[];
+    config: ScatterChartConfig;
+}
 
 export function useScatterChartLogic({
     data,

@@ -1,7 +1,13 @@
-import type { TabConfig } from "@type/ui";
 import { useMemo } from "react";
 import { WIDGETS } from "@/core/config/visualizations";
 import type { WidgetType, WidgetConfig } from "@/domain/value-objects";
+
+
+export interface TabConfig {
+    key: string;
+    label: string;
+}
+
 
 export function useWidgetTabs(config: WidgetConfig, widgetType?: WidgetType): TabConfig[] {
     return useMemo(() => {

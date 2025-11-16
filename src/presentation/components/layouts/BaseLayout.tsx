@@ -2,7 +2,15 @@ import Sidebar from "@components/layouts/Sidebar";
 import Navbar from "@components/layouts/Navbar";
 import Notification from "@components/Notification";
 import { useNotificationStore } from "@store/notification";
-import type { BaseLayoutProps } from "@type/layoutTypes";
+
+
+
+export interface BaseLayoutProps {
+  children: React.ReactNode;
+  hideSidebar?: boolean;
+  hideNavbar?: boolean;
+  hideUserInfo?: boolean;
+}
 
 export default function BaseLayout({ children, hideSidebar = false, hideNavbar = false, hideUserInfo = false }: BaseLayoutProps) {
   const notif = useNotificationStore((s) => s.notification);
