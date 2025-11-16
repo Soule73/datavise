@@ -1,5 +1,5 @@
 import type { AIConversation } from "../../entities/AIConversation.entity";
-import type { AIGeneratedWidget } from "../../entities/AIGeneratedWidget.entity";
+import type { Widget } from "../../entities/Widget.entity";
 
 export interface CreateConversationPayload {
     dataSourceId: string;
@@ -30,5 +30,5 @@ export interface IAIConversationRepository {
     addMessage(conversationId: string, message: AddMessagePayload): Promise<AIConversation>;
     updateTitle(conversationId: string, payload: UpdateTitlePayload): Promise<AIConversation>;
     delete(conversationId: string): Promise<void>;
-    refineWidgetsDb(payload: RefineWidgetsDbPayload): Promise<AIGeneratedWidget[]>;
+    refineWidgetsDb(payload: RefineWidgetsDbPayload): Promise<Widget[]>;
 }

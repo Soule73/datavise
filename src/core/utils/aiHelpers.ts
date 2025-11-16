@@ -1,39 +1,23 @@
-import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
 import type { Widget } from "@/domain/entities/Widget.entity";
 
-/**
- * Récupère l'ID d'un widget (temporaire ou MongoDB)
- */
-export function getWidgetId(widget: AIGeneratedWidget | Widget | any): string {
-    return widget.id || widget._id || "";
+export function getWidgetId(widget: Widget | any): string {
+    return widget.widgetId || widget.id || widget._id || "";
 }
 
-/**
- * Récupère le nom/titre d'un widget
- */
-export function getWidgetName(widget: AIGeneratedWidget | Widget | any): string {
-    return widget.name || widget.title || "Sans nom";
+export function getWidgetName(widget: Widget | any): string {
+    return widget.title || widget.name || "Sans nom";
 }
 
-/**
- * Vérifie si un widget AI a été sauvegardé dans la BDD
- */
-export function isWidgetSaved(widget: AIGeneratedWidget): boolean {
-    return !!widget.mongoId;
+export function isWidgetSaved(widget: Widget): boolean {
+    return !!widget.id;
 }
 
-/**
- * Filtre les widgets qui ont été sauvegardés
- */
-export function getSavedWidgets(widgets: AIGeneratedWidget[]): AIGeneratedWidget[] {
+export function getSavedWidgets(widgets: Widget[]): Widget[] {
     return widgets.filter(isWidgetSaved);
 }
 
-/**
- * Récupère les IDs MongoDB des widgets sauvegardés
- */
-export function getSavedWidgetIds(widgets: AIGeneratedWidget[]): string[] {
-    return getSavedWidgets(widgets).map((w) => w.mongoId!);
+export function getSavedWidgetIds(widgets: Widget[]): string[] {
+    return getSavedWidgets(widgets).map((w) => w.id);
 }
 
 /**
@@ -60,14 +44,17 @@ export function hasActiveConversation(conversationId: string | null): boolean {
 /**
  * Transforme un widget AI en payload pour le backend
  */
-export function toWidgetPayload(widget: AIGeneratedWidget) {
+export function toWidgetPayload(widget: Widget) {
     return {
-        title: widget.name,
+        title: widget.title,
         description: widget.description,
         type: widget.type,
         dataSourceId: widget.dataSourceId,
         config: widget.config,
-        isGeneratedByAI: true,
+        visibility: widget.visibility,
+        isDraft: widget.isDraft,
+        isGeneratedByAI: widget.isGeneratedByAI,
+        conversationId: widget.conversationId,
         reasoning: widget.reasoning,
         confidence: widget.confidence,
     };

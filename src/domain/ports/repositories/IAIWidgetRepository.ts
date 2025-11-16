@@ -1,4 +1,4 @@
-import type { AIGeneratedWidget } from "../../entities/AIGeneratedWidget.entity";
+import type { Widget } from "../../entities/Widget.entity";
 import type { DataSourceSummary } from "../../value-objects/DataSourceSummary.vo";
 
 export interface GenerateWidgetsPayload {
@@ -11,13 +11,13 @@ export interface GenerateWidgetsPayload {
 
 export interface RefineWidgetsPayload {
     dataSourceId: string;
-    currentWidgets: AIGeneratedWidget[];
+    currentWidgets: Widget[];
     refinementPrompt: string;
 }
 
 export interface GenerateWidgetsResult {
     conversationTitle?: string;
-    widgets: AIGeneratedWidget[];
+    widgets: Widget[];
     totalGenerated: number;
     dataSourceSummary: DataSourceSummary;
     suggestions?: string[];

@@ -23,7 +23,13 @@ export const aiConversationMapper = {
 
     toDomain(dto: AIConversationDTO): AIConversation {
         const messages = dto.messages.map((m) => aiConversationMapper.messageToDomain(m));
-        const widgetIds = dto.widgets?.map((w) => w._id) ?? [];
+
+        const widgetIds = dto.widgets?.map((w) => w._id || w.id) ?? [];
+
+        const dataSourceId = typeof dto.dataSourceId === "string"
+            ? dto.dataSourceId
+            : dto.dataSourceId._id;
+
         const dataSourceSummary = dto.dataSourceSummary
             ? createDataSourceSummary(
                 dto.dataSourceSummary.name,
@@ -36,7 +42,7 @@ export const aiConversationMapper = {
         return new AIConversation(
             dto._id,
             dto.userId,
-            dto.dataSourceId,
+            dataSourceId,
             dto.title,
             messages,
             widgetIds,

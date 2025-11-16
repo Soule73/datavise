@@ -11,7 +11,7 @@ import { PublishWidgetUseCase } from "@/domain/use-cases/widget/PublishWidget.us
 import { CreateWidgetUseCase } from "@/domain/use-cases/widget/CreateWidget.usecase";
 import { WidgetRepository } from "@/infrastructure/repositories/WidgetRepository";
 import { toWidgetPayload, aiLogger } from "@utils/aiHelpers";
-import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
+import type { Widget } from "@/domain/entities/Widget.entity";
 
 const widgetRepository = new WidgetRepository();
 const deleteWidgetUseCase = new DeleteWidgetUseCase(widgetRepository);
@@ -163,11 +163,11 @@ export function useAIBuilderActions() {
     ]);
 
     const handleSaveWidget = useCallback(
-        async (widget: AIGeneratedWidget) => {
+        async (widget: Widget) => {
             try {
                 aiLogger.save("Tentative de sauvegarde", {
                     id: widget.id,
-                    name: widget.name,
+                    name: widget.title,
                     type: widget.type,
                 });
 
@@ -178,14 +178,18 @@ export function useAIBuilderActions() {
 
                 if (savedWidget.id) {
                     setGeneratedWidgets(
-                        generatedWidgets.map((w: any) => (w.id === widget.id ? { ...w, _id: savedWidget.id } : w)) as any
+                        generatedWidgets.map((w) =>
+                            w.widgetId === widget.widgetId || w.id === widget.id
+                                ? w.clone({ ...savedWidget, isDraft: false })
+                                : w
+                        )
                     );
                 }
 
                 showNotification({
                     open: true,
                     type: "success",
-                    title: `Widget "${widget.name}" sauvegardé`,
+                    title: `Widget "${widget.title}" sauvegardé`,
                 });
 
                 return savedWidget;
@@ -225,11 +229,11 @@ export function useAIBuilderActions() {
 
     const handleRemoveWidget = useCallback(
         async (widgetId: string) => {
-            const widget = generatedWidgets.find((w) => w.id === widgetId);
+            const widget = generatedWidgets.find((w) => w.widgetId === widgetId || w.id === widgetId);
 
-            if (widget?.mongoId) {
+            if (widget?.id && !widget.isDraft) {
                 try {
-                    await deleteWidgetUseCase.execute(widget.mongoId);
+                    await deleteWidgetUseCase.execute(widget.id);
                     await queryClient.invalidateQueries({ queryKey: ["widgets"] });
                     showNotification({
                         open: true,
@@ -246,7 +250,7 @@ export function useAIBuilderActions() {
                 }
             }
 
-            setGeneratedWidgets(generatedWidgets.filter((w: any) => w.id !== widgetId) as any);
+            setGeneratedWidgets(generatedWidgets.filter((w) => w.widgetId !== widgetId && w.id !== widgetId));
             setWidgetToDelete(null);
         },
         [generatedWidgets, setGeneratedWidgets, queryClient, setWidgetToDelete, showNotification]

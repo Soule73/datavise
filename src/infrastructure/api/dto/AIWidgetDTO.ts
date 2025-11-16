@@ -4,12 +4,12 @@ export interface AIGeneratedWidgetDTO {
     id: string;
     _id?: string;
     name: string;
-    description: string;
+    description?: string;
     type: string;
     config: WidgetConfig;
     dataSourceId: string;
-    reasoning: string;
-    confidence: number;
+    reasoning?: string;
+    confidence?: number;
 }
 
 export interface GenerateWidgetsResponseDTO {

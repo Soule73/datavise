@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
+import type { Widget } from "@/domain/entities/Widget.entity";
 import type { AIConversation } from "@/domain/entities/AIConversation.entity";
 import type { DataSource } from "@/domain/entities/DataSource.entity";
 
@@ -9,7 +9,7 @@ interface AIState {
     activeConversation: AIConversation | null;
     conversations: AIConversation[];
     dataSources: DataSource[];
-    generatedWidgets: AIGeneratedWidget[];
+    generatedWidgets: Widget[];
     selectedSourceId: string;
     userPrompt: string;
     refinementPrompt: string;
@@ -26,10 +26,10 @@ interface AIActions {
     setActiveConversation: (conversation: AIConversation | null) => void;
     setConversations: (conversations: AIConversation[]) => void;
     setDataSources: (sources: DataSource[]) => void;
-    setGeneratedWidgets: (widgets: AIGeneratedWidget[]) => void;
-    addWidget: (widget: AIGeneratedWidget) => void;
+    setGeneratedWidgets: (widgets: Widget[]) => void;
+    addWidget: (widget: Widget) => void;
     removeWidget: (widgetId: string) => void;
-    updateWidget: (widgetId: string, updates: Partial<AIGeneratedWidget>) => void;
+    updateWidget: (widgetId: string, updates: Partial<Widget>) => void;
     setSelectedSourceId: (id: string) => void;
     setUserPrompt: (prompt: string) => void;
     setRefinementPrompt: (prompt: string) => void;
@@ -89,14 +89,14 @@ export const useAIStore = create<AIStore>()(
             removeWidget: (widgetId) =>
                 set((state) => ({
                     generatedWidgets: state.generatedWidgets.filter(
-                        (w) => w.id !== widgetId
+                        (w) => w.widgetId !== widgetId && w.id !== widgetId
                     ),
                 })),
 
             updateWidget: (widgetId, updates) =>
                 set((state) => ({
                     generatedWidgets: state.generatedWidgets.map((w) =>
-                        w.id === widgetId ? w.clone({ ...updates }) : w
+                        w.widgetId === widgetId || w.id === widgetId ? w.clone(updates) : w
                     ),
                 })),
 

@@ -8,10 +8,10 @@ export interface AIMessageDTO {
 export interface AIConversationDTO {
     _id: string;
     userId: string;
-    dataSourceId: string;
+    dataSourceId: string | { _id: string; name: string; type: string };
     title: string;
     messages: AIMessageDTO[];
-    widgets?: Array<{ _id: string }>;
+    widgets?: Array<any>;
     dataSourceSummary?: {
         name: string;
         type: string;

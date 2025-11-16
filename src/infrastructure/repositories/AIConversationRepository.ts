@@ -6,7 +6,7 @@ import type {
     RefineWidgetsDbPayload,
 } from "@/domain/ports/repositories/IAIConversationRepository";
 import type { AIConversation } from "@/domain/entities/AIConversation.entity";
-import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
+import type { Widget } from "@/domain/entities/Widget.entity";
 import { aiConversationMapper } from "../mappers/aiConversationMapper";
 import { aiWidgetMapper } from "../mappers/aiWidgetMapper";
 import { AI_CONVERSATION_ENDPOINTS } from "../api/endpoints/ai.endpoints";
@@ -96,7 +96,7 @@ export class AIConversationRepository implements IAIConversationRepository {
         }
     }
 
-    async refineWidgetsDb(payload: RefineWidgetsDbPayload): Promise<AIGeneratedWidget[]> {
+    async refineWidgetsDb(payload: RefineWidgetsDbPayload): Promise<Widget[]> {
         const response = await apiClient.post<AIGeneratedWidgetDTO[]>(
             "/v1/ai/refinements/database",
             payload

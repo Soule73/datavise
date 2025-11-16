@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import type { AIGeneratedWidget } from "@/domain/entities/AIGeneratedWidget.entity";
+import type { Widget } from "@/domain/entities/Widget.entity";
 import { WIDGETS } from "@/core/config/visualizations";
 import { useState, useEffect } from "react";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
@@ -13,37 +13,32 @@ import {
 } from "@heroicons/react/24/outline";
 
 interface Props {
-    widget: AIGeneratedWidget;
+    widget: Widget;
     onRemove: () => void;
-    onSave: (widget: AIGeneratedWidget) => Promise<any>;
+    onSave: (widget: Widget) => Promise<any>;
 }
 
 export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Props) {
     const navigate = useNavigate();
     const widgetMeta = WIDGETS[widget.type as keyof typeof WIDGETS];
 
-    // Vérifier si le widget est déjà sauvegardé
-    const isSaved = !!widget.mongoId;
+    const isSaved = !!widget.id && !widget.isDraft;
 
     console.log("🎨 [AIGeneratedWidgetCard] Render:", {
         id: widget.id,
-        name: widget.name,
-        mongoId: widget.mongoId,
+        title: widget.title,
         isSaved,
     });
 
-    // État pour les données de prévisualisation
     const [previewData, setPreviewData] = useState<any[]>([]);
     const [isLoadingPreview, setIsLoadingPreview] = useState(true);
 
-    // Logger les changements de mongoId
     useEffect(() => {
-        console.log("🔄 [AIGeneratedWidgetCard] mongoId changed:", {
+        console.log("🔄 [AIGeneratedWidgetCard] widget changed:", {
             id: widget.id,
-            mongoId: widget.mongoId,
             isSaved,
         });
-    }, [widget.mongoId, widget.id, isSaved]);
+    }, [widget.id, isSaved]);
 
     // Charger les données pour la prévisualisation
     useEffect(() => {
@@ -80,16 +75,16 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
     };
 
     const confidenceColor =
-        widget.confidence >= 0.8
+        (widget.confidence || 0) >= 0.8
             ? "text-green-600"
-            : widget.confidence >= 0.6
+            : (widget.confidence || 0) >= 0.6
                 ? "text-yellow-600"
                 : "text-red-600";
 
     const confidenceBg =
-        widget.confidence >= 0.8
+        (widget.confidence || 0) >= 0.8
             ? "bg-green-100"
-            : widget.confidence >= 0.6
+            : (widget.confidence || 0) >= 0.6
                 ? "bg-yellow-100"
                 : "bg-red-100";
 
@@ -108,7 +103,7 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
                     )}
                     <div>
                         <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-lg dark:text-white">{widget.name}</h3>
+                            <h3 className="font-semibold text-lg dark:text-white">{widget.title}</h3>
                             {isSaved && (
                                 <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
                                     ✓ Sauvegardé
@@ -121,7 +116,7 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
                 <span
                     className={`text-sm font-medium px-3 py-1 rounded-full ${confidenceBg} ${confidenceColor}`}
                 >
-                    {Math.round(widget.confidence * 100)}%
+                    {Math.round((widget.confidence || 0) * 100)}%
                 </span>
             </div>
 
@@ -178,25 +173,25 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
 
             {/* Configuration summary */}
             <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1 mb-4 border-t dark:border-gray-700 pt-3">
-                {widget.config?.metrics && widget.config.metrics.length > 0 && (
+                {(widget.config as any)?.metrics && (widget.config as any).metrics.length > 0 && (
                     <div>
                         <span className="font-medium">Métriques:</span>{" "}
-                        {widget.config.metrics
+                        {(widget.config as any).metrics
                             .map((m: any) => `${m.label || m.field} (${m.agg || m.aggregation})`)
                             .join(", ")}
                     </div>
                 )}
-                {widget.config?.buckets && widget.config.buckets.length > 0 && (
+                {(widget.config as any)?.buckets && (widget.config as any).buckets.length > 0 && (
                     <div>
                         <span className="font-medium">Groupement:</span>{" "}
-                        {widget.config.buckets.map((b: any) => b.field || b).join(", ")}
+                        {(widget.config as any).buckets.map((b: any) => b.field || b).join(", ")}
                     </div>
                 )}
-                {widget.config?.globalFilters &&
-                    widget.config.globalFilters.length > 0 && (
+                {(widget.config as any)?.globalFilters &&
+                    (widget.config as any).globalFilters.length > 0 && (
                         <div>
                             <span className="font-medium">Filtres:</span>{" "}
-                            {widget.config.globalFilters.length}
+                            {(widget.config as any).globalFilters.length}
                         </div>
                     )}
 
@@ -219,7 +214,7 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
                     </Button>
                 ) : (
                     <Button
-                        onClick={() => navigate(`/widgets/edit/${widget.mongoId}`)}
+                        onClick={() => navigate(`/widgets/edit/${widget.id}`)}
                         color="indigo"
                         className="flex-1"
                     >

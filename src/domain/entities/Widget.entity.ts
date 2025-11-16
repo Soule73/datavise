@@ -15,6 +15,9 @@ export class Widget {
     readonly isGeneratedByAI: boolean;
     readonly conversationId?: string;
     readonly isUsed?: boolean;
+    readonly description?: string;
+    readonly reasoning?: string;
+    readonly confidence?: number;
     readonly createdAt?: Date;
     readonly updatedAt?: Date;
 
@@ -30,6 +33,9 @@ export class Widget {
         isGeneratedByAI: boolean,
         conversationId?: string,
         isUsed?: boolean,
+        description?: string,
+        reasoning?: string,
+        confidence?: number,
         createdAt?: Date,
         updatedAt?: Date
     ) {
@@ -44,6 +50,9 @@ export class Widget {
         this.isGeneratedByAI = isGeneratedByAI;
         this.conversationId = conversationId;
         this.isUsed = isUsed;
+        this.description = description;
+        this.reasoning = reasoning;
+        this.confidence = confidence;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
 
@@ -77,6 +86,25 @@ export class Widget {
         return true;
     }
 
+    isHighConfidence(): boolean {
+        return this.confidence !== undefined && this.confidence >= 0.8;
+    }
+
+    isMediumConfidence(): boolean {
+        return this.confidence !== undefined && this.confidence >= 0.5 && this.confidence < 0.8;
+    }
+
+    isLowConfidence(): boolean {
+        return this.confidence !== undefined && this.confidence < 0.5;
+    }
+
+    getConfidenceLevel(): "high" | "medium" | "low" | "none" {
+        if (this.confidence === undefined) return "none";
+        if (this.isHighConfidence()) return "high";
+        if (this.isMediumConfidence()) return "medium";
+        return "low";
+    }
+
     clone(overrides: Partial<Omit<Widget, "id" | "createdAt" | "updatedAt">>): Widget {
         return new Widget(
             this.id,
@@ -90,6 +118,9 @@ export class Widget {
             overrides.isGeneratedByAI ?? this.isGeneratedByAI,
             overrides.conversationId ?? this.conversationId,
             overrides.isUsed ?? this.isUsed,
+            overrides.description ?? this.description,
+            overrides.reasoning ?? this.reasoning,
+            overrides.confidence ?? this.confidence,
             this.createdAt,
             this.updatedAt
         );
@@ -108,6 +139,9 @@ export class Widget {
             isGeneratedByAI: this.isGeneratedByAI,
             conversationId: this.conversationId,
             isUsed: this.isUsed,
+            description: this.description,
+            reasoning: this.reasoning,
+            confidence: this.confidence,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
         };

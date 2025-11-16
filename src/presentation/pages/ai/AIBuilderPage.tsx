@@ -55,22 +55,22 @@ export default function AIBuilderPage() {
     const { dataSources } = useDataSourceList();
 
     useEffect(() => {
-        if (conversationsData) {
+        if (conversationsData && conversationsData.length > 0) {
             setConversations(conversationsData);
         }
-    }, [conversationsData, setConversations]);
+    }, [conversationsData?.length]);
 
     useEffect(() => {
-        if (conversationData) {
+        if (conversationData && conversationData.id !== activeConversation?.id) {
             setActiveConversation(conversationData);
         }
-    }, [conversationData, setActiveConversation]);
+    }, [conversationData?.id, activeConversation?.id]);
 
     useEffect(() => {
-        if (dataSources) {
+        if (dataSources && dataSources.length > 0) {
             setDataSources(dataSources);
         }
-    }, [dataSources, setDataSources]);
+    }, [dataSources?.length]);
 
     const dataSourceSummary = activeConversation?.dataSourceSummary;
     const conversations = conversationsData || [];
@@ -140,7 +140,7 @@ export default function AIBuilderPage() {
                                         setWidgetToDelete({
                                             id: getWidgetId(widget),
                                             title: getWidgetName(widget),
-                                            _id: widget._id,
+                                            _id: widget.id,
                                         })
                                     }
                                     onSave={() => handleSaveWidget(widget)}
