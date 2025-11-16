@@ -7,7 +7,7 @@ import {
     PlusCircleIcon,
     TrashIcon,
 } from "@heroicons/react/24/solid";
-import type { MultiBucketConfig, BucketType, BucketConfigComponentProps } from "@type/metricBucketTypes";
+import type { MultiBucketConfig, BucketType, BucketConfigComponentProps } from "@/domain/value-objects/widgets/metricBucketTypes";
 import {
     BUCKET_TYPES,
     DATE_INTERVALS,

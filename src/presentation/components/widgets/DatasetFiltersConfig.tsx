@@ -1,6 +1,6 @@
-import type { DatasetFiltersConfigProps } from "@type/widgetTypes";
+import type { DatasetFiltersConfigProps } from "@/domain/value-objects/widgets/widgetTypes";
 import BaseFilterConfig from "@components/widgets/BaseFilterConfig";
-import type { DatasetFilter } from "@type/metricBucketTypes";
+import type { Filter } from "@/domain/value-objects";
 
 
 
@@ -11,15 +11,14 @@ export default function DatasetFiltersConfig({
     onFiltersChange,
     datasetIndex,
 }: DatasetFiltersConfigProps) {
-    // Fonction pour créer un nouveau filtre de dataset
-    const createNewFilter = (columns: string[]): DatasetFilter => ({
-        field: columns[0] || '',
+    const createNewFilter = (cols: string[]): Filter => ({
+        field: cols[0] || '',
         value: '',
         operator: 'equals',
     });
 
     return (
-        <BaseFilterConfig<DatasetFilter>
+        <BaseFilterConfig
             filters={filters}
             columns={columns}
             data={data}

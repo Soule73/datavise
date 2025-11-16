@@ -1,4 +1,4 @@
-import type { WidgetDataConfigSectionFixedProps } from "@type/widgetTypes";
+import type { WidgetDataConfigSectionFixedProps } from "@/domain/value-objects/widgets/widgetTypes";
 import WidgetBubbleDataConfigSection from "@components/widgets/WidgetBubbleDataConfigSection";
 import WidgetScatterDataConfigSection from "@components/widgets/WidgetScatterDataConfigSection";
 import WidgetRadarDataConfigSection from "@components/widgets/WidgetRadarDataConfigSection";
@@ -8,7 +8,7 @@ import DefaultMetricConfigSection from "@components/widgets/DefaultMetricConfigS
 import MultiBucketSection from "@components/widgets/MultiBucketSection";
 import { WIDGETS, WIDGET_DATA_CONFIG } from "@/core/config/visualizations";
 import { useMultiBuckets } from "@/application/hooks/useMultiBuckets";
-import type { BubbleMetricConfig, RadarMetricConfig } from "@type/metricBucketTypes";
+import type { BubbleMetricConfig, RadarMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
 
 export default function WidgetDataConfigSection({
   type,

@@ -3,7 +3,7 @@ import SelectField from "@components/SelectField";
 import MetricLabelInput from "@components/widgets/MetricLabelInput";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
-import type { DefaultMetricConfigSectionProps } from "@type/metricBucketTypes";
+import type { DefaultMetricConfigSectionProps } from "@/domain/value-objects/widgets/metricBucketTypes";
 
 
 

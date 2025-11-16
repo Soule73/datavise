@@ -1,4 +1,4 @@
-import type { WidgetConfig } from "@type/widgetTypes";
+import type { WidgetConfig } from "@/domain/value-objects/widgets/widgetTypes";
 
 export interface AIGeneratedWidgetDTO {
     id: string;

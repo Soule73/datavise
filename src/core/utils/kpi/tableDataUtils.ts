@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatLabelsForDisplay } from "@utils/charts/chartDataUtils";
-import type { ProcessedData } from "@type/metricBucketTypes";
-import type { TableColumn, TableConfig, TableDataResult } from "@type/widgetTypes";
+import type { ProcessedData } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { TableColumn, TableConfig, TableDataResult } from "@/domain/value-objects/widgets/widgetTypes";
 
 
 /**

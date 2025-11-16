@@ -1,5 +1,6 @@
-import type { BarChartConfig, LineChartConfig, PieChartConfig } from "@type/visualization";
-import type { WidgetDataConfig } from "@type/widgetTypes";
+// export type { Filter } from "@/domain/value-objects";
+import type { BarChartConfig, Filter, LineChartConfig, PieChartConfig } from "@/domain/value-objects/widgets/visualization";
+import type { WidgetDataConfig } from "@/domain/value-objects/widgets/widgetTypes";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Base {
@@ -67,8 +68,7 @@ export interface BucketUIState {
 export interface ScatterMetricConfig extends Metric {
   x: string;
   y: string;
-  // Filtres spécifiques à ce dataset
-  datasetFilters?: DatasetFilter[];
+  datasetFilters?: Filter[];
 }
 
 export interface BubbleMetricConfig extends ScatterMetricConfig {
@@ -77,15 +77,9 @@ export interface BubbleMetricConfig extends ScatterMetricConfig {
 
 export interface RadarMetricConfig extends Metric {
   fields: string[];
-  // Filtres spécifiques à ce dataset
-  datasetFilters?: DatasetFilter[];
+  datasetFilters?: Filter[];
 }
 
-export interface DatasetFilter {
-  field: string;
-  value: string | number;
-  operator?: 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal' | 'starts_with' | 'ends_with';
-}
 
 export interface MetricUICollapseState {
   collapsedMetrics: Record<string | number, boolean>;

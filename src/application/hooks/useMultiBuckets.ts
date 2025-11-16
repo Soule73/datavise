@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { createDefaultBucket } from '@utils/bucketMetrics/bucketUtils';
-import type { MultiBucketConfig, UseMultiBucketsProps } from '@type/metricBucketTypes';
+import type { MultiBucketConfig, UseMultiBucketsProps } from '@/domain/value-objects/widgets/metricBucketTypes';
 
 // Fonction pour s'assurer que nous avons des buckets multiples
 function ensureMultiBuckets(config: { buckets?: MultiBucketConfig[] }): MultiBucketConfig[] {

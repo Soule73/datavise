@@ -13,7 +13,7 @@ import {
   LineChartConfig,
   PieChartConfig,
   TableWidgetConfig,
-} from "@type/visualization";
+} from "@/domain/value-objects/widgets/visualization";
 import type { WidgetType, WidgetDefinition } from "@/domain/value-objects";
 import {
   ChartBarIcon,

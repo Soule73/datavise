@@ -22,14 +22,14 @@ interface WidgetFormLayoutProps {
     metricsWithLabels: any[];
     isPreviewReady: boolean;
     type: WidgetType;
-    tab: string;
-    setTab: (tab: string) => void;
+    tab: "data" | "params" | "metricsAxes";
+    setTab: (tab: "data" | "params" | "metricsAxes") => void;
     columns: string[];
     handleConfigChange: (field: string, value: unknown) => void;
     handleDragStart: (idx: number) => void;
-    handleDragOver: (idx: number) => void;
+    handleDragOver: (idx: number, e: React.DragEvent) => void;
     handleDrop: (idx: number) => void;
-    handleMetricAggOrFieldChange: (idx: number, field: string, value: unknown) => void;
+    handleMetricAggOrFieldChange: (idx: number, field: "agg" | "field", value: string) => void;
     handleMetricStyleChange: (idx: number, style: string, value: unknown) => void;
     showSaveModal: boolean;
     setShowSaveModal: (show: boolean) => void;

@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import type { WidgetType } from '@/domain/value-objects';
-import type { MultiBucketConfig } from '@type/metricBucketTypes';
+import type { WidgetType, WidgetConfig } from '@/domain/value-objects';
+import type { MultiBucketConfig } from '@/domain/value-objects/widgets/metricBucketTypes';
 import { createDefaultWidgetConfig, optimizeWidgetConfig } from '@utils/widgets/widgetConfigDefaults';
 
 interface UseWidgetAutoConfigProps {
     widgetType: WidgetType;
     columns: string[];
-    data: unknown[];
-    currentConfig: unknown;
+    data: Record<string, unknown>[];
+    currentConfig: WidgetConfig;
     onConfigChange: (field: string, value: unknown) => void;
     disableAutoConfig?: boolean;
     autoInitialize?: boolean;

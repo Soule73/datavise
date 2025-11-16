@@ -2,8 +2,8 @@ import InputField from "@components/forms/InputField";
 import CheckboxField from "@components/forms/CheckboxField";
 import DatasetSection from "@components/widgets/DatasetSection";
 import DatasetFiltersConfig from "@components/widgets/DatasetFiltersConfig";
-import type { WidgetRadarDataConfigSectionProps } from "@type/widgetTypes";
-import type { RadarMetricConfig } from "@type/metricBucketTypes";
+import type { WidgetRadarDataConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { RadarMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
 
 /**
  * Configuration spécialisée pour les graphiques radar

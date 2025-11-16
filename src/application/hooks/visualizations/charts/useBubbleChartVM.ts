@@ -5,14 +5,14 @@ import { createBaseOptions, mergeOptions } from "@utils/charts/chartConfigUtils"
 import { mergeWidgetParams } from "@utils/widgets/widgetParamsUtils";
 import { prepareMetricStyles } from "@utils/charts/chartDatasetUtils";
 import { getCustomChartOptions } from "@utils/charts/chartOptionsUtils";
-import type { BubbleMetricConfig } from "@type/metricBucketTypes";
+import type { BubbleMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
 import {
     processBubbleMetrics,
     validateBubbleConfiguration,
     generateBubbleMetricLabel,
     calculateBubbleScales
 } from "@utils/charts/bubbleChartUtils";
-import type { BubbleChartVM, BubbleChartWidgetProps } from "@type/widgetTypes";
+import type { BubbleChartVM, BubbleChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 export function useBubbleChartLogic({
     data,

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DatasetFilter } from "@type/metricBucketTypes";
-import type { Filter } from "@type/visualization";
+import type { Filter } from "@/domain/value-objects/widgets/WidgetConfig";
 
 /**
  * Utilitaires pour la gestion des filtres dans les widgets
@@ -68,7 +66,7 @@ export function applyFilter(
  */
 export function applyDatasetFilter(
     data: Record<string, any>[],
-    filter: DatasetFilter
+    filter: Filter
 ): Record<string, any>[] {
     if (!filter.field || filter.value === undefined || filter.value === null || filter.value === '') {
         return data;
@@ -141,7 +139,7 @@ export function applyGlobalFilters(
  */
 export function applyDatasetFilters(
     data: Record<string, any>[],
-    filters: DatasetFilter[]
+    filters: Filter[]
 ): Record<string, any>[] {
     if (!filters || filters.length === 0) {
         return data;
@@ -158,7 +156,7 @@ export function applyDatasetFilters(
 export function applyAllFilters(
     data: Record<string, any>[],
     globalFilters?: Filter[],
-    datasetFilters?: DatasetFilter[]
+    datasetFilters?: Filter[]
 ): Record<string, any>[] {
     let filteredData = data;
 
@@ -206,7 +204,7 @@ export function validateFilter(filter: Filter): {
 /**
  * Valide un filtre de dataset
  */
-export function validateDatasetFilter(filter: DatasetFilter): {
+export function validateDatasetFilter(filter: Filter): {
     isValid: boolean;
     errors: string[];
 } {

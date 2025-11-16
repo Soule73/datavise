@@ -7,7 +7,7 @@ import {
   processRawData,
   generateTableTitle,
 } from "@utils/kpi/tableDataUtils";
-import type { TableWidgetProps, TableWidgetVM } from "@type/widgetTypes";
+import type { TableWidgetProps, TableWidgetVM } from "@/domain/value-objects/widgets/widgetTypes";
 
 export function useTableWidgetLogic({
   data,

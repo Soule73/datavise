@@ -7,7 +7,7 @@ import {
   WIDGET_CONFIG_FIELDS,
 } from "@/core/config/visualizations";
 import * as HeroIcons from "@heroicons/react/24/outline";
-import type { WidgetParamsConfigSectionProps } from "@type/widgetTypes";
+import type { WidgetParamsConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 export default function WidgetParamsConfigSection({
   type,
@@ -15,8 +15,10 @@ export default function WidgetParamsConfigSection({
   handleConfigChange,
 }: WidgetParamsConfigSectionProps) {
 
-  const getWidgetParamMeta = (field: string) =>
-    WIDGETS[type]?.configSchema?.widgetParams?.[field] || {};
+  const getWidgetParamMeta = (field: string) => {
+    const widgetParams = WIDGETS[type]?.configSchema?.widgetParams as Record<string, any> | undefined;
+    return widgetParams?.[field] || {};
+  };
 
   const getLabel = (field: string) =>
     getWidgetParamMeta(field).label ||
@@ -54,9 +56,14 @@ export default function WidgetParamsConfigSection({
     return null;
   };
 
+  const widgetDef = WIDGETS[type];
+  if (!widgetDef?.configSchema?.widgetParams) {
+    return null;
+  }
+
   return (
     <div className="space-y-2 grid grid-cols-2 place-items-stretch items-end gap-2">
-      {Object.entries(WIDGETS[type]?.configSchema.widgetParams || {}).map(
+      {Object.entries(widgetDef.configSchema.widgetParams).map(
         ([field]) => {
           const label = getLabel(field);
           const options = getOptions(field);

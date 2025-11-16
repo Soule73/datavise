@@ -8,7 +8,7 @@ import {
 import { useKPIWidgetVM } from "@/application/hooks/visualizations/kpi/useKPIWidgetVM";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
-import type { KPIWidgetProps } from "@type/widgetTypes";
+import type { KPIWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 export default function KPIWidget({
   data,

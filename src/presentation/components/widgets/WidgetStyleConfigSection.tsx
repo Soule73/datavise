@@ -9,7 +9,7 @@ import {
 import type {
   WidgetStyleConfigSectionProps,
   WidgetType,
-} from "@type/widgetTypes";
+} from "@/domain/value-objects/widgets/widgetTypes";
 
 export default function WidgetStyleConfigSection({
   type,
@@ -18,9 +18,13 @@ export default function WidgetStyleConfigSection({
   handleConfigChange,
 }: WidgetStyleConfigSectionProps) {
   const widgetDef = WIDGETS[type as WidgetType];
+  if (!widgetDef?.configSchema) {
+    return null;
+  }
+
   return (
     <div className="space-y-2">
-      {Object.entries(widgetDef.configSchema)
+      {Object.entries(widgetDef.configSchema as Record<string, unknown>)
         .filter(([field]) =>
           [
             "color",

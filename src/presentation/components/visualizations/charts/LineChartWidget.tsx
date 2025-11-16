@@ -14,7 +14,7 @@ import {
 import { Line } from "react-chartjs-2";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
-import type { LineChartWidgetProps } from "@type/widgetTypes";
+import type { LineChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 ChartJS.register(
   LineElement,

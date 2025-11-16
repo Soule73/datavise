@@ -11,7 +11,7 @@ import {
 import type {
   MetricStyleFieldSchema,
   WidgetMetricStyleConfigSectionProps,
-} from "@type/widgetTypes";
+} from "@/domain/value-objects/widgets/widgetTypes";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
 
 export default function WidgetMetricStyleConfigSection({

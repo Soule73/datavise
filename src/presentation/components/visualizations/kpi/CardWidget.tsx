@@ -2,7 +2,7 @@ import { useCardWidgetVM } from "@/application/hooks/visualizations/kpi/useCardW
 import { ChartBarIcon } from "@heroicons/react/24/outline";
 import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
-import type { CardWidgetProps } from "@type/widgetTypes";
+import type { CardWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 export default function CardWidget({
   data,

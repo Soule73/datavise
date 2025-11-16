@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { ChartData } from "chart.js";
 import { useMultiBucketProcessor } from "@utils/bucketMetrics/multiBucketProcessor";
-import type { ChartType, UseChartVM } from "@type/widgetTypes";
+import type { ChartType, UseChartVM } from "@/domain/value-objects/widgets/widgetTypes";
 import { createBaseOptions, createValueLabelsPlugin, mergeOptions } from "@utils/charts/chartConfigUtils";
 import { mergeWidgetParams } from "@utils/widgets/widgetParamsUtils";
 import { validateChartInput, sanitizeChartData } from "@utils/charts/chartValidationUtils";

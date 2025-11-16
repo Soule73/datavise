@@ -1,5 +1,5 @@
 import BucketConfigComponent from "@components/widgets/BucketConfigComponent";
-import type { MultiBucketConfig, MultiBucketSectionProps } from "@type/metricBucketTypes";
+import type { MultiBucketConfig, MultiBucketSectionProps } from "@/domain/value-objects/widgets/metricBucketTypes";
 import { createDefaultBucket } from "@utils/bucketMetrics/bucketUtils";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { BucketLevel, MultiBucketConfig, ProcessedData, SplitData, SplitItem } from '@type/metricBucketTypes';
-import type { MultiBucketCompatibleConfig } from '@type/widgetTypes';
+import type { BucketLevel, MultiBucketConfig, ProcessedData, SplitData, SplitItem } from '@/domain/value-objects/widgets/metricBucketTypes';
+import type { MultiBucketCompatibleConfig } from '@/domain/value-objects/widgets/widgetTypes';
 
 // Fonction pour s'assurer que nous avons des buckets multiples
 function ensureMultiBuckets(config: MultiBucketCompatibleConfig): MultiBucketConfig[] {

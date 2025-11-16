@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Filter } from "@type/visualization";
+import type { Filter } from "@/domain/value-objects/widgets/visualization";
 import type {
   Metric,
   ScatterMetricConfig,
   BubbleMetricConfig,
   RadarMetricConfig,
   MultiBucketConfig,
-} from "@type/metricBucketTypes";
+} from "@/domain/value-objects/widgets/metricBucketTypes";
 
 // Extraction de tous les champs utilisés par les métriques, incluant les champs spécialisés
 function extractAllMetricFields(

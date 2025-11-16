@@ -1,9 +1,9 @@
-import type { ScatterMetricConfig } from "@type/metricBucketTypes";
+import type { ScatterMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
 import SelectField from "@components/SelectField";
 import InputField from "@components/forms/InputField";
 import DatasetSection from "@components/widgets/DatasetSection";
 import DatasetFiltersConfig from "@components/widgets/DatasetFiltersConfig";
-import type { WidgetScatterDataConfigSectionProps } from "@type/widgetTypes";
+import type { WidgetScatterDataConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 /**
  * Configuration spécialisée pour les graphiques scatter

@@ -5,14 +5,14 @@ import { createBaseOptions, mergeOptions } from "@utils/charts/chartConfigUtils"
 import { mergeWidgetParams } from "@utils/widgets/widgetParamsUtils";
 import { prepareMetricStyles } from "@utils/charts/chartDatasetUtils";
 import { getCustomChartOptions } from "@utils/charts/chartOptionsUtils";
-import type { ScatterMetricConfig } from "@type/metricBucketTypes";
+import type { ScatterMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
 import {
     processScatterMetrics,
     validateScatterConfiguration,
     generateScatterMetricLabel,
     calculateScatterScales
 } from "@utils/charts/scatterChartUtils";
-import type { ScatterChartVM, ScatterChartWidgetProps } from "@type/widgetTypes";
+import type { ScatterChartVM, ScatterChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 export function useScatterChartLogic({
     data,

@@ -5,14 +5,14 @@ import { createBaseOptions, mergeOptions } from "@utils/charts/chartConfigUtils"
 import { mergeWidgetParams } from "@utils/widgets/widgetParamsUtils";
 import { prepareMetricStyles } from "@utils/charts/chartDatasetUtils";
 import { getCustomChartOptions } from "@utils/charts/chartOptionsUtils";
-import type { RadarMetricConfig } from "@type/metricBucketTypes";
+import type { RadarMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
 import {
     getRadarLabels,
     processRadarMetrics,
     validateRadarConfiguration,
     generateRadarMetricLabel
 } from "@utils/charts/radarChartUtils";
-import type { RadarChartVM, RadarChartWidgetProps } from "@type/widgetTypes";
+import type { RadarChartVM, RadarChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 export function useRadarChartLogic({
     data,

@@ -4,7 +4,7 @@ import { Pie } from "react-chartjs-2";
 import { ChartPieIcon } from "@heroicons/react/24/outline";
 import { InvalideConfigWidget } from "@components/widgets/InvalideConfigWidget";
 import NoDataWidget from "@components/widgets/NoDataWidget";
-import type { PieChartWidgetProps } from "@type/widgetTypes";
+import type { PieChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 
 export default function PieChartWidget({

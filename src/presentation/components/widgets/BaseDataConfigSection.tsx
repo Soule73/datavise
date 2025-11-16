@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import GlobalFiltersConfig from "@components/widgets/GlobalFiltersConfig";
-import type { WidgetDataConfigSectionFixedProps } from "@type/widgetTypes";
+import type { WidgetDataConfigSectionFixedProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 interface BaseDataConfigSectionProps extends Pick<WidgetDataConfigSectionFixedProps, 'config' | 'columns' | 'data' | 'handleConfigChange'> {
     children: ReactNode;

@@ -1,4 +1,4 @@
-import type { WidgetType } from "@type/widgetTypes";
+import type { WidgetType } from "@/domain/value-objects/widgets/widgetTypes";
 import { WidgetValidationError } from "../errors/DomainError";
 
 export type Visibility = "public" | "private";

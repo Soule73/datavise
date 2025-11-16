@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { RadarMetricConfig } from "@type/metricBucketTypes";
-import type { Filter } from "@type/visualization";
+import type { RadarMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { Filter } from "@/domain/value-objects/widgets/visualization";
 import { applyAllFilters } from "@utils/filterUtils";
 
 /**

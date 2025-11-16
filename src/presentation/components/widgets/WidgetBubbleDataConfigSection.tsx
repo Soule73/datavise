@@ -2,8 +2,8 @@ import SelectField from "@components/SelectField";
 import InputField from "@components/forms/InputField";
 import DatasetSection from "@components/widgets/DatasetSection";
 import DatasetFiltersConfig from "@components/widgets/DatasetFiltersConfig";
-import type { BubbleMetricConfig } from "@type/metricBucketTypes";
-import type { WidgetBubbleDataConfigSectionProps } from "@type/widgetTypes";
+import type { BubbleMetricConfig } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { WidgetBubbleDataConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 /**
  * Configuration spécialisée pour les graphiques bubble

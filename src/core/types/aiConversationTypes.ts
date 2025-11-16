@@ -1,4 +1,4 @@
-import type { Widget } from "./widgetTypes";
+import type { Widget } from "../../domain/value-objects/widgets/widgetTypes";
 import type { DataSource } from "./dataSource";
 
 /**

@@ -1,4 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export type {
+  WidgetType,
+  ChartType,
+  WidgetConfig,
+  WidgetDefinition
+} from "@/domain/value-objects";
+export type { Widget } from "@/domain/entities/Widget.entity";
+
 import type {
   BarChartConfig,
   LineChartConfig,
@@ -12,20 +20,25 @@ import type {
   CardWidgetConfig,
   Filter,
   MetricStyleConfig,
-} from "@type/visualization";
+} from "@/domain/value-objects/widgets/visualization";
 import type {
   BubbleMetricConfig,
   Metric,
   RadarMetricConfig,
   ScatterMetricConfig,
   MultiBucketConfig,
-  DatasetFilter,
-} from "@type/metricBucketTypes";
+} from "@/domain/value-objects/widgets/metricBucketTypes";
 import type { ReactNode } from "react";
 import type { DataSource } from "@type/dataSource";
 import type { ChartData, ChartOptions } from "chart.js";
+import type {
+  WidgetType,
+  ChartType,
+  WidgetConfig,
+  WidgetDefinition
+} from "@/domain/value-objects";
+import type { Widget } from "@/domain/entities/Widget.entity";
 
-export type ChartType = "bar" | "line" | "pie" | "scatter" | "bubble" | "radar";
 
 export interface GroupFieldConfig {
   xField?: string;
@@ -57,28 +70,6 @@ export interface MultiBucketCompatibleConfig {
   [key: string]: any;
 }
 
-
-export interface Widget {
-  _id?: string;
-  widgetId: string;
-  title: string;
-  type: WidgetType;
-  dataSourceId: string;
-  config?: Record<string, any>;
-  ownerId: string;
-  visibility: "public" | "private";
-  history?: WidgetHistoryItem[];
-  createdAt?: string;
-  updatedAt?: string;
-  isUsed?: boolean;
-
-  // Champs pour les widgets générés par l'IA
-  isGeneratedByAI?: boolean;
-  description?: string;
-  reasoning?: string;
-  confidence?: number;
-}
-
 export interface WidgetHistoryItem {
   userId: string;
   date: string;
@@ -86,17 +77,6 @@ export interface WidgetHistoryItem {
   changes?: Record<string, any>;
 }
 
-export type WidgetType =
-  | "bar"
-  | "pie"
-  | "table"
-  | "line"
-  | "scatter"
-  | "bubble"
-  | "radar"
-  | "kpi"
-  | "kpi_group"
-  | "card";
 
 type BaseVisualizationWidgetPropsMap = {
   data: Record<string, any>[];
@@ -127,7 +107,7 @@ export type VisualizationWidgetPropsMap = {
   kpi: BaseVisualizationWidgetPropsMap & {
     config: KPIWidgetConfig;
   };
-  kpi_group: BaseVisualizationWidgetPropsMap & {
+  kpiGroup: BaseVisualizationWidgetPropsMap & {
     config: KPIGroupWidgetConfig;
   };
   card: BaseVisualizationWidgetPropsMap & {
@@ -137,21 +117,6 @@ export type VisualizationWidgetPropsMap = {
 
 export type VisualizationWidgetProps<T extends WidgetType = WidgetType> =
   VisualizationWidgetPropsMap[T];
-
-export interface WidgetDefinition<
-  T extends WidgetType = WidgetType,
-  TConfig = any
-> {
-  type: T;
-  label: string;
-  description: string;
-  component: React.ComponentType<React.ComponentType<Widget> | any>;
-  configSchema: TConfig;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  allowMultipleMetrics?: boolean;
-  hideBucket?: boolean;
-  enableFilter?: boolean;
-}
 
 // Interfaces spécialisées pour les widgets avec types stricts
 export interface ScatterWidgetDefinition extends Omit<WidgetDefinition, 'component'> {
@@ -169,16 +134,16 @@ export interface RadarWidgetDefinition extends Omit<WidgetDefinition, 'component
   component: React.ComponentType<RadarChartWidgetProps>;
 }
 
-export interface WidgetConfig {
-  metrics:
-  | Metric[]
-  | ScatterMetricConfig[]
-  | BubbleMetricConfig[]
-  | RadarMetricConfig[];
-  filter?: Filter;
-  globalFilters?: Filter[]; // Filtres globaux pour les graphiques spécialisés
-  buckets?: MultiBucketConfig[]; // Buckets multiples
-}
+// export interface WidgetConfig {
+//   metrics:
+//   | Metric[]
+//   | ScatterMetricConfig[]
+//   | BubbleMetricConfig[]
+//   | RadarMetricConfig[];
+//   filter?: Filter;
+//   globalFilters?: Filter[]; // Filtres globaux pour les graphiques spécialisés
+//   buckets?: MultiBucketConfig[]; // Buckets multiples
+// }
 
 export interface WidgetMetricStyleConfigSectionProps<
   TMetric =
@@ -764,26 +729,15 @@ export interface TableDataResult {
 
 
 
-// Interface commune pour les propriétés partagées
-export interface BaseFilter {
-  field: string;
-  value: string | number | readonly string[] | undefined;
-  operator?: 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal' | 'starts_with' | 'ends_with';
-}
-
-// Type union pour supporter les deux types de filtres
-export type FilterType = Filter | DatasetFilter;
-
-export interface BaseFilterConfigProps<T extends FilterType & BaseFilter> {
-  filters: T[];
+export interface BaseFilterConfigProps {
+  filters: Filter[];
   columns: string[];
   data?: Record<string, unknown>[];
-  onFiltersChange: (filters: T[]) => void;
+  onFiltersChange: (filters: Filter[]) => void;
   title: string;
   description: string;
-  createNewFilter: (columns: string[]) => T;
-  // Props optionnelles pour customisation
-  prefix?: string; // Préfixe pour les IDs et noms des champs
+  createNewFilter: (columns: string[]) => Filter;
+  prefix?: string;
   className?: string;
 }
 
@@ -802,10 +756,10 @@ export const OPERATOR_OPTIONS = [
 ];
 
 export interface DatasetFiltersConfigProps {
-  filters: DatasetFilter[];
+  filters: Filter[];
   columns: string[];
   data?: Record<string, any>[];
-  onFiltersChange: (filters: DatasetFilter[]) => void;
+  onFiltersChange: (filters: Filter[]) => void;
   datasetIndex: number;
 }
 

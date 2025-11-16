@@ -1,5 +1,5 @@
 import type { WidgetType } from '@/domain/value-objects';
-import type { MultiBucketConfig, Metric } from '@type/metricBucketTypes';
+import type { MultiBucketConfig, Metric } from '@/domain/value-objects/widgets/metricBucketTypes';
 import { createDefaultBucket } from '@utils/bucketMetrics/bucketUtils';
 
 export interface DefaultWidgetConfig {

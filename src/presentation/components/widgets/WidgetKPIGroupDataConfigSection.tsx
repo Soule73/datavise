@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import SelectField from "@components/SelectField";
 import InputField from "@components/forms/InputField";
-import type { WidgetKPIGroupDataConfigSectionProps } from "@type/widgetTypes";
-import type { Metric } from "@type/metricBucketTypes";
-import type { KPIGroupWidgetConfig } from "@type/visualization";
+import type { WidgetKPIGroupDataConfigSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { KPIGroupWidgetConfig } from "@/domain/value-objects/widgets/visualization";
 import GlobalFiltersConfig from "@components/widgets/GlobalFiltersConfig";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";

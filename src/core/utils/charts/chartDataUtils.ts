@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Metric } from "@type/metricBucketTypes";
+import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
 import { aggregate, getLabels } from "@utils/charts/chartUtils";
-import type { ProcessedDataContext } from "@type/widgetTypes";
+import type { ProcessedDataContext } from "@/domain/value-objects/widgets/widgetTypes";
 
 
 /**

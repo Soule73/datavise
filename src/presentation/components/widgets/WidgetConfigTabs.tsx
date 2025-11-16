@@ -1,4 +1,4 @@
-import type { WidgetConfigTabsProps } from "@type/widgetTypes";
+import type { WidgetConfigTabsProps } from "@/domain/value-objects/widgets/widgetTypes";
 import React from "react";
 
 function TabButton({

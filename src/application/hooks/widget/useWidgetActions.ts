@@ -9,6 +9,7 @@ import { useNotificationStore } from "@/core/store/notification";
 import { ROUTES } from "@/core/constants/routes";
 import { useCommonWidgetForm, type WidgetFormInitialValues } from "@/application/hooks/widget/useCommonWidgetForm";
 import type { Widget } from "@/domain/entities/Widget.entity";
+import type { WidgetConfig } from "@/domain/value-objects";
 
 const widgetRepository = new WidgetRepository();
 const createWidgetUseCase = new CreateWidgetUseCase(widgetRepository);
@@ -107,7 +108,7 @@ export function useWidgetEdit() {
 
             setInitialValues({
                 type: widgetData.type as WidgetFormInitialValues["type"],
-                config: widgetData.config,
+                config: widgetData.config as WidgetConfig,
                 title: widgetData.title,
                 sourceId: widgetData.dataSourceId,
                 visibility: widgetData.visibility,
@@ -160,7 +161,7 @@ export function useWidgetEdit() {
         const updates: UpdateWidgetInput = {
             title: form.widgetTitle.trim(),
             visibility: form.visibility,
-            config: form.config,
+            config: form.config as WidgetConfig,
         };
 
         updateMutation.mutate({ id: widgetId, updates });

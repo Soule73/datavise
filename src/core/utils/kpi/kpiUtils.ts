@@ -1,7 +1,7 @@
-import type { ProcessedBucketItem } from "@type/metricBucketTypes";
-import type { Metric } from "@type/metricBucketTypes";
+import type { ProcessedBucketItem } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
 import { applyAllFilters } from "@utils/filterUtils";
-import type { FilterableConfig, StylableConfig } from "@type/widgetTypes";
+import type { FilterableConfig, StylableConfig } from "@/domain/value-objects/widgets/widgetTypes";
 
 
 

@@ -1,6 +1,6 @@
 import { Widget } from "@/domain/entities/Widget.entity";
 import type { WidgetDTO } from "../api/dto/WidgetDTO";
-import type { WidgetType } from "@type/widgetTypes";
+import type { WidgetType } from "@/domain/value-objects/widgets/widgetTypes";
 
 export const widgetMapper = {
     toDomain(dto: WidgetDTO): Widget {

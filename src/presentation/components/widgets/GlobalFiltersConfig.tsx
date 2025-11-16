@@ -1,6 +1,6 @@
-import type { GlobalFiltersConfigProps } from "@type/widgetTypes";
+import type { GlobalFiltersConfigProps } from "@/domain/value-objects/widgets/widgetTypes";
 import BaseFilterConfig from "@components/widgets/BaseFilterConfig";
-import type { Filter } from "@type/visualization";
+import type { Filter } from "@/domain/value-objects";
 
 
 export default function GlobalFiltersConfig({
@@ -10,14 +10,14 @@ export default function GlobalFiltersConfig({
     onFiltersChange,
 }: GlobalFiltersConfigProps) {
 
-    const createNewFilter = (columns: string[]): Filter => ({
-        field: columns[0] || '',
+    const createNewFilter = (cols: string[]): Filter => ({
+        field: cols[0] || '',
         operator: 'equals',
         value: '',
     });
 
     return (
-        <BaseFilterConfig<Filter>
+        <BaseFilterConfig
             filters={filters}
             columns={columns}
             data={data}

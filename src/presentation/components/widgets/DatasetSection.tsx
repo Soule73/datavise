@@ -1,4 +1,4 @@
-import type { DatasetSectionProps } from "@type/widgetTypes";
+import type { DatasetSectionProps } from "@/domain/value-objects/widgets/widgetTypes";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
 import CollapsibleSection from "@components/widgets/CollapsibleSection";
 

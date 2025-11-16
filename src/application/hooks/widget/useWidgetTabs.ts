@@ -1,10 +1,9 @@
 import type { TabConfig } from "@type/ui";
 import { useMemo } from "react";
 import { WIDGETS } from "@/core/config/visualizations";
-import type { WidgetType } from "@/domain/value-objects";
+import type { WidgetType, WidgetConfig } from "@/domain/value-objects";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function useWidgetTabs(config: any, widgetType?: WidgetType): TabConfig[] {
+export function useWidgetTabs(config: WidgetConfig, widgetType?: WidgetType): TabConfig[] {
     return useMemo(() => {
         const availableTabs: TabConfig[] = [];
 
@@ -17,7 +16,7 @@ export function useWidgetTabs(config: any, widgetType?: WidgetType): TabConfig[]
         if (widgetType) {
             const widgetDef = WIDGETS[widgetType];
             const metricStylesSchema = widgetDef?.configSchema?.metricStyles;
-            hasMetricStyles = metricStylesSchema && Object.keys(metricStylesSchema).length > 0;
+            hasMetricStyles = Boolean(metricStylesSchema && Object.keys(metricStylesSchema).length > 0);
         }
 
         // N'afficher le tab "Métriques & Style" que si le widget a des métriques ET utilise des metricStyles

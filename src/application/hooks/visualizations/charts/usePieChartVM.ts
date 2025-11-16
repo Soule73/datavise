@@ -1,6 +1,6 @@
 import { useChartLogic } from '@/application/hooks/visualizations/charts/useChartVM';
 import { createPieChartDataset } from '@utils/charts/chartDatasetUtils';
-import type { PieChartVM, PieChartWidgetProps } from "@type/widgetTypes";
+import type { PieChartVM, PieChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 export function usePieChartLogic({
     data,

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useMultiBucketProcessor } from "@/application/hooks/common/useMultiBucketProcessor";
-import type { Metric } from "@type/metricBucketTypes";
-import type { FilterableConfig, KPIWidgetProps, KPIWidgetVM, StylableConfig } from "@type/widgetTypes";
+import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { FilterableConfig, KPIWidgetProps, KPIWidgetVM, StylableConfig } from "@/domain/value-objects/widgets/widgetTypes";
 import {
   applyKPIFilters,
   calculateKPIValue,

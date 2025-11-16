@@ -1,6 +1,6 @@
 import { useChartLogic } from "@/application/hooks/visualizations/charts/useChartVM";
 import { createBarChartDataset } from "@utils/charts/chartDatasetUtils";
-import type { BarChartVM, BarChartWidgetProps } from "@type/widgetTypes";
+import type { BarChartVM, BarChartWidgetProps } from "@/domain/value-objects/widgets/widgetTypes";
 
 
 

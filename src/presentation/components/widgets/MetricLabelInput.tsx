@@ -1,4 +1,4 @@
-import type { MetricLabelInputProps } from "@type/metricBucketTypes";
+import type { MetricLabelInputProps } from "@/domain/value-objects/widgets/metricBucketTypes";
 import InputField from "@components/forms/InputField";
 
 

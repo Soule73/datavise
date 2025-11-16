@@ -1,4 +1,4 @@
-import type { WidgetConfig } from "./widgetTypes";
+import type { WidgetConfig } from "../../domain/value-objects/widgets/widgetTypes";
 
 /**
  * Widget généré par l'IA avec métadonnées

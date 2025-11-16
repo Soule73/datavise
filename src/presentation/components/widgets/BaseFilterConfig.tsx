@@ -2,10 +2,11 @@ import SelectField from "@components/SelectField";
 import InputField from "@components/forms/InputField";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import WidgetConfigSection from "@components/widgets/WidgetConfigSection";
-import { OPERATOR_OPTIONS, type BaseFilter, type BaseFilterConfigProps, type FilterType } from "@type/widgetTypes";
+import { OPERATOR_OPTIONS, type BaseFilterConfigProps } from "@/domain/value-objects/widgets/widgetTypes";
+import type { Filter } from "@/domain/value-objects";
 
 
-export default function BaseFilterConfig<T extends FilterType & BaseFilter>({
+export default function BaseFilterConfig({
     filters = [],
     columns,
     data = [],
@@ -14,7 +15,7 @@ export default function BaseFilterConfig<T extends FilterType & BaseFilter>({
     description,
     createNewFilter,
     prefix = "filter",
-}: BaseFilterConfigProps<T>) {
+}: BaseFilterConfigProps) {
     const handleAddFilter = () => {
         const newFilter = createNewFilter(columns);
         onFiltersChange([...filters, newFilter]);
@@ -25,13 +26,12 @@ export default function BaseFilterConfig<T extends FilterType & BaseFilter>({
         onFiltersChange(newFilters);
     };
 
-    const handleFilterChange = (index: number, field: keyof T, value: string | number) => {
+    const handleFilterChange = (index: number, field: keyof Filter, value: string | number) => {
         const newFilters = [...filters];
-        newFilters[index] = { ...newFilters[index], [field]: value };
+        newFilters[index] = { ...newFilters[index], [field]: value } as Filter;
 
-        // Si on change le champ ou l'opérateur, réinitialiser la valeur
         if (field === 'field' || field === 'operator') {
-            newFilters[index] = { ...newFilters[index], value: '' };
+            newFilters[index] = { ...newFilters[index], value: '' } as Filter;
         }
 
         onFiltersChange(newFilters);
@@ -79,9 +79,9 @@ export default function BaseFilterConfig<T extends FilterType & BaseFilter>({
                                 <SelectField
                                     label="Champ"
                                     textSize="sm"
-                                    className=" !max-w-max"
+                                    className=" max-w-max!"
                                     value={filter.field}
-                                    onChange={(e) => handleFilterChange(index, 'field' as keyof T, e.target.value)}
+                                    onChange={(e) => handleFilterChange(index, 'field', e.target.value)}
                                     options={[
                                         { value: "", label: "-- Aucun --" },
                                         ...columns.map((col) => ({ value: col, label: col }))
@@ -94,7 +94,7 @@ export default function BaseFilterConfig<T extends FilterType & BaseFilter>({
                                     label="Opérateur"
                                     textSize="sm"
                                     value={filter.operator || 'equals'}
-                                    onChange={(e) => handleFilterChange(index, 'operator' as keyof T, e.target.value)}
+                                    onChange={(e) => handleFilterChange(index, 'operator', e.target.value)}
                                     options={OPERATOR_OPTIONS}
                                     name={`${prefix}-operator-${index}`}
                                     id={`${prefix}-operator-${index}`}
@@ -106,8 +106,8 @@ export default function BaseFilterConfig<T extends FilterType & BaseFilter>({
                                     <SelectField
                                         label="Valeur"
                                         textSize="sm"
-                                        value={filter.value || ""}
-                                        onChange={(e) => handleFilterChange(index, 'value' as keyof T, e.target.value)}
+                                        value={String(filter.value || "")}
+                                        onChange={(e) => handleFilterChange(index, 'value', e.target.value)}
                                         options={getFieldValues(filter.field)}
                                         name={`${prefix}-value-${index}`}
                                         id={`${prefix}-value-${index}`}
@@ -117,8 +117,8 @@ export default function BaseFilterConfig<T extends FilterType & BaseFilter>({
                                     <InputField
                                         label="Valeur"
                                         textSize="sm"
-                                        value={filter.value || ""}
-                                        onChange={(e) => handleFilterChange(index, 'value' as keyof T, e.target.value)}
+                                        value={String(filter.value || "")}
+                                        onChange={(e) => handleFilterChange(index, 'value', e.target.value)}
                                         name={`${prefix}-value-${index}`}
                                         id={`${prefix}-value-${index}`}
                                         disabled={!filter.field}

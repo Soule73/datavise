@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Metric } from "@type/metricBucketTypes";
-import type { DatasetCreationContext } from "@type/widgetTypes";
+import type { Metric } from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { DatasetCreationContext } from "@/domain/value-objects/widgets/widgetTypes";
 import { createDefaultDataset } from "@utils/charts/chartConfigUtils";
 import { getDatasetColor, generateColorsForLabels, addTransparency } from "@utils/charts/chartColorUtils";
 import { aggregate } from "@utils/charts/chartUtils";

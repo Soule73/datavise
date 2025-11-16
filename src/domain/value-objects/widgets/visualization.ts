@@ -4,7 +4,8 @@ import type {
   RadarMetricConfig,
   ScatterMetricConfig,
   MultiBucketConfig,
-} from "@type/metricBucketTypes";
+} from "@/domain/value-objects/widgets/metricBucketTypes";
+import type { Filter } from "@/domain/value-objects";
 
 // --- Base params communs à la plupart des visualisations ---
 export interface BaseChartParams {
@@ -157,14 +158,7 @@ export interface MetricStyle {
   borderColor?: string; // Couleur de bordure par métrique
 }
 
-export type FilterOperator = 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal' | 'starts_with' | 'ends_with';
-
-export interface Filter {
-  field: string; // Champ sur lequel appliquer le filtre
-  operator?: FilterOperator;
-  value: string | number | readonly string[] | undefined;
-}
-
+export type { Filter, FilterOperator, DatasetFilter } from "@/domain/value-objects";
 
 export interface MetricStyleConfig {
   [key: string]: MetricStyle;

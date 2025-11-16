@@ -1,7 +1,7 @@
 // Types principaux
 import type { ReactNode } from "react";
 import type { DataSource } from "@type/dataSource";
-import type { Widget } from "@type/widgetTypes";
+import type { Widget } from "@/domain/value-objects/widgets/widgetTypes";
 
 // =====================
 // Dashboard & Layout
