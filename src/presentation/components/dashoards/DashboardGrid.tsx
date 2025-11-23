@@ -1,8 +1,11 @@
-import { useDashboardGrid } from "@/application/hooks/dashboard/useDashboardGrid";
+import { useMemo, useState, useEffect, useRef } from "react";
+import GridLayout from "react-grid-layout";
 import type { DataSource } from "@/domain/entities/DataSource.entity";
 import type { DashboardLayoutItem } from "@/domain/value-objects";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import DashboardGridItem from "@components/dashoards/DashboardGridItem";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 
 interface DashboardGridProps {
   layout: DashboardLayoutItem[];
@@ -11,39 +14,6 @@ interface DashboardGridProps {
   editMode?: boolean;
   hasUnsavedChanges?: boolean;
   handleAddWidget: (e: React.MouseEvent) => void;
-  autoRefreshIntervalValue?: number;
-  autoRefreshIntervalUnit?: string;
-  timeRangeFrom?: string | null;
-  timeRangeTo?: string | null;
-  forceRefreshKey?: number;
-  page?: number;
-  pageSize?: number;
-  shareId?: string;
-  refreshMs?: number;
-}
-
-
-// Slot d'ajout de widget
-function AddWidgetSlot({
-  onClick,
-  getSlotStyle,
-}: {
-  onClick: (e: React.MouseEvent) => void;
-  getSlotStyle: () => React.CSSProperties;
-}) {
-  return (
-    <div
-      key="add-slot"
-      className="relative min-h-40 w-full max-w-full border-2 border-dashed rounded-lg flex items-center justify-center text-gray-400 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 cursor-pointer select-none overflow-x-auto transition-all duration-200 group"
-      style={{ ...getSlotStyle(), minHeight: 300 }}
-      onClick={onClick}
-    >
-      <div className="flex flex-col items-center gap-2">
-        <PlusIcon className="w-8 h-8 text-gray-400 group-hover:text-indigo-500 transition-colors" />
-        <span className="text-sm font-medium group-hover:text-indigo-600">Ajouter un widget</span>
-      </div>
-    </div>
-  );
 }
 
 export default function DashboardGrid({
@@ -51,86 +21,112 @@ export default function DashboardGrid({
   onSwapLayout,
   sources,
   editMode = false,
-  hasUnsavedChanges = false,
   handleAddWidget,
-  timeRangeFrom,
-  timeRangeTo,
-  forceRefreshKey,
-  page,
-  pageSize,
-  shareId,
-  refreshMs
 }: DashboardGridProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(1200);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const {
-    draggedIdx,
-    hoveredIdx,
-    isMobile,
-    slots,
-    getSlotStyle,
-    handleDragStart,
-    handleDragOver,
-    handleDragEnd,
-    handleDrop,
-    handleRemove,
-  } = useDashboardGrid({
-    layout,
-    editMode,
-    hasUnsavedChanges,
-    onSwapLayout,
-  });
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        const width = containerRef.current.offsetWidth;
+        const effectiveWidth = editMode ? width - 32 : width;
+        setContainerWidth(effectiveWidth);
+        setIsMobile(window.innerWidth < 1024);
+      }
+    };
+
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, [editMode]);
+
+  const gridLayout = useMemo(() => {
+    return layout.map((item, index) => ({
+      i: item.widgetId,
+      x: isMobile ? 0 : (item.x || 0),
+      y: isMobile ? index * 4 : (item.y || 0),
+      w: isMobile ? 12 : (item.w || 6),
+      h: item.h || 4,
+      minW: isMobile ? 12 : 2,
+      minH: 2,
+      static: isMobile,
+    }));
+  }, [layout, isMobile]);
+
+  const handleLayoutChange = (newLayout: GridLayout.Layout[]) => {
+    if (!onSwapLayout || !editMode) return;
+
+    const updatedLayout = layout.map((item) => {
+      const gridItem = newLayout.find((l) => l.i === item.widgetId);
+      if (!gridItem) return item;
+
+      return {
+        ...item,
+        i: item.widgetId,
+        x: gridItem.x,
+        y: gridItem.y,
+        w: gridItem.w,
+        h: gridItem.h,
+      };
+    });
+
+    onSwapLayout(updatedLayout);
+  };
+
+  const handleRemove = (widgetId: string) => {
+    if (!onSwapLayout) return;
+    const newLayout = layout.filter((item) => item.widgetId !== widgetId);
+    onSwapLayout(newLayout);
+  };
 
   return (
-    <div
-      className={`dashboard-grid w-full flex flex-wrap min-w-full gap-2 ${editMode &&
-        "border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50"
-        }`}
-    >
-      {slots.map((item, idx) => {
+    <div ref={containerRef} className="dashboard-grid-container w-full">
+      <GridLayout
+        className={`layout ${editMode ? "edit-mode" : ""}`}
+        layout={gridLayout}
+        cols={12}
+        rowHeight={60}
+        width={containerWidth}
+        isDraggable={editMode && !isMobile}
+        isResizable={editMode && !isMobile}
+        onLayoutChange={handleLayoutChange}
+        draggableHandle=".drag-handle"
+        compactType="vertical"
+        preventCollision={false}
+        margin={[8, 8]}
+      >
+        {layout.map((item) => {
+          if (!item.widget) {
+            return null;
+          }
 
-        if (idx === slots.length - 1) {
-          if (!editMode) return null;
           return (
-            <AddWidgetSlot
-              key={`add-slot-${idx}`}
-              onClick={handleAddWidget}
-              getSlotStyle={getSlotStyle}
-            />
+            <div key={item.widgetId} className="grid-item">
+              <DashboardGridItem
+                item={item}
+                widget={item.widget}
+                editMode={editMode}
+                sources={sources}
+                onRemove={editMode ? () => handleRemove(item.widgetId) : undefined}
+              />
+            </div>
           );
-        }
+        })}
+      </GridLayout>
 
-        const widget = item?.widget;
-
-        if (!widget) return null;
-
-        return (
-          <DashboardGridItem
-            key={widget.widgetId || idx}
-            idx={idx}
-            hydratedLayout={layout}
-            editMode={editMode}
-            item={item}
-            widget={widget}
-            hoveredIdx={hoveredIdx}
-            draggedIdx={draggedIdx}
-            handleDragStart={handleDragStart}
-            handleDragOver={handleDragOver}
-            handleDrop={handleDrop}
-            handleDragEnd={handleDragEnd}
-            isMobile={isMobile}
-            sources={sources as any}
-            onRemove={editMode ? () => handleRemove(idx) : undefined}
-            onSwapLayout={onSwapLayout}
-            timeRangeFrom={timeRangeFrom}
-            timeRangeTo={timeRangeTo}
-            forceRefreshKey={forceRefreshKey}
-            page={page}
-            pageSize={pageSize}
-            shareId={shareId}
-            refreshMs={refreshMs}
-          />
-        );
-      })}
+      {editMode && (
+        <div
+          className="mt-4 p-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg flex items-center justify-center text-gray-400 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 cursor-pointer transition-all duration-200 group max-w-sm h-32"
+          onClick={handleAddWidget}
+        >
+          <div className="flex flex-col items-center gap-2">
+            <PlusIcon className="w-8 h-8 text-gray-400 group-hover:text-indigo-500 transition-colors" />
+            <span className="text-sm font-medium group-hover:text-indigo-600">Ajouter un widget</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

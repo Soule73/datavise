@@ -11,7 +11,9 @@ export class ListWidgetsUseCase {
 
     async execute(filters?: WidgetFilters, pagination?: Pagination): Promise<Widget[]> {
         try {
-            return await this.widgetRepository.findAll(filters, pagination);
+            const data = await this.widgetRepository.findAll(filters, pagination);
+
+            return data;
         } catch (error) {
             console.error("Erreur lors de la récupération des widgets:", error);
             throw error;

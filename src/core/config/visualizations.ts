@@ -103,7 +103,7 @@ const COMMON_WIDGET_PARAMS = {
   },
 };
 
-export const WIDGETS: Record<WidgetType, WidgetDefinition> = {
+export const WIDGETS: Record<WidgetType, WidgetDefinition<WidgetType>> = {
   bar: {
     type: "bar",
     label: "Bar Chart",

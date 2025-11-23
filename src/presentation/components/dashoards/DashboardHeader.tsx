@@ -2,53 +2,57 @@ import React, { type ReactNode } from "react";
 import DashboardSharePopover from "@components/dashoards/DashboardSharePopover";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import Button from "@components/forms/Button";
-
+import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
+import { useDashboardShareStore } from "@/core/store/useDashboardShareStore";
+import { useUserStore } from "@/core/store/user";
 
 export interface DashboardHeaderProps {
-  editMode: boolean;
   isCreate: boolean;
-  hasPermission: (perm: string) => boolean;
   openAddWidgetModal: (e: React.MouseEvent) => void;
   handleSave: () => void;
   handleCancelEdit: () => void;
-  setEditMode: (v: boolean) => void;
-  saving: boolean;
-  shareLoading?: boolean;
-  shareError?: string | null;
-  shareLink?: string | null;
-  isShareEnabled?: boolean;
-  currentShareId?: string | null;
   handleEnableShare?: () => void;
   handleDisableShare?: () => void;
-  handleCopyShareLink?: () => void;
-  handleExportPDF: () => void;
-
   children?: ReactNode;
 }
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
-  editMode,
   isCreate,
-  hasPermission,
   openAddWidgetModal,
   handleSave,
   handleCancelEdit,
-  setEditMode,
-  saving,
-  shareLoading,
-  shareError,
-  shareLink,
-  isShareEnabled,
-  currentShareId,
   handleEnableShare,
   handleDisableShare,
-  handleCopyShareLink,
-  handleExportPDF,
   children,
 }) => {
-  const canUpdateDashboard = hasPermission("dashboard:canUpdate");
+  const editMode = useDashboardUIStore((s) => s.editMode);
+  const setEditMode = useDashboardUIStore((s) => s.setEditMode);
+  const saving = useDashboardUIStore((s) => s.saving);
+  const setExportPDFModalOpen = useDashboardUIStore((s) => s.setExportPDFModalOpen);
 
+  const shareId = useDashboardShareStore((s) => s.shareId);
+  const isEnabling = useDashboardShareStore((s) => s.isEnabling);
+  const isDisabling = useDashboardShareStore((s) => s.isDisabling);
+  const shareError = useDashboardShareStore((s) => s.shareError);
+  const getShareLink = useDashboardShareStore((s) => s.getShareLink);
+
+  const hasPermission = useUserStore((s) => s.hasPermission);
+
+  const canUpdateDashboard = hasPermission("dashboard:canUpdate");
   const canCreateWidget = hasPermission("widget:canCreate");
+
+  const shareLink = getShareLink(window.location.origin);
+  const shareLoading = isEnabling || isDisabling;
+
+  const handleCopyShareLink = () => {
+    if (shareLink) {
+      navigator.clipboard.writeText(shareLink);
+    }
+  };
+
+  const handleExportPDF = () => {
+    setExportPDFModalOpen(true);
+  };
 
   const renderEditActions = () => (
     <div className="hidden md:flex items-center gap-4">
@@ -115,11 +119,11 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
       {canUpdateDashboard && (
         <DashboardSharePopover
-          isShareEnabled={isShareEnabled}
+          isShareEnabled={!!shareId}
           shareLoading={shareLoading}
           shareError={shareError}
           shareLink={shareLink}
-          currentShareId={currentShareId}
+          currentShareId={shareId}
           handleEnableShare={handleEnableShare}
           handleDisableShare={handleDisableShare}
           handleCopyShareLink={handleCopyShareLink}

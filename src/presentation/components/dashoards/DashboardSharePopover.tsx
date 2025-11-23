@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "@components/forms/Button";
+
 
 interface DashboardSharePopoverProps {
   isShareEnabled?: boolean;
@@ -35,16 +35,10 @@ const DashboardSharePopover: React.FC<DashboardSharePopoverProps> = ({
     <Popover className="relative">
       <PopoverButton
         title="Partager le dashboard publiquement"
+        className="flex w-max items-center gap-1 rounded-md border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors"
       >
-        <Button
-          variant="outline"
-          size="sm"
-          color="indigo"
-          className="w-max border-none! flex items-center gap-1"
-        >
-          <ShareIcon className="w-4 h-4 text-indigo-500" />
-          Partage
-        </Button>
+        <ShareIcon className="w-4 h-4" />
+        Partage
       </PopoverButton>
       <PopoverPanel
         anchor="right end"

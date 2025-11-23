@@ -8,6 +8,8 @@ import { UpdateDashboardUseCase } from "@/domain/use-cases/dashboard/UpdateDashb
 import { useDashboardStore } from "@/core/store/dashboard";
 import { useNotificationStore } from "@/core/store/notification";
 import { useUserStore } from "@/core/store/user";
+import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
+import { useDashboardConfigStore } from "@/core/store/useDashboardConfigStore";
 import { useDataSourceList } from "../datasource/useDataSourceList";
 import type { DashboardLayoutItem, IntervalUnit } from "@/domain/value-objects";
 import type { Widget } from "@/domain/entities/Widget.entity";
@@ -34,53 +36,48 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
     const isCreate = location.pathname.includes("/dashboards/create");
     const dashboardId = params.id;
 
-    const { data: dashboard, isLoading } = useQuery({
+    const { data: dashboard } = useQuery({
         queryKey: ["dashboard", dashboardId],
         queryFn: () => getDashboardUseCase.execute(dashboardId!),
         enabled: !isCreate && !!dashboardId,
     });
 
-    const { dataSources: sources, isLoading: isLoadingSources } = useDataSourceList();
+    const { dataSources: sources } = useDataSourceList();
 
     const layout = useDashboardStore((s) => s.layout);
     const setLayout = useDashboardStore((s) => s.setLayout);
-    const editMode = useDashboardStore((s) => s.editMode);
-    const setEditMode = useDashboardStore((s) => s.setEditMode);
-    const hasUnsavedChanges = useDashboardStore((s) => s.hasUnsavedChanges);
     const setHasUnsavedChanges = useDashboardStore((s) => s.setHasUnsavedChanges);
     const showNotification = useNotificationStore((s) => s.showNotification);
     const hasPermission = useUserStore((s) => s.hasPermission);
 
-    const [saving, setSaving] = useState(false);
-    const [selectOpen, setSelectOpen] = useState(false);
+    const setEditMode = useDashboardUIStore((s) => s.setEditMode);
+    const setSaving = useDashboardUIStore((s) => s.setSaving);
+    const setSelectOpen = useDashboardUIStore((s) => s.setSelectOpen);
+    const saveModalOpen = useDashboardUIStore((s) => s.saveModalOpen);
+    const setSaveModalOpen = useDashboardUIStore((s) => s.setSaveModalOpen);
+    const pendingTitle = useDashboardUIStore((s) => s.pendingTitle);
+    const setPendingTitle = useDashboardUIStore((s) => s.setPendingTitle);
+    const setExportPDFModalOpen = useDashboardUIStore((s) => s.setExportPDFModalOpen);
+
+    const autoRefreshIntervalValue = useDashboardConfigStore((s) => s.autoRefreshIntervalValue);
+    const autoRefreshIntervalUnit = useDashboardConfigStore((s) => s.autoRefreshIntervalUnit);
+    const timeRangeFrom = useDashboardConfigStore((s) => s.timeRangeFrom);
+    const timeRangeTo = useDashboardConfigStore((s) => s.timeRangeTo);
+    const relativeValue = useDashboardConfigStore((s) => s.relativeValue);
+    const relativeUnit = useDashboardConfigStore((s) => s.relativeUnit);
+    const timeRangeMode = useDashboardConfigStore((s) => s.timeRangeMode);
+    const forceRefreshKey = useDashboardConfigStore((s) => s.forceRefreshKey);
+    const setAutoRefresh = useDashboardConfigStore((s) => s.setAutoRefresh);
+    const setTimeRangeAbsolute = useDashboardConfigStore((s) => s.setTimeRangeAbsolute);
+    const setTimeRangeRelative = useDashboardConfigStore((s) => s.setTimeRangeRelative);
+
     const [localDashboard, setLocalDashboard] = useState<{
         _id?: string;
         title: string;
         layout: DashboardLayoutItem[];
     }>({ title: "", layout: [] });
 
-    const [saveModalOpen, setSaveModalOpen] = useState(false);
-    const [pendingTitle, setPendingTitle] = useState("");
     const [visibility, setVisibility] = useState<"public" | "private">("private");
-    const [exportPDFModalOpen, setExportPDFModalOpen] = useState(false);
-
-    const [autoRefreshIntervalValue, setAutoRefreshIntervalValue] = useState<number | undefined>(
-        dashboard?.autoRefreshIntervalValue
-    );
-    const [autoRefreshIntervalUnit, setAutoRefreshIntervalUnit] = useState<IntervalUnit | undefined>(
-        dashboard?.autoRefreshIntervalUnit ?? "minute"
-    );
-
-    const [timeRangeFrom, setTimeRangeFrom] = useState<string | null>(
-        dashboard?.timeRange?.from ?? null
-    );
-    const [timeRangeTo, setTimeRangeTo] = useState<string | null>(
-        dashboard?.timeRange?.to ?? null
-    );
-    const [relativeValue, setRelativeValue] = useState<number | undefined>(undefined);
-    const [relativeUnit, setRelativeUnit] = useState<IntervalUnit | undefined>("minute");
-    const [timeRangeMode, setTimeRangeMode] = useState<"absolute" | "relative">("absolute");
-    const [forceRefreshKey, setForceRefreshKey] = useState(0);
 
     const [effectiveTimeRange, setEffectiveTimeRange] = useState(() =>
         getEffectiveTimeRange({
@@ -93,9 +90,6 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
     );
 
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-    const dashboardToUse = isCreate ? localDashboard : dashboard;
-    const layoutToUse = isCreate ? localDashboard.layout : layout;
 
     const createMutation = useMutation({
         mutationFn: (payload: {
@@ -153,8 +147,6 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
         },
     });
 
-    const handleOpenExportPDFModal = () => setExportPDFModalOpen(true);
-
     const handleExportPDFConfirm = async (options: {
         orientation: "portrait" | "landscape";
     }) => {
@@ -174,11 +166,12 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
 
     const handleAddWidget = (widget: Widget) => {
         const newItem: DashboardLayoutItem = {
+            i: widget.id,
             widgetId: widget.id,
-            width: "12",
-            height: 300,
+            w: 6,
+            h: 4,
             x: 0,
-            y: isCreate ? localDashboard.layout.length : layout.length,
+            y: isCreate ? localDashboard.layout.length * 4 : layout.length * 4,
             widget: widget as any,
         };
         if (isCreate) {
@@ -292,30 +285,6 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
         setEditMode(false);
     };
 
-    const handleChangeAutoRefresh = (value: number | undefined, unit: IntervalUnit | undefined) => {
-        setAutoRefreshIntervalValue(value);
-        setAutoRefreshIntervalUnit(unit);
-    };
-
-    const handleChangeTimeRangeAbsolute = (from: string | null, to: string | null) => {
-        setTimeRangeFrom(from);
-        setTimeRangeTo(to);
-        setTimeRangeMode("absolute");
-    };
-
-    const handleChangeTimeRangeRelative = (
-        value: number | undefined,
-        unit: IntervalUnit | undefined
-    ) => {
-        setRelativeValue(value);
-        setRelativeUnit(unit);
-        setTimeRangeMode("relative");
-    };
-
-    const handleChangeTimeRangeMode = (mode: "absolute" | "relative") => {
-        setTimeRangeMode(mode);
-    };
-
     const handleSaveConfig = async () => {
         const tr = getEffectiveTimeRange({
             timeRangeMode,
@@ -358,20 +327,19 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
         } else if (isCreate) {
             setPendingTitle("");
         }
-    }, [dashboard, isCreate]);
+    }, [dashboard, isCreate, setPendingTitle]);
 
     useEffect(() => {
         if (dashboard) {
             const cfg = initDashboardTimeConfig(dashboard as any);
-            setAutoRefreshIntervalValue(cfg.autoRefreshIntervalValue);
-            setAutoRefreshIntervalUnit(cfg.autoRefreshIntervalUnit);
-            setTimeRangeFrom(cfg.timeRangeFrom);
-            setTimeRangeTo(cfg.timeRangeTo);
-            setRelativeValue(cfg.relativeValue);
-            setRelativeUnit(cfg.relativeUnit);
-            setTimeRangeMode(cfg.timeRangeMode as "absolute" | "relative");
+            setAutoRefresh(cfg.autoRefreshIntervalValue, cfg.autoRefreshIntervalUnit);
+            if (cfg.timeRangeMode === "absolute") {
+                setTimeRangeAbsolute(cfg.timeRangeFrom, cfg.timeRangeTo);
+            } else {
+                setTimeRangeRelative(cfg.relativeValue, cfg.relativeUnit);
+            }
         }
-    }, [dashboard]);
+    }, [dashboard, setAutoRefresh, setTimeRangeAbsolute, setTimeRangeRelative]);
 
     useEffect(() => {
         if (timerRef.current) {
@@ -446,23 +414,12 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
 
     return {
         dashboardId,
-        isLoading,
-        isLoadingSources,
         sources,
-        saving,
-        selectOpen,
+        layout: isCreate ? localDashboard.layout : layout,
         hasPermission,
         openAddWidgetModal,
-        setSelectOpen,
-        layout: layoutToUse,
-        editMode,
-        setEditMode,
-        hasUnsavedChanges,
         handleAddWidget,
-        handleSaveDashboard,
         handleSwapLayout,
-        handleCreateDashboard,
-        dashboard: dashboardToUse,
         setLocalTitle,
         saveModalOpen,
         setSaveModalOpen,
@@ -474,26 +431,11 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
         isCreate,
         visibility,
         setVisibility,
-        autoRefreshIntervalValue,
-        autoRefreshIntervalUnit,
-        timeRangeFrom,
-        timeRangeTo,
-        relativeValue,
-        relativeUnit,
-        timeRangeMode,
-        forceRefreshKey,
-        setForceRefreshKey,
-        handleChangeAutoRefresh,
-        handleChangeTimeRangeAbsolute,
-        handleChangeTimeRangeRelative,
-        handleChangeTimeRangeMode,
         handleSaveConfig,
         effectiveFrom,
         effectiveTo,
         refreshMs,
-        exportPDFModalOpen,
-        setExportPDFModalOpen,
-        handleOpenExportPDFModal,
+        forceRefreshKey,
         handleExportPDF: handleExportPDFConfirm,
     };
 }

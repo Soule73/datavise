@@ -2,6 +2,10 @@ import DashboardGrid from "@components/dashoards/DashboardGrid";
 import WidgetSelectModal from "@components/widgets/WidgetSelectModal";
 import { useDashboardActions } from "@/application/hooks/dashboard/useDashboardActions";
 import { useDashboardShare } from "@/application/hooks/dashboard/useDashboardShare";
+import { useDashboardDataLoader } from "@/application/hooks/dashboard/useDashboardDataLoader";
+import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
+import { useDashboardConfigStore } from "@/core/store/useDashboardConfigStore";
+import { useDashboardStore } from "@/core/store/dashboard";
 import DashboardHeader from "@components/dashoards/DashboardHeader";
 import { EmptyDashboard } from "@components/dashoards/EmptyDashboard";
 import { DashboardSaveModal } from "@components/DashboardSaveModal";
@@ -12,13 +16,7 @@ import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 export default function DashboardPage() {
   const {
     sources,
-    saving,
-    selectOpen,
-    setSelectOpen,
     layout = [],
-    editMode,
-    setEditMode,
-    hasUnsavedChanges,
     handleAddWidget,
     handleSwapLayout,
     setLocalTitle,
@@ -30,40 +28,47 @@ export default function DashboardPage() {
     handleConfirmSave,
     handleCancelEdit,
     isCreate,
-    autoRefreshIntervalValue,
-    autoRefreshIntervalUnit,
-    timeRangeFrom,
-    timeRangeTo,
-    relativeValue,
-    relativeUnit,
-    timeRangeMode,
-    forceRefreshKey,
-    setForceRefreshKey,
-    handleChangeAutoRefresh,
-    handleChangeTimeRangeAbsolute,
-    handleChangeTimeRangeRelative,
-    handleChangeTimeRangeMode,
     handleSaveConfig,
     effectiveFrom,
     effectiveTo,
     refreshMs,
+    forceRefreshKey,
     visibility,
     setVisibility,
     hasPermission,
     openAddWidgetModal,
-    handleExportPDF,
-    exportPDFModalOpen,
-    setExportPDFModalOpen,
+    handleExportPDF: handleExportPDFConfirm,
     dashboardId,
   } = useDashboardActions();
+
+  const editMode = useDashboardUIStore((s) => s.editMode);
+  const selectOpen = useDashboardUIStore((s) => s.selectOpen);
+  const setSelectOpen = useDashboardUIStore((s) => s.setSelectOpen);
+  const saving = useDashboardUIStore((s) => s.saving);
+  const exportPDFModalOpen = useDashboardUIStore((s) => s.exportPDFModalOpen);
+  const setExportPDFModalOpen = useDashboardUIStore((s) => s.setExportPDFModalOpen);
+
+  const incrementForceRefreshKey = useDashboardConfigStore((s) => s.incrementForceRefreshKey);
+
+  const hasUnsavedChanges = useDashboardStore((s) => s.hasUnsavedChanges);
 
   const {
     shareId,
     enableShare,
     disableShare,
-    isEnabling,
-    isDisabling,
   } = useDashboardShare(dashboardId || "");
+
+  const pageSize = useDashboardConfigStore((s) => s.pageSize);
+
+  useDashboardDataLoader({
+    layout,
+    timeRangeFrom: effectiveFrom,
+    timeRangeTo: effectiveTo,
+    refreshMs,
+    forceRefreshKey,
+    shareId: shareId || undefined,
+    pageSize,
+  });
 
   const canUpdate = hasPermission("dashboard:canUpdate");
   const isEditing = editMode || isCreate;
@@ -73,93 +78,64 @@ export default function DashboardPage() {
     layout,
     sources: sources ?? [],
     handleAddWidget: openAddWidgetModal,
-    timeRangeFrom: effectiveFrom,
-    timeRangeTo: effectiveTo,
-    refreshMs,
-    forceRefreshKey,
     hasUnsavedChanges,
   };
   const swapHandler = isEditing ? handleSwapLayout : undefined;
 
   return (
     <AuthLayout permission="dashboard:canView">
-      <WidgetSelectModal
-        open={selectOpen}
-        onClose={() => setSelectOpen(false)}
-        onSelect={handleAddWidget}
-      />
+      <div className="px-4 md:px-8 pb-8 pt-4 md:pt-6">
+        <WidgetSelectModal
+          open={selectOpen}
+          onClose={() => setSelectOpen(false)}
+          onSelect={handleAddWidget}
+        />
 
-      <DashboardSaveModal
-        saving={saving}
-        saveModalOpen={saveModalOpen}
-        setSaveModalOpen={setSaveModalOpen}
-        pendingTitle={pendingTitle}
-        setPendingTitle={setPendingTitle}
-        handleConfirmSave={handleConfirmSave}
-        isCreate={isCreate}
-        setLocalTitle={setLocalTitle}
-        visibility={visibility}
-        setVisibility={setVisibility}
-      />
+        <DashboardSaveModal
+          saving={saving}
+          saveModalOpen={saveModalOpen}
+          setSaveModalOpen={setSaveModalOpen}
+          pendingTitle={pendingTitle}
+          setPendingTitle={setPendingTitle}
+          handleConfirmSave={handleConfirmSave}
+          isCreate={isCreate}
+          setLocalTitle={setLocalTitle}
+          visibility={visibility}
+          setVisibility={setVisibility}
+        />
 
-      <DashboardHeader
-        editMode={editMode}
-        isCreate={isCreate}
-        hasPermission={hasPermission}
-        openAddWidgetModal={openAddWidgetModal}
-        handleSave={handleSave}
-        handleCancelEdit={handleCancelEdit}
-        setEditMode={setEditMode}
-        saving={saving}
-        shareLoading={isEnabling || isDisabling}
-        shareError={null}
-        shareLink={shareId ? `${window.location.origin}/share/${shareId}` : null}
-        isShareEnabled={!!shareId}
-        currentShareId={shareId}
-        handleEnableShare={() => enableShare()}
-        handleDisableShare={() => disableShare()}
-        handleCopyShareLink={() => {
-          if (shareId) {
-            navigator.clipboard.writeText(`${window.location.origin}/share/${shareId}`);
-          }
-        }}
-        handleExportPDF={() => setExportPDFModalOpen(true)}
-      >
-        {canUpdate && (
-          <DashboardConfigFields
-            autoRefreshIntervalValue={autoRefreshIntervalValue}
-            autoRefreshIntervalUnit={autoRefreshIntervalUnit}
-            timeRangeFrom={timeRangeFrom}
-            timeRangeTo={timeRangeTo}
-            relativeValue={relativeValue}
-            relativeUnit={relativeUnit}
-            timeRangeMode={timeRangeMode}
-            handleChangeAutoRefresh={handleChangeAutoRefresh}
-            handleChangeTimeRangeAbsolute={handleChangeTimeRangeAbsolute}
-            handleChangeTimeRangeRelative={handleChangeTimeRangeRelative}
-            handleChangeTimeRangeMode={handleChangeTimeRangeMode}
-            onSave={handleSaveConfig}
-            saving={saving}
-            onForceRefresh={() => setForceRefreshKey((k) => k + 1)}
+        <DashboardHeader
+          isCreate={isCreate}
+          openAddWidgetModal={openAddWidgetModal}
+          handleSave={handleSave}
+          handleCancelEdit={handleCancelEdit}
+          handleEnableShare={() => enableShare()}
+          handleDisableShare={() => disableShare()}
+        >
+          {canUpdate && (
+            <DashboardConfigFields
+              onSave={handleSaveConfig}
+              onForceRefresh={() => incrementForceRefreshKey()}
+            />
+          )}
+        </DashboardHeader>
+
+        <ExportPDFModal
+          open={exportPDFModalOpen}
+          onClose={() => setExportPDFModalOpen(false)}
+          onExport={handleExportPDFConfirm}
+        />
+
+        {isEmpty ? (
+          <EmptyDashboard />
+        ) : (
+          <DashboardGrid
+            {...gridProps}
+            editMode={isEditing}
+            onSwapLayout={swapHandler}
           />
         )}
-      </DashboardHeader>
-
-      <ExportPDFModal
-        open={exportPDFModalOpen}
-        onClose={() => setExportPDFModalOpen(false)}
-        onExport={handleExportPDF}
-      />
-
-      {isEmpty ? (
-        <EmptyDashboard />
-      ) : (
-        <DashboardGrid
-          {...gridProps}
-          editMode={isEditing}
-          onSwapLayout={swapHandler}
-        />
-      )}
+      </div>
     </AuthLayout>
   );
 }

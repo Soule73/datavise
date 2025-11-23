@@ -92,121 +92,127 @@ export default function WidgetListPage() {
   return (
     <AuthLayout permission="widget:canView"
       breadcrumb={breadcrumbs.widgetList}
-    // className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow mt-2s"
     >
-      <div className="flex items-center justify-end mb-3">
-        <div className="flex items-center gap-2">
-          {hasPermission("widget:canCreate") && (
-            <Button
-              color="indigo"
-              onClick={() => setShowCreateModal(true)}
-              className="w-max"
-            >
-              Ajouter une visualisation
-            </Button>
-          )}
+      <div
+
+        className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow mt-8"
+      >
+
+        <div className="flex items-center justify-end mb-3">
+          <div className="flex items-center gap-2">
+            {hasPermission("widget:canCreate") && (
+              <Button
+                color="indigo"
+                onClick={() => setShowCreateModal(true)}
+                className="w-max"
+              >
+                Ajouter une visualisation
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
-      {isLoading ? (
-        <div>Chargement...</div>
-      ) : (
-        <Table
-          paginable={true}
-          searchable={true}
-          rowPerPage={5}
-          columns={columns}
-          data={tableData}
-          emptyMessage="Aucune visualisation."
-          actionsColumn={{
-            key: "actions",
-            label: "Actions",
-            render: (row: Widget) => (
-              <div className="flex gap-2">
-                {hasPermission("widget:canUpdate") && (
-                  <Link
-                    to={
-                      row.id ? ROUTES.editWidget.replace(":id", row.id) : "#"
-                    }
-                  >
-                    <Button
-                      color="indigo"
-                      size="sm"
-                      variant="outline"
-                      className=" w-max border-none!"
-                      title="Modifier le widget"
+        {isLoading ? (
+          <div>Chargement...</div>
+        ) : (
+          <Table
+            paginable={true}
+            searchable={true}
+            rowPerPage={5}
+            columns={columns}
+            data={tableData}
+            emptyMessage="Aucune visualisation."
+            actionsColumn={{
+              key: "actions",
+              label: "Actions",
+              render: (row: Widget) => (
+                <div className="flex gap-2">
+                  {hasPermission("widget:canUpdate") && (
+                    <Link
+                      to={
+                        row.id ? ROUTES.editWidget.replace(":id", row.id) : "#"
+                      }
                     >
-                      Modifier
-                    </Button>
-                  </Link>
-                )}
-                <Button
-                  color="indigo"
-                  size="sm"
-                  variant="outline"
-                  title="Modfier la source"
-                  className=" w-max border-none!"
-                  onClick={() => {
-                    setSelectedConfig(row);
-                    setModalOpen(true);
-                  }}
-                >
-                  Voir la config
-                </Button>
-                {hasPermission("widget:canDelete") && (
+                      <Button
+                        color="indigo"
+                        size="sm"
+                        variant="outline"
+                        className=" w-max border-none!"
+                        title="Modifier le widget"
+                      >
+                        Modifier
+                      </Button>
+                    </Link>
+                  )}
                   <Button
-                    color="red"
+                    color="indigo"
                     size="sm"
                     variant="outline"
-                    className="w-max border-none! "
-                    disabled={!!row.isUsed}
-                    title={
-                      row.isUsed
-                        ? "Impossible de supprimer un widget utilisé dans un dashboard"
-                        : "Supprimer le widget"
-                    }
+                    title="Modfier la source"
+                    className=" w-max border-none!"
                     onClick={() => {
-                      setSelectedWidget(row);
-                      setDeleteModalOpen(true);
+                      setSelectedConfig(row);
+                      setModalOpen(true);
                     }}
                   >
-                    Supprimer
+                    Voir la config
                   </Button>
-                )}
-              </div>
-            ),
-          }}
-        />
-      )}
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title="Configuration du widget"
-        size="2xl"
-      >
-        <SyntaxHighlighter
-          language="json"
-          style={okaidia}
-          className="text-x config-scrollbar rounded p-2 overflow-y-auto max-h-80"
+                  {hasPermission("widget:canDelete") && (
+                    <Button
+                      color="red"
+                      size="sm"
+                      variant="outline"
+                      className="w-max border-none! "
+                      disabled={!!row.isUsed}
+                      title={
+                        row.isUsed
+                          ? "Impossible de supprimer un widget utilisé dans un dashboard"
+                          : "Supprimer le widget"
+                      }
+                      onClick={() => {
+                        setSelectedWidget(row);
+                        setDeleteModalOpen(true);
+                      }}
+                    >
+                      Supprimer
+                    </Button>
+                  )}
+                </div>
+              ),
+            }}
+          />
+        )}
+        <Modal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title="Configuration du widget"
+          size="2xl"
         >
-          {selectedConfig ? JSON.stringify(selectedConfig, null, 2) : ""}
-        </SyntaxHighlighter>
-      </Modal>
-      <DeleteWidgetModal
-        open={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onDelete={() =>
-          selectedWidget && deleteMutation.mutate(selectedWidget.id)
-        }
-        loading={deleteMutation.isPending}
-        widget={selectedWidget}
-      />
+          <SyntaxHighlighter
+            language="json"
+            style={okaidia}
+            className="text-x config-scrollbar rounded p-2 overflow-y-auto max-h-80"
+          >
+            {selectedConfig ? JSON.stringify(selectedConfig, null, 2) : ""}
+          </SyntaxHighlighter>
+        </Modal>
+        <DeleteWidgetModal
+          open={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onDelete={() =>
+            selectedWidget && deleteMutation.mutate(selectedWidget.id)
+          }
+          loading={deleteMutation.isPending}
+          widget={selectedWidget}
+        />
 
-      <WidgetTypeSelectionModal
-        open={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-        onConfirm={handleCreateWidget}
-        sources={sources}
-      />
+        <WidgetTypeSelectionModal
+          open={showCreateModal}
+          onClose={() => setShowCreateModal(false)}
+          onConfirm={handleCreateWidget}
+          sources={sources}
+        />
+      </div>
+
     </AuthLayout>
   );
 }

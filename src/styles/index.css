@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./landing.css";
+@import "./react-grid-layout.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
 body {
@@ -16,7 +17,7 @@ body {
 }
 
 .config-scrollbar::-webkit-scrollbar {
-  @apply w-[1px]
+  @apply w-px
 }
 
 .config-scrollbar::-webkit-scrollbar-track {
@@ -162,6 +163,7 @@ textarea:focus {
   -moz-user-drag: none;
   -o-user-drag: none;
 }
+
 /* AI Widget Preview Container */
 .widget-preview {
   position: relative;
@@ -169,7 +171,7 @@ textarea:focus {
   contain: layout size style;
 }
 
-.widget-preview > div {
+.widget-preview>div {
   max-width: 100%;
   max-height: 100%;
   overflow: auto;
@@ -228,4 +230,3 @@ textarea:focus {
   max-width: 100%;
   overflow: hidden;
 }
-

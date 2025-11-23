@@ -1,5 +1,4 @@
 import React from "react";
-import type { IntervalUnit } from "@/domain/value-objects";
 import {
   Popover,
   PopoverButton,
@@ -12,7 +11,6 @@ import {
 } from "@headlessui/react";
 import {
   Cog6ToothIcon,
-  ClockIcon,
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 
@@ -21,228 +19,187 @@ import InputField from "@components/forms/InputField";
 import Button from "@components/forms/Button";
 
 import {
-  formatUnitFr,
-  formatShortDateTime,
   INTERVAL_UNITS,
 } from "@utils/timeUtils";
+import { useDashboardConfigStore } from "@/core/store/useDashboardConfigStore";
+import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
 
 type Props = {
-  autoRefreshIntervalValue?: number;
-  autoRefreshIntervalUnit?: IntervalUnit;
-  timeRangeFrom: string | null;
-  timeRangeTo: string | null;
-  relativeValue?: number;
-  relativeUnit?: IntervalUnit;
-  timeRangeMode: "absolute" | "relative";
-  handleChangeAutoRefresh: (
-    value?: number,
-    unit?: IntervalUnit
-  ) => void;
-  handleChangeTimeRangeAbsolute: (
-    from: string | null,
-    to: string | null
-  ) => void;
-  handleChangeTimeRangeRelative: (
-    value?: number,
-    unit?: IntervalUnit
-  ) => void;
-  handleChangeTimeRangeMode: (
-    mode: "absolute" | "relative"
-  ) => void;
   onSave: () => void;
-  saving?: boolean;
   onForceRefresh?: () => void;
 };
 
-const baseBtnClasses =
-  "!w-max !px-3 !h-8 text-sm flex items-center gap-2";
-
 export default function DashboardConfigFields({
-  autoRefreshIntervalValue,
-  autoRefreshIntervalUnit,
-  timeRangeFrom,
-  timeRangeTo,
-  relativeValue,
-  relativeUnit,
-  timeRangeMode,
-  handleChangeAutoRefresh,
-  handleChangeTimeRangeAbsolute,
-  handleChangeTimeRangeRelative,
-  handleChangeTimeRangeMode,
   onSave,
-  saving,
   onForceRefresh,
 }: Props) {
-  // Labels
-  const autoRefreshLabel = autoRefreshIntervalValue && autoRefreshIntervalUnit
-    ? `Actualise toutes les ${autoRefreshIntervalValue} ${formatUnitFr(
-      autoRefreshIntervalUnit,
-      autoRefreshIntervalValue
-    )}`
-    : "Activer l'auto-refresh";
+  const autoRefreshIntervalValue = useDashboardConfigStore((s) => s.autoRefreshIntervalValue);
+  const autoRefreshIntervalUnit = useDashboardConfigStore((s) => s.autoRefreshIntervalUnit);
+  const timeRangeFrom = useDashboardConfigStore((s) => s.timeRangeFrom);
+  const timeRangeTo = useDashboardConfigStore((s) => s.timeRangeTo);
+  const relativeValue = useDashboardConfigStore((s) => s.relativeValue);
+  const relativeUnit = useDashboardConfigStore((s) => s.relativeUnit);
+  const timeRangeMode = useDashboardConfigStore((s) => s.timeRangeMode);
+  const pageSize = useDashboardConfigStore((s) => s.pageSize);
 
-  const timeRangeLabel =
-    timeRangeMode === "relative" && relativeValue && relativeUnit
-      ? `Il y a ${relativeValue} ${formatUnitFr(
-        relativeUnit,
-        relativeValue
-      )}`
-      : timeRangeMode === "absolute" &&
-        timeRangeFrom &&
-        timeRangeTo
-        ? `du ${formatShortDateTime(new Date(timeRangeFrom))} au ${formatShortDateTime(
-          new Date(timeRangeTo)
-        )}`
-        : "Configurer la plage";
+  const setAutoRefresh = useDashboardConfigStore((s) => s.setAutoRefresh);
+  const setTimeRangeAbsolute = useDashboardConfigStore((s) => s.setTimeRangeAbsolute);
+  const setTimeRangeRelative = useDashboardConfigStore((s) => s.setTimeRangeRelative);
+  const setTimeRangeMode = useDashboardConfigStore((s) => s.setTimeRangeMode);
+  const setPageSize = useDashboardConfigStore((s) => s.setPageSize);
 
-  // Auto-refresh panel
-  const AutoRefreshPanel = (
-    <div className="flex flex-col gap-2">
-      <span className="font-medium">Rafraîchir tous les</span>
-      <div className="flex items-end gap-2">
-        <InputField
-          id="autoRefreshIntervalValue"
-          type="number"
-          min={1}
-          className="max-w-28 h-8"
-          value={autoRefreshIntervalValue ?? ""}
-          onChange={(e) =>
-            handleChangeAutoRefresh(
-              e.target.value === "" ? undefined : +e.target.value,
-              autoRefreshIntervalUnit
-            )
-          }
-        />
-        <SelectField
-          id="autoRefreshIntervalUnit"
-          options={INTERVAL_UNITS}
-          value={autoRefreshIntervalUnit}
-          onChange={(e) =>
-            handleChangeAutoRefresh(
-              autoRefreshIntervalValue,
-              e.target.value as IntervalUnit
-            )
-          }
-          className="max-w-28 h-8"
-          disabled={autoRefreshIntervalValue == null}
-        />
-        <Button
-          type="button"
-          color="indigo"
-          variant="outline"
-          size="sm"
-          className={baseBtnClasses}
-          onClick={onSave}
-          disabled={saving}
-        >
-          Appliquer
-        </Button>
-      </div>
-    </div>
-  );
+  const saving = useDashboardUIStore((s) => s.saving);
 
-  // Time-range panel
-  const TimeRangePanel = (
-    <TabGroup
-      selectedIndex={timeRangeMode === "absolute" ? 0 : 1}
-      onChange={(i) =>
-        handleChangeTimeRangeMode(i === 0 ? "absolute" : "relative")
-      }
-    >
-      <TabList className="flex gap-2 mb-2">
-        {["Absolue", "Relative"].map((label) => (
-          <Tab
-            key={label}
-            className={({ selected }) =>
-              `${selected
-                ? "bg-indigo-600 text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200"
-              } px-3 py-1 rounded`
-            }
-          >
-            {label}
-          </Tab>
-        ))}
-      </TabList>
+  const ConfigPanel = (
+    <div className="flex flex-col gap-4 w-80 max-w-[90vw]">
+      <TabGroup
+        selectedIndex={timeRangeMode === "absolute" ? 0 : 1}
+        onChange={(i) =>
+          setTimeRangeMode(i === 0 ? "absolute" : "relative")
+        }
+      >
+        <div className="mb-3">
+          <span className="font-medium text-sm mb-2 block">Plage temporelle</span>
+          <TabList className="flex gap-2">
+            {["Absolue", "Relative"].map((label) => (
+              <Tab
+                key={label}
+                className={({ selected }) =>
+                  `${selected
+                    ? "bg-indigo-600 text-white"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+                  } px-3 py-1 rounded text-sm`
+                }
+              >
+                {label}
+              </Tab>
+            ))}
+          </TabList>
+        </div>
 
-      <TabPanels>
-        <TabPanel>
-          <div className="flex items-end gap-2">
+        <TabPanels>
+          <TabPanel>
+            <div className="flex flex-col gap-2">
+              <InputField
+                id="timeRangeFrom"
+                type="datetime-local"
+                label="De"
+                className="h-8"
+                value={timeRangeFrom || ""}
+                onChange={(e) =>
+                  setTimeRangeAbsolute(e.target.value, timeRangeTo)
+                }
+              />
+              <InputField
+                id="timeRangeTo"
+                type="datetime-local"
+                label="À"
+                className="h-8"
+                value={timeRangeTo || ""}
+                onChange={(e) =>
+                  setTimeRangeAbsolute(timeRangeFrom, e.target.value)
+                }
+              />
+            </div>
+          </TabPanel>
+
+          <TabPanel>
+            <div className="flex gap-2">
+              <InputField
+                id="relativeValue"
+                type="number"
+                min={1}
+                label="Derniers"
+                className="flex-1 h-8"
+                value={relativeValue ?? ""}
+                onChange={(e) =>
+                  setTimeRangeRelative(
+                    e.target.value === "" ? undefined : +e.target.value,
+                    relativeUnit
+                  )
+                }
+              />
+              <SelectField
+                id="relativeUnit"
+                label="Unité"
+                options={INTERVAL_UNITS}
+                value={relativeUnit}
+                onChange={(e) =>
+                  setTimeRangeRelative(
+                    relativeValue,
+                    e.target.value as any
+                  )
+                }
+                className="flex-1 h-8"
+              />
+            </div>
+          </TabPanel>
+        </TabPanels>
+      </TabGroup>
+
+      <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
+        <div className="mb-3">
+          <span className="font-medium text-sm mb-2 block">Auto-actualisation</span>
+          <div className="flex gap-2">
             <InputField
-              id="timeRangeFrom"
-              type="datetime-local"
-              label="De"
-              className="max-w-32 h-8"
-              value={timeRangeFrom || ""}
-              onChange={(e) =>
-                handleChangeTimeRangeAbsolute(e.target.value, timeRangeTo)
-              }
-            />
-            <InputField
-              id="timeRangeTo"
-              type="datetime-local"
-              label="À"
-              className="max-w-32 h-8"
-              value={timeRangeTo || ""}
-              onChange={(e) =>
-                handleChangeTimeRangeAbsolute(timeRangeFrom, e.target.value)
-              }
-            />
-            <Button
-              size="sm"
-              variant="outline"
-              color="indigo"
-              className={baseBtnClasses}
-              onClick={onSave}
-              disabled={saving}
-            >
-              Appliquer
-            </Button>
-          </div>
-        </TabPanel>
-
-        <TabPanel>
-          <div className="flex items-end gap-2">
-            <InputField
-              id="relativeValue"
+              id="autoRefreshIntervalValue"
               type="number"
               min={1}
-              label="Derniers"
-              className="max-w-24 h-8"
-              value={relativeValue ?? ""}
+              label="Toutes les"
+              className="flex-1 h-8"
+              value={autoRefreshIntervalValue ?? ""}
               onChange={(e) =>
-                handleChangeTimeRangeRelative(
+                setAutoRefresh(
                   e.target.value === "" ? undefined : +e.target.value,
-                  relativeUnit
+                  autoRefreshIntervalUnit
                 )
               }
             />
             <SelectField
-              id="relativeUnit"
+              id="autoRefreshIntervalUnit"
+              label="Unité"
               options={INTERVAL_UNITS}
-              value={relativeUnit}
+              value={autoRefreshIntervalUnit}
               onChange={(e) =>
-                handleChangeTimeRangeRelative(
-                  relativeValue,
-                  e.target.value as IntervalUnit
+                setAutoRefresh(
+                  autoRefreshIntervalValue,
+                  e.target.value as any
                 )
               }
-              className="max-w-28 h-8"
+              className="flex-1 h-8"
+              disabled={autoRefreshIntervalValue == null}
             />
-            <Button
-              size="sm"
-              variant="outline"
-              color="indigo"
-              className={baseBtnClasses}
-              onClick={onSave}
-              disabled={saving || !relativeValue}
-            >
-              Appliquer
-            </Button>
           </div>
-        </TabPanel>
-      </TabPanels>
-    </TabGroup>
+        </div>
+      </div>
+
+      <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
+        <span className="font-medium text-sm mb-2 block">Limite de lignes par source</span>
+        <InputField
+          id="pageSize"
+          type="number"
+          min={100}
+          max={10000}
+          value={pageSize}
+          onChange={(e) => {
+            const val = +e.target.value;
+            if (val >= 100 && val <= 10000) setPageSize(val);
+          }}
+          className="w-full h-8"
+        />
+      </div>
+
+      <Button
+        type="button"
+        color="indigo"
+        size="sm"
+        className="w-full"
+        onClick={onSave}
+        disabled={saving}
+      >
+        Appliquer la configuration
+      </Button>
+    </div>
   );
 
   // Popover wrapper
@@ -263,16 +220,19 @@ export default function DashboardConfigFields({
         {icon}
         {label}
       </PopoverButton>
-      <PopoverPanel className="absolute top-full left-0 z-150 mt-2 w-max min-w-80 rounded-xl bg-white dark:bg-gray-900 p-4 shadow-xl border border-gray-200 dark:border-gray-700">
+      <PopoverPanel className="absolute top-full right-0 z-50 mt-2 rounded-xl bg-white dark:bg-gray-900 p-4 shadow-xl border border-gray-200 dark:border-gray-700">
         {panel}
       </PopoverPanel>
     </Popover>
   );
 
   return (
-    <div className="flex flex-wrap md:flex-nowrap items-center mb-2 gap-2 md:gap-0">
-      {renderPopover(<Cog6ToothIcon className="w-5 h-5" />, autoRefreshLabel, AutoRefreshPanel, " md:rounded-r-none")}
-      {renderPopover(<ClockIcon className="w-5 h-5 " />, timeRangeLabel, TimeRangePanel, "md:rounded-none md:border-x-0")}
+    <div className="flex items-center gap-2 mb-2">
+      {renderPopover(
+        <Cog6ToothIcon className="w-5 h-5" />,
+        "Configuration",
+        ConfigPanel
+      )}
 
       {onForceRefresh && (
         <Button
@@ -280,7 +240,7 @@ export default function DashboardConfigFields({
           variant="outline"
           color="gray"
           size="sm"
-          className="flex items-center gap-2 w-max border-gray-200! dark:border-gray-700! md:rounded-l-none"
+          className="flex items-center gap-2"
           onClick={onForceRefresh}
           title="Rafraîchir toutes les sources de données"
         >

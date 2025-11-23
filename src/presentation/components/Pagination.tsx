@@ -24,7 +24,7 @@ export default function Pagination({
   total,
 }: PaginationProps) {
   return (
-    <div className="flex items-center justify-center mt-2 gap-2 flex-wrap sticky bottom-0 z-20 bg-white dark:bg-gray-900 px-2 py-2 border-t border-gray-200 dark:border-gray-700 ">
+    <div className="flex items-center justify-center mt-2 gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-gray-900 px-2 py-2 border-t border-gray-200 dark:border-gray-700 ">
       <nav
         className="flex items-center gap-1 select-none"
         aria-label="Pagination"

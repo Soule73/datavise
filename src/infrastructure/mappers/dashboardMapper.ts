@@ -1,6 +1,7 @@
 import { Dashboard } from "@/domain/entities/Dashboard.entity";
 import type { DashboardDTO } from "../api/dto/DashboardDTO";
 import { createTimeRange, type TimeRange } from "@/domain/value-objects/TimeRange.vo";
+import { widgetMapper } from "./widgetMapper";
 
 export const dashboardMapper = {
     toDomain(dto: DashboardDTO): Dashboard {
@@ -13,13 +14,21 @@ export const dashboardMapper = {
             })
             : undefined;
 
+        const widgets = (dto.widgets || []).map(w => widgetMapper.toDomain(w));
+        const widgetMap = new Map(widgets.map(w => [w.id, w]));
+
+        const hydratedLayout = dto.layout.map(item => ({
+            ...item,
+            widget: widgetMap.get(item.widgetId),
+        }));
+
         return new Dashboard(
             dto._id,
             dto.title,
-            dto.layout,
+            hydratedLayout,
             dto.ownerId,
             dto.visibility,
-            dto.widgets || [],
+            widgets,
             dto.shareEnabled ?? false,
             timeRange,
             dto.autoRefreshIntervalValue,

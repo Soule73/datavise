@@ -31,6 +31,7 @@ export class WidgetRepository implements IWidgetRepository {
         if (!response.success || !response.data) {
             throw new Error(response.error?.message || "Erreur lors de la récupération des widgets");
         }
+        console.log(response);
 
         return response.data.map(widgetMapper.toDomain);
     }

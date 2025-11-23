@@ -1,10 +1,8 @@
 import type { Widget } from "@/domain/entities/Widget.entity";
+import type { Layout } from "react-grid-layout";
 
-export interface DashboardLayoutItem {
+export interface DashboardLayoutItem extends Omit<Layout, 'i'> {
+    i: string;
     widgetId: string;
-    width: string;
-    height: number;
-    x: number;
-    y: number;
     widget?: Widget;
 }
