@@ -45,10 +45,10 @@ export default function DashboardSharePage() {
           editMode={false}
           hasUnsavedChanges={false}
           handleAddWidget={() => { }}
-          timeRangeFrom={dashboard.timeRange?.from}
-          timeRangeTo={dashboard.timeRange?.to}
-          forceRefreshKey={0}
-          shareId={shareId}
+        // timeRangeFrom={dashboard.timeRange?.from}
+        // timeRangeTo={dashboard.timeRange?.to}
+        // forceRefreshKey={0}
+        // shareId={shareId}
         />
       )}
     </BaseLayout>

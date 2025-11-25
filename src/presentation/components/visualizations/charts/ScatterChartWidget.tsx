@@ -10,8 +10,7 @@ import {
 } from "chart.js";
 import { Scatter } from "react-chartjs-2";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import NoDataWidget from "@components/widgets/NoDataWidget";
+import { InvalideConfigWidget, NoDataWidget } from "@components/widgets/states";
 import type { ScatterChartWidgetProps } from "@/application/hooks/visualizations/charts/useScatterChartVM";
 
 ChartJS.register(

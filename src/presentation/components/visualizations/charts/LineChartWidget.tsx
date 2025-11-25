@@ -12,8 +12,7 @@ import {
   Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import NoDataWidget from "@components/widgets/NoDataWidget";
+import { InvalideConfigWidget, NoDataWidget } from "@components/widgets/states";
 import type { LineChartWidgetProps } from "@/application/hooks/visualizations/charts/useLineChartVM";
 
 

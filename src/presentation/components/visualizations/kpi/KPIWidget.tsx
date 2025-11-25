@@ -6,8 +6,7 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import { useKPIWidgetVM, type KPIWidgetProps } from "@/application/hooks/visualizations/kpi/useKPIWidgetVM";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import NoDataWidget from "@components/widgets/NoDataWidget";
+import { InvalideConfigWidget, NoDataWidget } from "@components/widgets/states";
 
 export default function KPIWidget({
   data,

@@ -156,7 +156,7 @@ export function generateBucketLabel(bucket: MultiBucketConfig): string {
     const bucketType = BUCKET_TYPES.find(t => t.value === bucket.type);
     const typeName = bucketType?.label || bucket.type;
 
-    return `${typeName}${bucket.field ? ` · ${bucket.field}` : ''}`;
+    return `${typeName}${bucket.field ? ` - ${bucket.field}` : ''}`;
 }
 
 /**

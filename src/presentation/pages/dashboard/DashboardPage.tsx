@@ -1,5 +1,5 @@
 import DashboardGrid from "@components/dashoards/DashboardGrid";
-import WidgetSelectModal from "@components/widgets/WidgetSelectModal";
+import { WidgetSelectModal } from "@components/widgets/modals";
 import { useDashboardActions } from "@/application/hooks/dashboard/useDashboardActions";
 import { useDashboardShare } from "@/application/hooks/dashboard/useDashboardShare";
 import { useDashboardDataLoader } from "@/application/hooks/dashboard/useDashboardDataLoader";

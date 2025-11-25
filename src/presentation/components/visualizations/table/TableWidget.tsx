@@ -1,6 +1,5 @@
 import Table from "@components/Table";
-import NoDataWidget from "@components/widgets/NoDataWidget";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
+import { NoDataWidget, InvalideConfigWidget } from "@components/widgets/states";
 import { TableCellsIcon } from "@heroicons/react/24/outline";
 import { useTableWidgetLogic } from "@/application/hooks/visualizations/useTableWidgetVM";
 import { validateTableConfig } from "@utils/kpi/tableDataUtils";

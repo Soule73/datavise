@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { WidgetRepository } from "@/infrastructure/repositories/WidgetRepository";
@@ -7,9 +7,19 @@ import { UpdateWidgetUseCase, type UpdateWidgetInput } from "@/domain/use-cases/
 import { GetWidgetUseCase } from "@/domain/use-cases/widget/GetWidget.usecase";
 import { useNotificationStore } from "@/core/store/notification";
 import { ROUTES } from "@/core/constants/routes";
-import { useCommonWidgetForm, type WidgetFormInitialValues } from "@/application/hooks/widget/useCommonWidgetForm";
 import type { Widget } from "@/domain/entities/Widget.entity";
-import type { WidgetConfig } from "@/domain/value-objects";
+import type { WidgetConfig, WidgetType } from "@/domain/value-objects";
+import { useWidgetForm } from "@/core/hooks/widget/useWidgetForm";
+import { useWidgetFormStore } from "@/core/store/widgetFormStore";
+
+interface WidgetFormInitialValues {
+    type: WidgetType;
+    config?: WidgetConfig;
+    title?: string;
+    sourceId?: string;
+    visibility?: "public" | "private";
+    disableAutoConfig?: boolean;
+}
 
 const widgetRepository = new WidgetRepository();
 const createWidgetUseCase = new CreateWidgetUseCase(widgetRepository);
@@ -21,7 +31,26 @@ export function useWidgetCreate(initialValues?: WidgetFormInitialValues) {
     const queryClient = useQueryClient();
     const showNotification = useNotificationStore((s) => s.showNotification);
 
-    const form = useCommonWidgetForm(initialValues);
+    const {
+        widgetTitle,
+        setWidgetTitleError,
+        setShowSaveModal,
+        type,
+        sourceId,
+        config,
+        visibility,
+    } = useWidgetForm();
+
+    useEffect(() => {
+        if (initialValues) {
+            const { initializeForm, loadSourceData } = useWidgetFormStore.getState();
+            initializeForm(initialValues);
+
+            if (initialValues.sourceId) {
+                loadSourceData(initialValues.sourceId);
+            }
+        }
+    }, []);
 
     const createMutation = useMutation({
         mutationFn: (input: CreateWidgetInput) => createWidgetUseCase.execute(input),
@@ -48,26 +77,25 @@ export function useWidgetCreate(initialValues?: WidgetFormInitialValues) {
     });
 
     const handleCreate = () => {
-        if (!form.widgetTitle.trim()) {
-            form.setWidgetTitleError("Le titre est requis");
+        if (!widgetTitle.trim()) {
+            setWidgetTitleError("Le titre est requis");
             return;
         }
 
-        form.setShowSaveModal(false);
+        setShowSaveModal(false);
 
         const payload: CreateWidgetInput = {
-            title: form.widgetTitle.trim(),
-            type: form.type,
-            dataSourceId: form.sourceId,
-            config: form.config,
-            visibility: form.visibility,
+            title: widgetTitle.trim(),
+            type,
+            dataSourceId: sourceId,
+            config,
+            visibility,
         };
 
         createMutation.mutate(payload);
     };
 
     return {
-        ...form,
         createMutation,
         handleCreate,
     };
@@ -84,9 +112,13 @@ export function useWidgetEdit() {
     const [widget, setWidget] = useState<Widget | null>(null);
     const [formReady, setFormReady] = useState(false);
 
-    const [initialValues, setInitialValues] = useState<WidgetFormInitialValues | undefined>(undefined);
-
-    const form = useCommonWidgetForm(initialValues);
+    const {
+        widgetTitle,
+        setWidgetTitleError,
+        setShowSaveModal,
+        visibility,
+        config,
+    } = useWidgetForm();
 
     const loadWidget = async () => {
         if (!widgetId) {
@@ -106,14 +138,18 @@ export function useWidgetEdit() {
 
             setWidget(widgetData);
 
-            setInitialValues({
+            const { initializeForm, loadSourceData } = useWidgetFormStore.getState();
+            initializeForm({
                 type: widgetData.type as WidgetFormInitialValues["type"],
                 config: widgetData.config as WidgetConfig,
                 title: widgetData.title,
                 sourceId: widgetData.dataSourceId,
                 visibility: widgetData.visibility,
-                disableAutoConfig: true,
             });
+
+            if (widgetData.dataSourceId) {
+                await loadSourceData(widgetData.dataSourceId);
+            }
 
             setFormReady(true);
         } catch (err) {
@@ -149,30 +185,30 @@ export function useWidgetEdit() {
     });
 
     const handleSave = () => {
-        if (!form.widgetTitle.trim()) {
-            form.setWidgetTitleError("Le titre est requis");
+        if (!widgetTitle.trim()) {
+            setWidgetTitleError("Le titre est requis");
             return;
         }
 
         if (!widgetId) return;
 
-        form.setShowSaveModal(false);
+        setShowSaveModal(false);
 
         const updates: UpdateWidgetInput = {
-            title: form.widgetTitle.trim(),
-            visibility: form.visibility,
-            config: form.config as WidgetConfig,
+            title: widgetTitle.trim(),
+            visibility,
+            config: config as WidgetConfig,
         };
 
         updateMutation.mutate({ id: widgetId, updates });
     };
 
     const handleConfirmSave = () => {
-        if (!form.widgetTitle.trim()) {
-            form.setWidgetTitleError("Le titre est requis");
+        if (!widgetTitle.trim()) {
+            setWidgetTitleError("Le titre est requis");
             return;
         }
-        form.setShowSaveModal(false);
+        setShowSaveModal(false);
         handleSave();
     };
 
@@ -181,7 +217,6 @@ export function useWidgetEdit() {
         error,
         widget,
         formReady,
-        form,
         loadWidget,
         handleSave,
         handleConfirmSave,

@@ -9,7 +9,7 @@ import AILoadingOverlay from "@components/ai/AILoadingOverlay";
 import AIGeneratedWidgetCard from "@components/ai/AIGeneratedWidgetCard";
 import AIConversationSidebar from "@components/ai/AIConversationSidebar";
 import AIMessageHistory from "@components/ai/AIMessageHistory";
-import { DeleteWidgetModal } from "@components/widgets/DeleteWidgetModal";
+import { DeleteWidgetModal } from "@components/widgets/modals";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { ROUTES } from "@/core/constants/routes";
