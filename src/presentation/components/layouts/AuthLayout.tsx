@@ -1,8 +1,6 @@
 
-import { ROUTES } from '@/core/constants/routes';
 import { useUserStore } from '@/core/store/user';
 import { type ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
 import ErrorPage from './ErrorPage';
 import { useNotificationStore } from '@/core/store/notification';
 import Notification from "@components/Notification";
@@ -19,7 +17,6 @@ export interface AuthLayoutProps {
     breadcrumb?: BreadcrumbItem[];
 }
 
-
 function AuthLayout({
     hideSidebar = false,
     hideNavbar = false,
@@ -28,12 +25,10 @@ function AuthLayout({
     permission,
     breadcrumb,
 }: AuthLayoutProps) {
-    const user = useUserStore((s) => s.user);
     const hasPermission = useUserStore((s) => s.hasPermission);
-    if (!user) return <Navigate to={ROUTES.login} replace />;
-
     const notif = useNotificationStore((s) => s.notification);
     const closeNotif = useNotificationStore((s) => s.closeNotification);
+
     if (permission && !hasPermission(permission)) {
         return (
             <ErrorPage

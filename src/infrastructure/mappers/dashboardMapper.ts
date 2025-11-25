@@ -49,7 +49,7 @@ export const dashboardMapper = {
             timeRange: dashboard.timeRange,
             autoRefreshIntervalValue: dashboard.autoRefreshIntervalValue,
             autoRefreshIntervalUnit: dashboard.autoRefreshIntervalUnit,
-            widgets: dashboard.widgets,
+            widgets: dashboard.widgets.map(w => widgetMapper.toDTO(w)),
             shareEnabled: dashboard.shareEnabled,
             shareId: dashboard.shareId,
         };

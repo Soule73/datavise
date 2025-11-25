@@ -12,6 +12,7 @@ interface UserStoreWithPerms {
   getPermissions: () => string[];
   hasPermission: (permName: string) => boolean;
   isOwner: (ownerId: string) => boolean;
+  isTokenExpired: () => boolean;
 }
 
 function getPermissionList(user: User | null): string[] {
@@ -19,23 +20,31 @@ function getPermissionList(user: User | null): string[] {
   return user.role.permissions.map((p: Permission) => p.name);
 }
 
+function isJWTExpired(token: string | null): boolean {
+  if (!token) return true;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expirationTime = payload.exp * 1000;
+    return Date.now() >= expirationTime;
+  } catch {
+    return true;
+  }
+}
+
 export const useUserStore = create<UserStoreWithPerms>(
   persist(
     (set, get) => ({
       user: null,
-      token: localStorage.getItem("token"),
+      token: null,
       setUser: (user, token) => {
-        localStorage.setItem("token", token);
         set({ user, token });
       },
       logout: () => {
-        localStorage.removeItem("token");
         set({ user: null, token: null });
       },
       getPermissions: () => getPermissionList(get().user),
       hasPermission: (permName: string) => {
         const can = getPermissionList(get().user).includes(permName);
-
         return can;
       },
       isOwner: (ownerId: string) => {
@@ -43,17 +52,27 @@ export const useUserStore = create<UserStoreWithPerms>(
         if (!user || !user.id) return false;
         return user.id === ownerId;
       },
+      isTokenExpired: () => {
+        return isJWTExpired(get().token);
+      },
     }),
     {
       name: "user-store",
+      partialize: (state) => ({
+        user: state.user,
+        token: state.token,
+      }),
     }
   ) as StateCreator<UserStoreWithPerms, [], [], UserStoreWithPerms>
 );
 
 if (typeof window !== "undefined") {
   window.addEventListener("storage", (event) => {
-    if (event.key === "token" && event.newValue === null) {
-      useUserStore.getState().logout();
+    if (event.key === "user-store") {
+      const state = useUserStore.getState();
+      if (!state.token || state.isTokenExpired()) {
+        useUserStore.getState().logout();
+      }
     }
   });
 }

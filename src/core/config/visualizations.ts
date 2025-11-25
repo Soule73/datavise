@@ -35,6 +35,67 @@ export const DEFAULT_CHART_COLORS = [
   "#3b82f6", "#a21caf", "#14b8a6", "#eab308", "#f472b6"
 ];
 
+export type FieldType = "select" | "multiSelect" | "checkbox" | "text";
+
+export interface DatasetFieldConfig {
+  key: string;
+  label: string;
+  type: FieldType;
+  defaultValue?: any;
+  options?: string[] | ((columns: string[]) => string[]);
+  required?: boolean;
+}
+
+export type DatasetType = "xy" | "xyr" | "multiAxis" | "metric";
+
+export const DATASET_FIELD_CONFIGS: Record<DatasetType, DatasetFieldConfig[]> = {
+  xy: [
+    { key: "x", label: "Champ X (axe horizontal)", type: "select", required: true },
+    { key: "y", label: "Champ Y (axe vertical)", type: "select", required: true },
+  ],
+  xyr: [
+    { key: "x", label: "Champ X (axe horizontal)", type: "select", required: true },
+    { key: "y", label: "Champ Y (axe vertical)", type: "select", required: true },
+    { key: "r", label: "Champ Rayon (r)", type: "select", required: true },
+  ],
+  multiAxis: [
+    { key: "fields", label: "Axes à inclure", type: "multiSelect", required: true },
+  ],
+  metric: [
+    { key: "agg", label: "Agrégation", type: "select", required: true },
+    { key: "field", label: "Champ", type: "select", required: true },
+  ],
+};
+
+export const DATASET_DEFAULT_FACTORIES: Record<DatasetType, (columns: string[]) => any> = {
+  xy: (columns) => ({
+    agg: "none",
+    field: "",
+    x: columns[0] || "",
+    y: columns[1] || "",
+    label: "",
+  }),
+  xyr: (columns) => ({
+    agg: "none",
+    field: "",
+    x: columns[0] || "",
+    y: columns[1] || "",
+    r: columns[2] || "",
+    label: "",
+  }),
+  multiAxis: (columns) => ({
+    agg: "count",
+    field: columns[0] || "",
+    label: "",
+    fields: [columns[0] || ""],
+  }),
+  metric: (columns) => ({
+    agg: "sum",
+    field: columns[0] || "",
+    label: "",
+  }),
+};
+
 // Styles communs pour les métriques (charts)
 const COMMON_METRIC_STYLES = {
   color: { default: "#2563eb", inputType: "color", label: "Couleur" },
@@ -966,22 +1027,37 @@ const COMMON_MULTI_BUCKETS = {
   ],
 };
 
-export const WIDGET_DATA_CONFIG: Record<
-  WidgetType,
-  {
-    metrics:
-    | typeof COMMON_METRICS
-    | (typeof COMMON_METRICS & { allowMultiple: false; label: string });
-    buckets?: typeof COMMON_MULTI_BUCKETS & { label?: string };
-  }
-> = {
+export interface WidgetDataConfigEntry {
+  metrics:
+  | typeof COMMON_METRICS
+  | (typeof COMMON_METRICS & { allowMultiple: false; label: string });
+  buckets?: typeof COMMON_MULTI_BUCKETS & { label?: string };
+  datasetType?: DatasetType;
+  useMetricSection?: boolean;
+  useDatasetSection?: boolean;
+  useGlobalFilters?: boolean;
+  useBuckets?: boolean;
+  allowMultipleDatasets?: boolean;
+  allowMultipleMetrics?: boolean;
+  datasetSectionTitle?: string;
+}
+
+export const WIDGET_DATA_CONFIG: Record<WidgetType, WidgetDataConfigEntry> = {
   bar: {
     metrics: COMMON_METRICS,
     buckets: { ...COMMON_MULTI_BUCKETS, label: "Buckets" },
+    useMetricSection: true,
+    useGlobalFilters: true,
+    useBuckets: true,
+    allowMultipleMetrics: true,
   },
   line: {
     metrics: COMMON_METRICS,
     buckets: { ...COMMON_MULTI_BUCKETS, label: "Buckets" },
+    useMetricSection: true,
+    useGlobalFilters: true,
+    useBuckets: true,
+    allowMultipleMetrics: true,
   },
   pie: {
     metrics: { ...COMMON_METRICS, allowMultiple: false, label: "Métrique" },
@@ -994,33 +1070,71 @@ export const WIDGET_DATA_CONFIG: Record<
         { value: 'range', label: 'Plages' },
       ]
     },
+    useMetricSection: true,
+    useGlobalFilters: true,
+    useBuckets: true,
+    allowMultipleMetrics: true,
   },
   table: {
     metrics: COMMON_METRICS,
     buckets: { ...COMMON_MULTI_BUCKETS, label: "Groupements" },
+    useMetricSection: true,
+    useGlobalFilters: true,
+    useBuckets: true,
+    allowMultipleMetrics: true,
   },
   scatter: {
     metrics: COMMON_METRICS,
     buckets: { ...COMMON_MULTI_BUCKETS, allow: false },
+    datasetType: "xy",
+    useDatasetSection: true,
+    useGlobalFilters: false,
+    useBuckets: true,
+    allowMultipleDatasets: true,
+    datasetSectionTitle: "Datasets (x, y)",
   },
   bubble: {
     metrics: COMMON_METRICS,
     buckets: { ...COMMON_MULTI_BUCKETS, allow: false },
+    datasetType: "xyr",
+    useDatasetSection: true,
+    useGlobalFilters: false,
+    useBuckets: true,
+    allowMultipleDatasets: true,
+    datasetSectionTitle: "Datasets (x, y, r)",
   },
   radar: {
     metrics: COMMON_METRICS,
     buckets: { ...COMMON_MULTI_BUCKETS, allow: false },
+    datasetType: "multiAxis",
+    useDatasetSection: true,
+    useGlobalFilters: false,
+    useBuckets: false,
+    allowMultipleDatasets: true,
+    datasetSectionTitle: "Datasets (axes multiples)",
   },
   kpi: {
     metrics: { ...COMMON_METRICS, allowMultiple: false, label: "Métrique" },
     buckets: { ...COMMON_MULTI_BUCKETS, allow: false },
+    useMetricSection: true,
+    useGlobalFilters: true,
+    useBuckets: true,
+    allowMultipleMetrics: false,
   },
   kpiGroup: {
     metrics: { ...COMMON_METRICS, allowMultiple: true, label: "KPIs" },
     buckets: { ...COMMON_MULTI_BUCKETS, allow: false },
+    useMetricSection: true,
+    useGlobalFilters: true,
+    useBuckets: false,
+    allowMultipleMetrics: true,
   },
   card: {
     metrics: { ...COMMON_METRICS, allowMultiple: false, label: "Métrique" },
     buckets: { ...COMMON_MULTI_BUCKETS, allowMultiple: false, label: "Groupement" },
+    useMetricSection: true,
+    useGlobalFilters: true,
+    useBuckets: true,
+    allowMultipleMetrics: true,
   },
 };

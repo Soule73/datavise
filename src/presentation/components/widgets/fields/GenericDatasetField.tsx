@@ -1,6 +1,6 @@
 import SelectField from "@components/SelectField";
 import CheckboxField from "@components/forms/CheckboxField";
-import type { DatasetFieldConfig } from "@/core/config/dataConfigRegistry";
+import type { DatasetFieldConfig } from "@/core/config/visualizations";
 import { useColumnOptions } from "@hooks/widget/useColumnOptions";
 
 interface GenericDatasetFieldProps {

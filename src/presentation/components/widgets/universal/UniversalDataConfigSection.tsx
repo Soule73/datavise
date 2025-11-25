@@ -2,10 +2,10 @@ import { GlobalFiltersConfig } from "@components/widgets/sections";
 import type { WidgetDataConfig } from "@/application/types/widgetDataConfigType";
 import type { WidgetConfig } from "@/domain/value-objects";
 import {
-    WIDGET_DATA_CONFIG_REGISTRY,
+    WIDGET_DATA_CONFIG,
     DATASET_FIELD_CONFIGS,
     DATASET_DEFAULT_FACTORIES,
-} from "@/core/config/dataConfigRegistry";
+} from "@/core/config/visualizations";
 import GenericDatasetField from "../fields/GenericDatasetField";
 import DatasetLabelSection from "../sections/DatasetLabelSection";
 import DatasetSection from "../sections/DatasetSection";
@@ -30,7 +30,7 @@ export default function UniversalDataConfigSection({
     handleConfigChange,
     handleMetricAggOrFieldChange,
 }: UniversalDataConfigSectionProps) {
-    const registryEntry = WIDGET_DATA_CONFIG_REGISTRY[type as keyof typeof WIDGET_DATA_CONFIG_REGISTRY];
+    const registryEntry = WIDGET_DATA_CONFIG[type as keyof typeof WIDGET_DATA_CONFIG];
 
     if (!registryEntry) {
         console.warn(`No registry entry for widget type: ${type}`);

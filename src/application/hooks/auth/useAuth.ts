@@ -33,7 +33,7 @@ export function useLoginForm() {
         onSuccess: (res: LoginResult) => {
             setUser(res.user, res.token);
             setGlobalError("");
-            navigate(ROUTES.dashboard);
+            navigate(ROUTES.dashboards, { replace: true });
         },
         onError: (e: ApiError) => {
             if (e?.error?.details && typeof e.error.details === "object") {

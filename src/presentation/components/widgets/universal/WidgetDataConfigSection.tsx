@@ -2,7 +2,7 @@ import type { WidgetDataConfig } from "@/application/types/widgetDataConfigType"
 import { WIDGETS, WIDGET_DATA_CONFIG } from "@/core/config/visualizations";
 import { useMultiBuckets } from "@/application/hooks/useMultiBuckets";
 import type { WidgetConfig, WidgetType } from "@/domain/value-objects";
-import { WIDGET_DATA_CONFIG_COMPONENTS } from "../config/config-registry";
+import UniversalDataConfigSection from "./UniversalDataConfigSection";
 import BaseDataConfigSection from "../config/BaseDataConfigSection";
 import MultiBucketSection from "../sections/MultiBucketSection";
 
@@ -29,18 +29,14 @@ export default function WidgetDataConfigSection({
   config,
   columns,
   handleConfigChange,
-  handleDragStart,
-  handleDragOver,
-  handleDrop,
   handleMetricAggOrFieldChange,
   data = [],
 }: WidgetDataConfigSectionFixedProps) {
   const widgetDef = WIDGETS[type];
   const dataConfigForWidget = WIDGET_DATA_CONFIG[type];
-  const configEntry = WIDGET_DATA_CONFIG_COMPONENTS[type];
 
-  if (!configEntry || !dataConfigForWidget) {
-    console.warn(`No config component registered for widget type: ${type}`);
+  if (!dataConfigForWidget) {
+    console.warn(`No config for widget type: ${type}`);
     return null;
   }
 
@@ -54,26 +50,24 @@ export default function WidgetDataConfigSection({
     onConfigChange: handleConfigChange,
   });
 
-  const baseProps = {
-    dataConfig,
-    config,
-    columns,
-    handleConfigChange,
-    handleDragStart,
-    handleDragOver,
-    handleDrop,
-    handleMetricAggOrFieldChange,
-    data,
-  };
-
-  const ConfigComponent = configEntry.component;
-  const componentProps = configEntry.props ? configEntry.props(baseProps) : baseProps;
-
-  if (!configEntry.useBaseWrapper) {
-    return <ConfigComponent {...componentProps} />;
-  }
-
   const showFilter = widgetDef?.enableFilter;
+  const useWrapper = type !== "kpiGroup";
+
+  const configComponent = (
+    <UniversalDataConfigSection
+      type={type}
+      dataConfig={dataConfig}
+      config={config}
+      columns={columns}
+      data={data}
+      handleConfigChange={handleConfigChange}
+      handleMetricAggOrFieldChange={handleMetricAggOrFieldChange}
+    />
+  );
+
+  if (!useWrapper) {
+    return configComponent;
+  }
 
   return (
     <BaseDataConfigSection
@@ -83,7 +77,7 @@ export default function WidgetDataConfigSection({
       handleConfigChange={handleConfigChange}
       showGlobalFilters={showFilter}
     >
-      <ConfigComponent {...componentProps} />
+      {configComponent}
 
       {widgetDef && !widgetDef.hideBucket && dataConfigForWidget.buckets?.allow && (
         <MultiBucketSection

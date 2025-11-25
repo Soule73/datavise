@@ -1,5 +1,5 @@
 import type { DashboardLayoutItem, IntervalUnit } from "@/domain/value-objects";
-import type { Widget } from "@/domain/entities/Widget.entity";
+import type { WidgetDTO } from "./WidgetDTO";
 
 export interface DashboardDTO {
     _id: string;
@@ -15,7 +15,7 @@ export interface DashboardDTO {
     visibility: "public" | "private";
     autoRefreshIntervalValue?: number;
     autoRefreshIntervalUnit?: IntervalUnit;
-    widgets: Widget[];
+    widgets: WidgetDTO[];
     shareEnabled?: boolean;
     shareId?: string | null;
     createdAt?: string;

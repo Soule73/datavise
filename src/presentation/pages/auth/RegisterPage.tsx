@@ -3,8 +3,18 @@ import InputField from "@components/forms/InputField";
 import Button from "@components/forms/Button";
 import { useRegisterForm } from "@/application/hooks/auth/useAuth";
 import logoDataVise from "@assets/logo-datavise.svg";
+import { Navigate } from "react-router-dom";
+import { useUserStore } from "@store/user";
+import { ROUTES } from "@constants/routes";
 
 export default function Register() {
+  const user = useUserStore((s) => s.user);
+  const token = useUserStore((s) => s.token);
+
+  if (user && token) {
+    return <Navigate to={ROUTES.dashboards} replace />;
+  }
+
   const {
     register,
     handleSubmit,

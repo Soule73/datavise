@@ -24,7 +24,7 @@ export const widgetMapper = {
         );
     },
 
-    toDTO(widget: Widget): Partial<WidgetDTO> {
+    toDTO(widget: Widget): WidgetDTO {
         return {
             _id: widget.id,
             widgetId: widget.widgetId,
@@ -40,6 +40,8 @@ export const widgetMapper = {
             description: widget.description,
             reasoning: widget.reasoning,
             confidence: widget.confidence,
+            createdAt: widget.createdAt?.toISOString(),
+            updatedAt: widget.updatedAt?.toISOString(),
         };
     },
 

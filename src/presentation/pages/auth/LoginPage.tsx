@@ -3,8 +3,18 @@ import { useLoginForm } from "@/application/hooks/auth/useAuth";
 import Button from "@components/forms/Button";
 import logoDataVise from "@assets/logo-datavise.svg";
 import GuestLayout from "@/presentation/components/layouts/GuestLayout";
+import { Navigate } from "react-router-dom";
+import { useUserStore } from "@store/user";
+import { ROUTES } from "@constants/routes";
 
 export default function Login() {
+  const user = useUserStore((s) => s.user);
+  const token = useUserStore((s) => s.token);
+
+  if (user && token) {
+    return <Navigate to={ROUTES.dashboards} replace />;
+  }
+
   const {
     register,
     handleSubmit,
@@ -51,10 +61,15 @@ export default function Login() {
           variant="solid"
           loading={loading}
           disabled={loading}
-
         >
           Se connecter
         </Button>
+
+        <div className="text-center mt-4">
+          <a href={ROUTES.register} className="text-sm text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300">
+            Pas encore de compte ? S'inscrire
+          </a>
+        </div>
       </form>
     </GuestLayout>
   );
