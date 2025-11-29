@@ -1,8 +1,8 @@
-import InputField from "@components/forms/InputField";
+import InputField from "@/presentation/components/shared/forms/InputField";
 import { useLoginForm } from "@/application/hooks/auth/useAuth";
-import Button from "@components/forms/Button";
+import Button from "@/presentation/components/shared/forms/Button";
 import logoDataVise from "@assets/logo-datavise.svg";
-import GuestLayout from "@/presentation/components/layouts/GuestLayout";
+import GuestLayout from "@/presentation/components/shared/layouts/GuestLayout";
 import { Navigate } from "react-router-dom";
 import { useUserStore } from "@store/user";
 import { ROUTES } from "@constants/routes";

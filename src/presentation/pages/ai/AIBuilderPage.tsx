@@ -10,10 +10,10 @@ import AIGeneratedWidgetCard from "@components/ai/AIGeneratedWidgetCard";
 import AIConversationSidebar from "@components/ai/AIConversationSidebar";
 import AIMessageHistory from "@components/ai/AIMessageHistory";
 import { DeleteWidgetModal } from "@components/widgets/modals";
-import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { ROUTES } from "@/core/constants/routes";
-import type { BreadcrumbItem } from "@/presentation/components/layouts/Breadcrumb";
+import type { BreadcrumbItem } from "@/presentation/components/shared/layouts/Breadcrumb";
 import AIBuilderHeader from "@/presentation/components/ai/AIBuilderHeader";
 import { getWidgetId, getWidgetName } from "@utils/aiHelpers";
 

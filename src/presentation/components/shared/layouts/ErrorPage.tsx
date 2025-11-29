@@ -1,6 +1,6 @@
 import { ROUTES } from "@constants/routes";
 import { Link } from "react-router-dom";
-import ThemeDropdown from "@components/ThemeDropdown";
+import ThemeDropdown from "@/presentation/components/shared/layouts/ThemeDropdown";
 
 export default function ErrorPage({
   code,

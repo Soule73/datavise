@@ -1,5 +1,5 @@
-import SelectField from "@components/SelectField";
-import InputField from "@components/forms/InputField";
+import SelectField from "@/presentation/components/shared/SelectField";
+import InputField from "@/presentation/components/shared/forms/InputField";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import WidgetConfigSection from "./WidgetConfigSection";
 import type { Filter } from "@/domain/value-objects";

@@ -1,4 +1,4 @@
-import ThemeDropdown from "@components/ThemeDropdown";
+import ThemeDropdown from "@/presentation/components/shared/layouts/ThemeDropdown";
 
 export interface GuestLayoutProps {
   title: string;

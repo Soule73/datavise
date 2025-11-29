@@ -14,9 +14,9 @@ import {
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 
-import SelectField from "@components/SelectField";
-import InputField from "@components/forms/InputField";
-import Button from "@components/forms/Button";
+import SelectField from "@/presentation/components/shared/SelectField";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import Button from "@/presentation/components/shared/forms/Button";
 
 import {
   INTERVAL_UNITS,

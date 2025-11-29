@@ -1,7 +1,7 @@
-import Modal from "@components/Modal";
-import InputField from "@components/forms/InputField";
-import SelectField from "@components/SelectField";
-import Button from "@components/forms/Button";
+import Modal from "@/presentation/components/shared/Modal";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import SelectField from "@/presentation/components/shared/SelectField";
+import Button from "@/presentation/components/shared/forms/Button";
 import React from "react";
 import type { User } from "@/domain/entities/User.entity";
 import type { UseFormReturn } from "react-hook-form";

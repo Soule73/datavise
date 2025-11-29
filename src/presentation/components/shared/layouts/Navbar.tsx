@@ -1,6 +1,6 @@
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import ThemeDropdown from "@components/ThemeDropdown";
-import UserDropdown from "@components/UserDropdown";
+import ThemeDropdown from "@/presentation/components/shared/layouts/ThemeDropdown";
+import UserDropdown from "@/presentation/components/shared/layouts/UserDropdown";
 import logoDataVise from "@assets/logo-datavise.svg";
 import { Breadcrumb, type BreadcrumbItem } from "./Breadcrumb";
 import { useSidebarStore } from "@/core/store/sidebar";

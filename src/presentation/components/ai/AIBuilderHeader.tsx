@@ -1,4 +1,4 @@
-import Button from "../forms/Button";
+import Button from "../shared/forms/Button";
 
 interface AIBuilderHeaderProps {
     sourName: string;

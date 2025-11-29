@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import SelectField from "@components/SelectField";
+import SelectField from "@/presentation/components/shared/SelectField";
 import MetricLabelInput from "./MetricLabelInput";
 import { CollapsibleSection } from "../sections";
 

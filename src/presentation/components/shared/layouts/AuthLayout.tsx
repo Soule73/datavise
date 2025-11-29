@@ -3,7 +3,7 @@ import { useUserStore } from '@/core/store/user';
 import { type ReactNode } from 'react';
 import ErrorPage from './ErrorPage';
 import { useNotificationStore } from '@/core/store/notification';
-import Notification from "@components/Notification";
+import Notification from "@/presentation/components/shared/toast/Toast";
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import type { BreadcrumbItem } from './Breadcrumb';

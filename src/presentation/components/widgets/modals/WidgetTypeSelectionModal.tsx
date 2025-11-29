@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Modal from "@components/Modal";
-import SelectField from "@components/SelectField";
+import Modal from "@/presentation/components/shared/Modal";
+import SelectField from "@/presentation/components/shared/SelectField";
 import VisualizationTypeSelector from "@components/visualizations/VisualizationTypeSelector";
-import Button from "@components/forms/Button";
+import Button from "@/presentation/components/shared/forms/Button";
 import type { WidgetType } from "@/domain/value-objects";
 import type { DataSource } from "@domain/entities/DataSource.entity";
 

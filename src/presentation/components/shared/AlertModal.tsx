@@ -7,7 +7,7 @@ import {
   ExclamationCircleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import Button from '@components/forms/Button';
+import Button from '@/presentation/components/shared/forms/Button';
 
 const ICONS = {
   error: ExclamationCircleIcon,

@@ -5,16 +5,16 @@ import {
   RoleActions,
   RoleInfo,
 } from "@components/RoleManagementParts";
-import AlertModal from "@components/AlertModal";
+import AlertModal from "@/presentation/components/shared/AlertModal";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@constants/routes";
-import CheckboxField from "@components/forms/CheckboxField";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
 import { useRoleManagement } from "@/application/hooks/auth/useRoleManagement";
 import { useUserStore } from "@store/user";
-import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
-import Section from "@components/Section";
-import PageHeader from "@components/PageHeader";
+import Section from "@/presentation/components/shared/Section";
+import PageHeader from "@/presentation/components/shared/layouts/PageHeader";
 
 export default function RoleManagementPage() {
   const {

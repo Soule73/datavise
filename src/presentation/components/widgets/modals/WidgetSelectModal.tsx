@@ -1,6 +1,6 @@
 import ModalSidebarRight from "@components/ModalSidebarRight";
-import Button from "@components/forms/Button";
-import InputField from "@components/forms/InputField";
+import Button from "@/presentation/components/shared/forms/Button";
+import InputField from "@/presentation/components/shared/forms/InputField";
 import type { Widget } from "@domain/entities/Widget.entity";
 import { WIDGETS } from "@/core/config/visualizations";
 import { useState, useMemo } from "react";

@@ -3,7 +3,7 @@ import { WIDGET_DATA_CONFIG } from "@/core/config/visualizations";
 import type { WidgetType } from "@/domain/value-objects";
 import { useWidgetTabs } from "@/application/hooks/widget/useWidgetTabs";
 import { useWidgetForm } from "@hooks/widget/useWidgetForm";
-import Button from "@components/forms/Button";
+import Button from "@/presentation/components/shared/forms/Button";
 import type { ReactNode } from "react";
 import { WidgetDataConfigSection, WidgetMetricStyleConfigSection, WidgetParamsConfigSection } from "../universal";
 import { WidgetSaveTitleModal } from "../modals";

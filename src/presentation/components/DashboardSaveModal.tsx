@@ -1,7 +1,7 @@
-import Button from "@components/forms/Button";
-import Modal from "@components/Modal";
-import InputField from "@components/forms/InputField";
-import CheckboxField from "@components/forms/CheckboxField";
+import Button from "@/presentation/components/shared/forms/Button";
+import Modal from "@/presentation/components/shared/Modal";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
 
 interface SaveModalProps {
   saving: boolean;

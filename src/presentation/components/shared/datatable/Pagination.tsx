@@ -1,4 +1,4 @@
-import SelectField from "@components/SelectField";
+import SelectField from "@/presentation/components/shared/SelectField";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import {
   ChevronDoubleLeftIcon,

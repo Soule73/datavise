@@ -1,16 +1,16 @@
 import { useRef } from "react";
-import InputField from "@components/forms/InputField";
-import SelectField from "@components/SelectField";
-import FileField from "@components/forms/FileField";
-import Button from "@components/forms/Button";
-import Modal from "@components/Modal";
-import Collapsible from "@components/Collapsible";
-import Table from "@components/Table";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import SelectField from "@/presentation/components/shared/SelectField";
+import FileField from "@/presentation/components/shared/forms/FileField";
+import Button from "@/presentation/components/shared/forms/Button";
+import Modal from "@/presentation/components/shared/Modal";
+import Collapsible from "@/presentation/components/shared/Collapsible";
+import Table from "@/presentation/components/shared/datatable/Table";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { Radio, RadioGroup } from "@headlessui/react";
-import TextareaField from "@components/forms/TextareaField";
+import TextareaField from "@/presentation/components/shared/forms/TextareaField";
 import type { DataSourceType } from "@/domain/value-objects";
 
 interface SourceFormState {

@@ -1,4 +1,4 @@
-import InputField from "@components/forms/InputField";
+import InputField from "@/presentation/components/shared/forms/InputField";
 
 
 export interface TableSearchProps {

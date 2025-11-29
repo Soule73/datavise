@@ -1,5 +1,5 @@
-import CheckboxField from "@components/forms/CheckboxField";
-import InputField from "@components/forms/InputField";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
+import InputField from "@/presentation/components/shared/forms/InputField";
 import { WIDGETS } from "@/core/config/visualizations";
 import type { WidgetType } from "@/domain/value-objects";
 import { useState, type ReactNode } from "react";

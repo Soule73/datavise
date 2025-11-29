@@ -1,4 +1,4 @@
-import Table from "@components/Table";
+import Table from "@/presentation/components/shared/datatable/Table";
 import { NoDataWidget, InvalideConfigWidget } from "@components/widgets/states";
 import { TableCellsIcon } from "@heroicons/react/24/outline";
 import { useTableWidgetLogic } from "@/application/hooks/visualizations/useTableWidgetVM";

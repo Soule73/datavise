@@ -11,7 +11,7 @@ import { EmptyDashboard } from "@components/dashoards/EmptyDashboard";
 import { DashboardSaveModal } from "@components/DashboardSaveModal";
 import ExportPDFModal from "@components/ExportPDFModal";
 import DashboardConfigFields from "@components/dashoards/DashboardConfigFields";
-import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function DashboardPage() {

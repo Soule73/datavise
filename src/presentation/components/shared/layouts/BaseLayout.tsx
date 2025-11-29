@@ -1,6 +1,6 @@
-import Sidebar from "@components/layouts/Sidebar";
-import Navbar from "@components/layouts/Navbar";
-import Notification from "@components/Notification";
+import Sidebar from "@/presentation/components/shared/layouts/Sidebar";
+import Navbar from "@/presentation/components/shared/layouts/Navbar";
+import Notification from "@/presentation/components/shared/toast/Toast";
 import { useNotificationStore } from "@store/notification";
 
 

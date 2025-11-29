@@ -1,6 +1,6 @@
 import React from "react";
-import { AnimatedChartLogo } from "@components/layouts/AnimatedChartLogo";
-import ThemeDropdown from "@components/ThemeDropdown";
+import { AnimatedChartLogo } from "@/presentation/components/shared/layouts/AnimatedChartLogo";
+import ThemeDropdown from "@/presentation/components/shared/layouts/ThemeDropdown";
 
 const AppLoader: React.FC = () => {
   return (

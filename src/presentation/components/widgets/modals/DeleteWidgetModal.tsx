@@ -1,5 +1,5 @@
-import Modal from "@components/Modal";
-import Button from "@components/forms/Button";
+import Modal from "@/presentation/components/shared/Modal";
+import Button from "@/presentation/components/shared/forms/Button";
 import type { Widget } from "@domain/entities/Widget.entity";
 import { TrashIcon } from "@heroicons/react/24/outline";
 

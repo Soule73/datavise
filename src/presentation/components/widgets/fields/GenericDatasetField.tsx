@@ -1,5 +1,5 @@
-import SelectField from "@components/SelectField";
-import CheckboxField from "@components/forms/CheckboxField";
+import SelectField from "@/presentation/components/shared/SelectField";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
 import type { DatasetFieldConfig } from "@/core/config/visualizations";
 import { useColumnOptions } from "@hooks/widget/useColumnOptions";
 

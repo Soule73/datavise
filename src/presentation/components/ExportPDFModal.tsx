@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Modal from "@components/Modal";
-import SelectField from "@components/SelectField";
-import Button from "@components/forms/Button";
+import Modal from "@/presentation/components/shared/Modal";
+import SelectField from "@/presentation/components/shared/SelectField";
+import Button from "@/presentation/components/shared/forms/Button";
 
 
 interface ExportPDFModalProps {

@@ -1,8 +1,8 @@
 import DashboardGrid from "@components/dashoards/DashboardGrid";
 import { useParams } from "react-router-dom";
 import { useDashboardShareView } from "@/application/hooks/dashboard/useDashboardShareView";
-import BaseLayout from "@components/layouts/BaseLayout";
-import ErrorPage from "@components/layouts/ErrorPage";
+import BaseLayout from "@/presentation/components/shared/layouts/BaseLayout";
+import ErrorPage from "@/presentation/components/shared/layouts/ErrorPage";
 
 function EmptyDashboard() {
   return (

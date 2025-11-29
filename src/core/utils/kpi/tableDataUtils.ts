@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatLabelsForDisplay } from "@utils/charts/chartDataUtils";
-import type { TableColumn } from "@/presentation/components/Table";
+import type { TableColumn } from "@/presentation/components/shared/datatable/Table";
 import type { ProcessedData } from "../bucketMetrics/multiBucketProcessor";
 
 export interface TableConfig {

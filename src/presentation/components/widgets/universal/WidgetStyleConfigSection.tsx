@@ -1,7 +1,7 @@
-import ColorField from "@components/forms/ColorField";
-import CheckboxField from "@components/forms/CheckboxField";
-import InputField from "@components/forms/InputField";
-import SelectField from "@components/SelectField";
+import ColorField from "@/presentation/components/shared/forms/ColorField";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import SelectField from "@/presentation/components/shared/SelectField";
 import {
   WIDGETS,
   WIDGET_CONFIG_FIELDS,

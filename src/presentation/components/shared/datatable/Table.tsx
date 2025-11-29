@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useTableSearchStore } from "@store/tableSearch";
-import Pagination from "@components/Pagination";
-import TableSearch from "@components/TableSearch";
+import Pagination from "@/presentation/components/shared/datatable/Pagination";
+import TableSearch from "@/presentation/components/shared/datatable/TableSearch";
 
 export interface PaginationMeta {
   page: number;

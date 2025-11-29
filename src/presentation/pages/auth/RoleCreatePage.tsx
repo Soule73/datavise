@@ -1,8 +1,8 @@
 import { useRoleCreate } from "@/application/hooks/auth/useRoleManagement";
-import Button from "@components/forms/Button";
-import InputField from "@components/forms/InputField";
-import CheckboxField from "@components/forms/CheckboxField";
-import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import Button from "@/presentation/components/shared/forms/Button";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
+import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import type { Permission } from "@domain/value-objects/Permission.vo";
 

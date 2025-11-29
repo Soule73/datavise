@@ -8,7 +8,7 @@ import {
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 import { useSidebarAutoClose } from "@store/sidebar";
-import SidebarItem from "@components/SidebarItem";
+import SidebarItem from "@/presentation/components/shared/layouts/SidebarItem";
 import { ROUTES } from "@constants/routes";
 import { useSidebar, type SidebarGroup, type SidebarGroupItem } from "@/application/hooks/useSidebar";
 import { Transition } from "@headlessui/react";

@@ -1,14 +1,14 @@
-import Button from "@components/forms/Button";
-import Table from "@components/Table";
+import Button from "@/presentation/components/shared/forms/Button";
+import Table from "@/presentation/components/shared/datatable/Table";
 import type { Dashboard } from "@domain/entities/Dashboard.entity";
-import Modal from "@components/Modal";
+import Modal from "@/presentation/components/shared/Modal";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@constants/routes";
 import { useDashboardListPage } from "@/application/hooks/dashboard/useDashboardListPage";
-import AuthLayout from "@/presentation/components/layouts/AuthLayout";
-import Section from "@components/Section";
-import PageHeader from "@components/PageHeader";
+import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
+import Section from "@/presentation/components/shared/Section";
+import PageHeader from "@/presentation/components/shared/layouts/PageHeader";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function DashboardListPage() {

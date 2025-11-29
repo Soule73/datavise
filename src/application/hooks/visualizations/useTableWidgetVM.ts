@@ -8,7 +8,7 @@ import {
   generateTableTitle,
 } from "@utils/kpi/tableDataUtils";
 import type { TableWidgetConfig } from "@/domain/value-objects/widgets/visualization";
-import type { TableColumn } from "@/presentation/components/Table";
+import type { TableColumn } from "@/presentation/components/shared/datatable/Table";
 
 export interface TableWidgetVM {
   columns: TableColumn<any>[];

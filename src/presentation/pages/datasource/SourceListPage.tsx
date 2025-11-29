@@ -1,18 +1,18 @@
-import Button from "@components/forms/Button";
-import Table from "@components/Table";
-import Modal from "@components/Modal";
+import Button from "@/presentation/components/shared/forms/Button";
+import Table from "@/presentation/components/shared/datatable/Table";
+import Modal from "@/presentation/components/shared/Modal";
 import { useDataSourceListPage } from "@/application/hooks/datasource/useDataSourceListPage";
 import { ROUTES } from "@constants/routes";
 import { Link } from "react-router-dom";
 import { DeleteSourceForm } from "@components/source/DeleteSourceForm";
 import type { DataSource } from "@/domain/entities/DataSource.entity";
-import Badge from "@components/Badge";
+import Badge from "@/presentation/components/shared/Badge";
 import { DocumentTextIcon, TableCellsIcon } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
-import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
-import Section from "@components/Section";
-import PageHeader from "@components/PageHeader";
+import Section from "@/presentation/components/shared/Section";
+import PageHeader from "@/presentation/components/shared/layouts/PageHeader";
 
 export default function SourcesPage() {
   const {

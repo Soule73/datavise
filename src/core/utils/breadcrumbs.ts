@@ -1,4 +1,4 @@
-import { type BreadcrumbItem } from "@/presentation/components/layouts/Breadcrumb";
+import { type BreadcrumbItem } from "@/presentation/components/shared/layouts/Breadcrumb";
 import { ROUTES } from "../constants/routes";
 
 const breadcrumbs = {

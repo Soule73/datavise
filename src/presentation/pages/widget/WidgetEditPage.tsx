@@ -1,6 +1,6 @@
 import { useWidgetEdit } from "@/application/hooks/widget/useWidgetActions";
 import { useEffect } from "react";
-import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import { useWidgetFormStore } from "@/core/store/widgetFormStore";
 import WidgetFormLayout from "@/presentation/components/widgets/layouts/WidgetFormLayout";

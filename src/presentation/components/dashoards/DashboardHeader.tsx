@@ -1,7 +1,7 @@
 import React, { type ReactNode } from "react";
 import DashboardSharePopover from "@components/dashoards/DashboardSharePopover";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
-import Button from "@components/forms/Button";
+import Button from "@/presentation/components/shared/forms/Button";
 import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
 import { useDashboardShareStore } from "@/core/store/useDashboardShareStore";
 import { useUserStore } from "@/core/store/user";

@@ -1,5 +1,5 @@
 import type { User } from "@/domain/entities/User.entity";
-import AlertModal from "@components/AlertModal";
+import AlertModal from "@/presentation/components/shared/AlertModal";
 
 
 export interface UserDeleteModalProps {

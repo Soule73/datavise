@@ -1,6 +1,6 @@
-import Button from "@components/forms/Button";
-import InputField from "@components/forms/InputField";
-import CheckboxField from "@components/forms/CheckboxField";
+import Button from "@/presentation/components/shared/forms/Button";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
 import type { Permission } from "@domain/value-objects/Permission.vo";
 
 interface PermissionGroupProps {

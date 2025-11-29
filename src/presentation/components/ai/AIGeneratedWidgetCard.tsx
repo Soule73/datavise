@@ -3,7 +3,7 @@ import type { Widget } from "@/domain/entities/Widget.entity";
 import { WIDGETS } from "@/core/config/visualizations";
 import { useState, useEffect } from "react";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
-import Button from "@components/forms/Button";
+import Button from "@/presentation/components/shared/forms/Button";
 import {
     CheckIcon,
     PencilIcon,

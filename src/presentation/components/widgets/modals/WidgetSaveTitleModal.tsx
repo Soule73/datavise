@@ -1,7 +1,7 @@
-import Modal from "@components/Modal";
-import InputField from "@components/forms/InputField";
-import Button from "@components/forms/Button";
-import CheckboxField from "@components/forms/CheckboxField";
+import Modal from "@/presentation/components/shared/Modal";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import Button from "@/presentation/components/shared/forms/Button";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
 
 
 export interface WidgetSaveTitleModalProps {

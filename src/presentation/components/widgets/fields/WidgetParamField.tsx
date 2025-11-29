@@ -1,7 +1,7 @@
-import ColorField from "@components/forms/ColorField";
-import InputField from "@components/forms/InputField";
-import CheckboxField from "@components/forms/CheckboxField";
-import SelectField from "@components/SelectField";
+import ColorField from "@/presentation/components/shared/forms/ColorField";
+import InputField from "@/presentation/components/shared/forms/InputField";
+import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
+import SelectField from "@/presentation/components/shared/SelectField";
 import * as HeroIcons from "@heroicons/react/24/outline";
 
 interface WidgetParamFieldMeta {

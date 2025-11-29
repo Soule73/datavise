@@ -1,13 +1,13 @@
 import { useUserManagement } from "@/application/hooks/auth/useUserManagement";
-import Table from "@components/Table";
-import Button from "@components/forms/Button";
+import Table from "@/presentation/components/shared/datatable/Table";
+import Button from "@/presentation/components/shared/forms/Button";
 import type { User } from "@domain/entities/User.entity";
 import UserModalForm from "@components/auth/UserModalForm";
 import UserDeleteModal from "@components/auth/UserDeleteModal";
-import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
-import Section from "@components/Section";
-import PageHeader from "@components/PageHeader";
+import Section from "@/presentation/components/shared/Section";
+import PageHeader from "@/presentation/components/shared/layouts/PageHeader";
 
 function getErrorMsg(err: unknown) {
   if (!err) return undefined;

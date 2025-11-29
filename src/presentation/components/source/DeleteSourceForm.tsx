@@ -1,4 +1,4 @@
-import Button from "@components/forms/Button";
+import Button from "@/presentation/components/shared/forms/Button";
 import type { DataSource } from "@/domain/entities/DataSource.entity";
 
 export function DeleteSourceForm({

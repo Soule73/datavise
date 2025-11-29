@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { AIConversation } from "@/domain/entities/AIConversation.entity";
-import Button from "@components/forms/Button";
+import Button from "@/presentation/components/shared/forms/Button";
 import {
     PlusIcon,
     ChatBubbleLeftRightIcon,
