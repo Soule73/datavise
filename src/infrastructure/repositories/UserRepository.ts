@@ -8,6 +8,7 @@ import { USER_ENDPOINTS } from "@infrastructure/api/endpoints/auth.endpoints";
 import type { UserDTO } from "@infrastructure/api/dto/AuthDTO";
 import { UserNotFoundError } from "@domain/errors/DomainError";
 import { apiClient } from "../api/client/apiClient";
+import { authMapper } from "@infrastructure/mappers/authMapper";
 
 export class UserRepository implements IUserRepository {
     async findAll(): Promise<User[]> {
@@ -19,7 +20,7 @@ export class UserRepository implements IUserRepository {
             );
         }
 
-        return response.data as unknown as User[];
+        return response.data.map(dto => authMapper.userToDomain(dto));
     }
 
     async findById(userId: string): Promise<User | null> {
@@ -32,14 +33,14 @@ export class UserRepository implements IUserRepository {
                 return null;
             }
 
-            return response.data as unknown as User;
+            return authMapper.userToDomain(response.data);
         } catch {
             return null;
         }
     }
 
     async create(payload: CreateUserPayload): Promise<User> {
-        const response = await apiClient.post<UserDTO>(
+        const response = await apiClient.post<{ user: UserDTO } | UserDTO>(
             USER_ENDPOINTS.create,
             payload
         );
@@ -50,11 +51,12 @@ export class UserRepository implements IUserRepository {
             );
         }
 
-        return response.data as unknown as User;
+        const userData = 'user' in response.data ? response.data.user : response.data;
+        return authMapper.userToDomain(userData);
     }
 
     async update(userId: string, payload: UpdateUserPayload): Promise<User> {
-        const response = await apiClient.patch<UserDTO>(
+        const response = await apiClient.put<{ user: UserDTO } | UserDTO>(
             USER_ENDPOINTS.update(userId),
             payload
         );
@@ -65,7 +67,8 @@ export class UserRepository implements IUserRepository {
             );
         }
 
-        return response.data as unknown as User;
+        const userData = 'user' in response.data ? response.data.user : response.data;
+        return authMapper.userToDomain(userData);
     }
 
     async delete(userId: string): Promise<void> {

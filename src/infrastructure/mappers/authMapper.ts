@@ -28,11 +28,28 @@ export const authMapper = {
     },
 
     userToDomain(dto: UserDTO): User {
-        const role = dto.role ? this.roleToDomain(dto.role) : undefined;
+        let role: Role | undefined;
+
+        if (dto.roleId) {
+            if (typeof dto.roleId === "string") {
+                role = undefined;
+            } else if (typeof dto.roleId === "object" && dto.roleId !== null) {
+                role = new Role(
+                    dto.roleId._id,
+                    dto.roleId.name,
+                    [],
+                    true,
+                    undefined
+                );
+            }
+        } else if (dto.role) {
+            role = this.roleToDomain(dto.role);
+        }
+
         return new User(
             dto._id,
-            dto.email,
-            dto.username,
+            dto.email || "",
+            dto.username || "",
             role,
             dto.createdAt ? new Date(dto.createdAt) : undefined,
             dto.updatedAt ? new Date(dto.updatedAt) : undefined

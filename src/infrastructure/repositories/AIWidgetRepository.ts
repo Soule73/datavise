@@ -22,7 +22,8 @@ export class AIWidgetRepository implements IAIWidgetRepository {
 
         const response = await apiClient.post<GenerateWidgetsResponseDTO>(
             AI_WIDGET_ENDPOINTS.generate,
-            requestBody
+            requestBody,
+            { timeout: 120000 }
         );
 
         if (!response.success || !response.data) {
@@ -41,7 +42,8 @@ export class AIWidgetRepository implements IAIWidgetRepository {
 
         const response = await apiClient.post<GenerateWidgetsResponseDTO>(
             AI_WIDGET_ENDPOINTS.refine,
-            requestBody
+            requestBody,
+            { timeout: 120000 }
         );
 
         if (!response.success || !response.data) {
@@ -54,7 +56,8 @@ export class AIWidgetRepository implements IAIWidgetRepository {
     async analyzeDataSource(dataSourceId: string): Promise<DataSourceSummary> {
         const response = await apiClient.post<AnalyzeDataSourceResponseDTO>(
             AI_WIDGET_ENDPOINTS.analyze,
-            { dataSourceId }
+            { dataSourceId },
+            { timeout: 120000 }
         );
 
         if (!response.success || !response.data) {

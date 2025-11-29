@@ -56,7 +56,7 @@ export default function UserModalForm({
       title={editingUser ? "Modifier un utilisateur" : "Ajouter un utilisateur"}
       size="md"
       footer={
-        <div className="flex gap-2 justify-baseline w-full ">
+        <div className="flex gap-2 justify-baseline w-full pb-4 ">
           <Button onClick={onClose} variant="outline" color="gray">
             Annuler
           </Button>
@@ -67,7 +67,7 @@ export default function UserModalForm({
       }
     >
       <form
-        className="space-y-4"
+        className="space-y-4 mb-4 "
         onSubmit={(e) => {
           e.preventDefault();
           onSave();
@@ -125,12 +125,15 @@ export default function UserModalForm({
           label="Rôle"
           name="role"
           id="role"
-          value={String(form.role) || ""}
-          onChange={(e) =>
-            handleFormChange({ ...e, target: { ...e.target, name: "role" } })
-          }
+          value={(form as any).role || ""}
+          onChange={(e) => {
+            const newValue = e.target.value;
+            setForm((f: any) => ({ ...f, role: newValue }));
+            formHook.setValue("role", newValue);
+          }}
           required
           options={rolesList}
+          placeholder="Sélectionner un rôle"
           error={getErrorMsg(formHook.formState.errors.role)}
         />
       </form>

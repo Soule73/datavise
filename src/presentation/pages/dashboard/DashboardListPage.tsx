@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "@constants/routes";
 import { useDashboardListPage } from "@/application/hooks/dashboard/useDashboardListPage";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import Section from "@components/Section";
+import PageHeader from "@components/PageHeader";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function DashboardListPage() {
   const {
@@ -23,79 +26,71 @@ export default function DashboardListPage() {
   } = useDashboardListPage();
 
   return (
-    <AuthLayout permission="dashboard:canView">
-      <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold ">Tableaux de bord</h1>
-          <div>
-            {hasPermission("dashboard:canCreate") && (
+    <AuthLayout permission="dashboard:canView" breadcrumb={breadcrumbs.dashboardList} >
+      <Section>
+        <PageHeader
+          title="Tableaux de bord"
+          actions={
+            hasPermission("dashboard:canCreate") && (
               <Link
                 to={ROUTES.createDashboard}
-                className=" w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
-                color="indigo"
+                className="w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
               >
                 Nouveau tableau de bord
               </Link>
-            )}
-          </div>
-        </div>
-        {isLoading ? (
-          <div>Chargement…</div>
-        ) : dashboards.length === 0 ? (
-          <div className="text-gray-400 text-center py-12">
-            Aucun dashboard pour l’instant.
-          </div>
-        ) : (
-          <Table
-            searchable={true}
-            paginable={true}
-            rowPerPage={5}
-            columns={columns}
-            data={dashboards}
-            emptyMessage="Aucun dashboard."
-            onClickItem={(row) => navigate(`/dashboards/${row.id}`)}
-            actionsColumn={{
-              key: "actions",
-              label: "",
-              render: (row: Dashboard) => (
-                <div className="flex gap-2">
-                  {hasPermission("dashboard:canView") && (
-                    <Button
-                      color="gray"
-                      size="sm"
-                      variant="outline"
-                      title="Ouvrir le dashboard"
-                      className=" w-max border-none! bg-transparent! hover:bg-gray-100! dark:hover:bg-gray-800!"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/dashboards/${row.id}`);
-                      }}
-                    >
-                      <EyeIcon className="w-4 h-4 ml-1 inline" />
-                    </Button>
-                  )}
-                  {hasPermission("dashboard:canDelete") && (
-                    <Button
-                      color="red"
-                      size="sm"
-                      variant="outline"
-                      title="Supprimer le dashboard"
-                      className=" w-max border-none! bg-transparent! hover:bg-red-100! dark:hover:bg-red-900!"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedDashboard(row);
-                        setModalOpen(true);
-                      }}
-                    >
-                      Supprimer
-                    </Button>
-                  )}
-                </div>
-              ),
-            }}
-          />
-        )}
-      </div>
+            )
+          }
+        />
+        <Table
+          searchable={true}
+          paginable={true}
+          rowPerPage={5}
+          columns={columns}
+          data={dashboards}
+          loading={isLoading}
+          emptyMessage="Aucun dashboard pour l'instant."
+          onClickItem={(row) => navigate(`/dashboards/${row.id}`)}
+          actionsColumn={{
+            key: "actions",
+            label: "",
+            render: (row: Dashboard) => (
+              <div className="flex gap-2">
+                {hasPermission("dashboard:canView") && (
+                  <Button
+                    color="gray"
+                    size="sm"
+                    variant="outline"
+                    title="Ouvrir le dashboard"
+                    className=" w-max border-none! bg-transparent! hover:bg-gray-100! dark:hover:bg-gray-800!"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/dashboards/${row.id}`);
+                    }}
+                  >
+                    <EyeIcon className="w-4 h-4 ml-1 inline" />
+                  </Button>
+                )}
+                {hasPermission("dashboard:canDelete") && (
+                  <Button
+                    color="red"
+                    size="sm"
+                    variant="outline"
+                    title="Supprimer le dashboard"
+                    className=" w-max border-none! bg-transparent! hover:bg-red-100! dark:hover:bg-red-900!"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedDashboard(row);
+                      setModalOpen(true);
+                    }}
+                  >
+                    Supprimer
+                  </Button>
+                )}
+              </div>
+            ),
+          }}
+        />
+      </Section>
       <Modal
         open={modalOpen}
         onClose={() => {

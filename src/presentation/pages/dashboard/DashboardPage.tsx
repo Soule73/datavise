@@ -12,6 +12,7 @@ import { DashboardSaveModal } from "@components/DashboardSaveModal";
 import ExportPDFModal from "@components/ExportPDFModal";
 import DashboardConfigFields from "@components/dashoards/DashboardConfigFields";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function DashboardPage() {
   const {
@@ -83,7 +84,7 @@ export default function DashboardPage() {
   const swapHandler = isEditing ? handleSwapLayout : undefined;
 
   return (
-    <AuthLayout permission="dashboard:canView">
+    <AuthLayout permission="dashboard:canView" breadcrumb={breadcrumbs.showDashboard(pendingTitle)} >
       <div className="px-4 md:px-8 pb-8 pt-4 md:pt-6">
         <WidgetSelectModal
           open={selectOpen}
@@ -112,7 +113,7 @@ export default function DashboardPage() {
           handleEnableShare={() => enableShare()}
           handleDisableShare={() => disableShare()}
         >
-          {canUpdate && (
+          {canUpdate && !isCreate && (
             <DashboardConfigFields
               onSave={handleSaveConfig}
               onForceRefresh={() => incrementForceRefreshKey()}

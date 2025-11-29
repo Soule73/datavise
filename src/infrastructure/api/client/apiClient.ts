@@ -9,7 +9,7 @@ class ApiClient {
         this.client = axios.create({
             baseURL: import.meta.env.VITE_API_URL || "",
             withCredentials: true,
-            timeout: 30000,
+            timeout: 60000,
             headers: {
                 "Content-Type": "application/json",
             },
@@ -30,6 +30,11 @@ class ApiClient {
 
     async patch<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
         const response = await this.client.patch<ApiResponse<T>>(url, data, config);
+        return response.data;
+    }
+
+    async put<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+        const response = await this.client.put<ApiResponse<T>>(url, data, config);
         return response.data;
     }
 

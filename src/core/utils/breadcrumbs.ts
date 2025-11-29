@@ -3,7 +3,20 @@ import { ROUTES } from "../constants/routes";
 
 const breadcrumbs = {
     dashboardList: [
-        { label: "Dashboards", href: ROUTES.dashboards },
+        { label: "Tableaux de bord", href: ROUTES.dashboards },
+    ],
+    showDashboard: (dashboardTitle: string): BreadcrumbItem[] => [
+        { label: "Tableaux de bord", href: ROUTES.dashboards },
+        { label: dashboardTitle },
+    ],
+    createDashboard: [
+        { label: "Tableaux de bord", href: ROUTES.dashboards },
+        { label: "Créer" },
+    ],
+    editDashboard: (dashboardTitle: string): BreadcrumbItem[] => [
+        { label: "Tableaux de bord", href: ROUTES.dashboards },
+        { label: "Modifier" },
+        { label: dashboardTitle },
     ],
     widgetList: [
         { label: "Visualisations", href: ROUTES.widgets },

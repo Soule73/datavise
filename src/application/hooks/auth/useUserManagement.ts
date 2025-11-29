@@ -140,7 +140,11 @@ export function useUserManagement() {
         () => [
             { key: "email", label: "Email" },
             { key: "username", label: "Nom d'utilisateur" },
-            { key: "roleId", label: "Rôle", render: (u: User) => u.role?.name },
+            {
+                key: "role",
+                label: "Rôle",
+                render: (u: User) => u.role?.name || "Aucun rôle"
+            },
         ],
         []
     );
@@ -150,13 +154,19 @@ export function useUserManagement() {
         [rolesQuery.data]
     );
 
-    function openModal(user?: any) {
+    function openModal(user?: User) {
         setEditingUser(user || null);
+
         setForm(
             user
-                ? { ...user, role: user.roleId?._id }
+                ? {
+                    email: user.email,
+                    username: user.username,
+                    role: user.role?.id || ""
+                }
                 : { email: "", username: "", role: "" }
         );
+
         setModalOpen(true);
     }
 

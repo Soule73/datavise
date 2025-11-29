@@ -22,16 +22,20 @@ interface SelectFieldProps
   label?: string;
   error?: string;
   textSize?: 'sm' | 'md' | 'lg';
+  placeholder?: string;
 }
 
 const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
   (
-    { label, options, error, textSize, id, className, value, onChange, ...props },
+    { label, options, error, textSize, id, className, value, onChange, placeholder, ...props },
     ref
   ) => {
     const [query, setQuery] = useState("");
 
-    const selected = options.find((opt) => opt.value === value) || null;
+    const selected = useMemo(() => {
+      if (!value || value === "") return null;
+      return options.find((opt) => String(opt.value) === String(value)) || null;
+    }, [value, options]);
 
     const filteredOptions = useMemo(
       () =>
@@ -71,7 +75,10 @@ const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
               onChange({ target: { value: opt.value, name: id } } as React.ChangeEvent<HTMLInputElement>);
             }
           }}
-          by={(a, b) => a?.value === b?.value}
+          by={(a, b) => {
+            if (!a || !b) return false;
+            return a?.value === b?.value;
+          }}
         >
           <div className="relative flex items-center">
             <ComboboxInput
@@ -93,6 +100,7 @@ const SelectField = forwardRef<HTMLInputElement, SelectFieldProps>(
                 return "";
               }}
               onChange={(event) => setQuery(event.target.value)}
+              placeholder={placeholder}
               id={id}
               name={id}
               autoComplete="off"

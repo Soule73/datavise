@@ -105,8 +105,8 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
             showNotification({
                 open: true,
                 type: "success",
-                title: "Dashboard créé",
-                description: "Votre dashboard a bien été créé.",
+                title: "Tableau de bord créé",
+                description: "Votre tableau de bord a bien été créé.",
             });
             navigate(`/dashboards/${newDashboard.id}`);
         },
@@ -115,7 +115,7 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
                 open: true,
                 type: "error",
                 title: "Erreur",
-                description: error.message || "La création du dashboard a échoué.",
+                description: error.message || "La création du tableau de bord a échoué.",
             });
             if (onSaveCallback) onSaveCallback(false);
         },
@@ -325,7 +325,7 @@ export function useDashboardActions(onSaveCallback?: (success: boolean) => void)
         if (dashboard && dashboard.title) {
             setPendingTitle(dashboard.title);
         } else if (isCreate) {
-            setPendingTitle("");
+            setPendingTitle("Nouveau tableau de bord");
         }
     }, [dashboard, isCreate, setPendingTitle]);
 

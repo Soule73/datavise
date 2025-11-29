@@ -1,6 +1,5 @@
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef } from "react";
-import Button from "@components/forms/Button";
 import type { NotificationType } from "@/core/store/notification";
 
 
@@ -15,18 +14,26 @@ export interface NotificationProps {
 }
 
 const typeStyles: Record<NotificationType, string> = {
-  success: "bg-green-50 border-green-500 text-green-800",
-  error: "bg-red-50 border-red-500 text-red-800",
-  warning: "bg-yellow-50 border-yellow-500 text-yellow-800",
-  info: "bg-indigo-50 border-indigo-500 text-indigo-800",
-  default: "bg-gray-50 border-gray-400 text-gray-800",
+  success: "bg-white border-green-500",
+  error: "bg-white border-red-500",
+  warning: "bg-white border-amber-500",
+  info: "bg-white border-blue-500",
+  default: "bg-white border-gray-300",
+};
+
+const iconBgStyles: Record<NotificationType, string> = {
+  success: "bg-green-100 text-green-600",
+  error: "bg-red-100 text-red-600",
+  warning: "bg-amber-100 text-amber-600",
+  info: "bg-blue-100 text-blue-600",
+  default: "bg-gray-100 text-gray-600",
 };
 
 const barStyles: Record<NotificationType, string> = {
   success: "bg-green-500",
   error: "bg-red-500",
-  warning: "bg-yellow-500",
-  info: "bg-indigo-500",
+  warning: "bg-amber-500",
+  info: "bg-blue-500",
   default: "bg-gray-400",
 };
 
@@ -68,33 +75,47 @@ export default function Notification({
 
   if (!open) return null;
 
+  const icons: Record<NotificationType, React.ReactElement> = {
+    success: <CheckCircleIcon className="w-6 h-6" />,
+    error: <XCircleIcon className="w-6 h-6" />,
+    warning: <ExclamationTriangleIcon className="w-6 h-6" />,
+    info: <InformationCircleIcon className="w-6 h-6" />,
+    default: <InformationCircleIcon className="w-6 h-6" />,
+  };
+
   return (
     <div
       className={`fixed z-50 ${posStyles[position]} flex flex-col items-end gap-2`}
-      style={{ minWidth: 320 }}
+      style={{ minWidth: 360 }}
     >
       <div
-        className={`relative border-l-4 shadow-lg px-5 py-4 mb-2 w-full max-w-xs animate-fade-in-up ${typeStyles[type]} dark:bg-gray-900 dark:text-gray-100 dark:border-opacity-60`}
+        className={`relative border-l-4 rounded-r-lg shadow-xl px-4 py-4 w-full max-w-md animate-fade-in-up ${typeStyles[type]} dark:bg-gray-800 dark:border-opacity-70`}
         role="alert"
       >
-        <div className="flex items-center justify-between gap-2">
-          <div className="font-semibold text-base text-gray-900 dark:text-gray-100">
-            {title}
+        <div className="flex items-start gap-3">
+          <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${iconBgStyles[type]} dark:opacity-90`}>
+            {icons[type]}
           </div>
-          <Button
-            className="ml-2 text-xl text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none w-max"
+          <div className="flex-1 min-w-0">
+            <div className="font-semibold text-base text-gray-900 dark:text-gray-100 leading-tight">
+              {title}
+            </div>
+            {description && (
+              <div className="mt-1.5 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                {description}
+              </div>
+            )}
+          </div>
+          <button
+            type="button"
+            className="shrink-0 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none transition-colors -mt-0.5"
             onClick={onClose}
             aria-label="Fermer la notification"
           >
             <XMarkIcon className="w-5 h-5" />
-          </Button>
+          </button>
         </div>
-        {description && (
-          <div className="mt-1 text-sm text-gray-700 dark:text-gray-300">
-            {description}
-          </div>
-        )}
-        <div className="absolute left-0 bottom-0 h-1 w-full overflow-hidden">
+        <div className="absolute left-0 bottom-0 h-1 w-full overflow-hidden rounded-br-lg">
           <div
             ref={barRef}
             className={`h-1 ${barStyles[type]} transition-all dark:opacity-80`}

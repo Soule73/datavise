@@ -31,9 +31,8 @@ export default function DashboardGrid({
     const updateWidth = () => {
       if (containerRef.current) {
         const width = containerRef.current.offsetWidth;
-        const effectiveWidth = editMode ? width - 32 : width;
-        setContainerWidth(effectiveWidth);
-        setIsMobile(window.innerWidth < 1024);
+        setContainerWidth(width);
+        setIsMobile(window.innerWidth < 768);
       }
     };
 

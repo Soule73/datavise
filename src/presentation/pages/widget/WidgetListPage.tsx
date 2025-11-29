@@ -15,6 +15,8 @@ import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useDataSourceList } from "@/application/hooks/datasource/useDataSourceList";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
+import Section from "@components/Section";
+import PageHeader from "@/presentation/components/PageHeader";
 
 export default function WidgetListPage() {
   const navigate = useNavigate();
@@ -38,7 +40,6 @@ export default function WidgetListPage() {
 
   const handleCreateWidget = (sourceId: string, type: WidgetType) => {
     setShowCreateModal(false);
-    // Naviguer vers la page de création avec les paramètres
     navigate(`${ROUTES.createWidget}?sourceId=${sourceId}&type=${type}`);
   };
 
@@ -92,94 +93,87 @@ export default function WidgetListPage() {
     <AuthLayout permission="widget:canView"
       breadcrumb={breadcrumbs.widgetList}
     >
-      <div
-
-        className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow mt-8"
-      >
-
-        <div className="flex items-center justify-end mb-3">
-          <div className="flex items-center gap-2">
-            {hasPermission("widget:canCreate") && (
-              <Button
-                color="indigo"
-                onClick={() => setShowCreateModal(true)}
-                className="w-max"
+      <Section>
+        <PageHeader
+          title="Visualisations"
+          actions={
+            hasPermission("widget:canCreate") && (
+              <Link
+                to={ROUTES.createWidget}
+                className="w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
               >
-                Ajouter une visualisation
-              </Button>
-            )}
-          </div>
-        </div>
-        {isLoading ? (
-          <div>Chargement...</div>
-        ) : (
-          <Table
-            paginable={true}
-            searchable={true}
-            rowPerPage={5}
-            columns={columns}
-            data={tableData}
-            emptyMessage="Aucune visualisation."
-            actionsColumn={{
-              key: "actions",
-              label: "Actions",
-              render: (row: Widget) => (
-                <div className="flex gap-2">
-                  {hasPermission("widget:canUpdate") && (
-                    <Link
-                      to={
-                        row.id ? ROUTES.editWidget.replace(":id", row.id) : "#"
-                      }
-                    >
-                      <Button
-                        color="indigo"
-                        size="sm"
-                        variant="outline"
-                        className=" w-max border-none!"
-                        title="Modifier le widget"
-                      >
-                        Modifier
-                      </Button>
-                    </Link>
-                  )}
-                  <Button
-                    color="indigo"
-                    size="sm"
-                    variant="outline"
-                    title="Modfier la source"
-                    className=" w-max border-none!"
-                    onClick={() => {
-                      setSelectedConfig(row);
-                      setModalOpen(true);
-                    }}
+                Nouvelle visualisation
+              </Link>
+            )
+          }
+        />
+        <Table
+          paginable={true}
+          searchable={true}
+          rowPerPage={5}
+          columns={columns}
+          data={tableData}
+          loading={isLoading}
+          emptyMessage="Aucune visualisation."
+          actionsColumn={{
+            key: "actions",
+            label: "Actions",
+            render: (row: Widget) => (
+              <div className="flex gap-2">
+                {hasPermission("widget:canUpdate") && (
+                  <Link
+                    to={
+                      row.id ? ROUTES.editWidget.replace(":id", row.id) : "#"
+                    }
                   >
-                    Voir la config
-                  </Button>
-                  {hasPermission("widget:canDelete") && (
                     <Button
-                      color="red"
+                      color="indigo"
                       size="sm"
                       variant="outline"
-                      className="w-max border-none! "
-                      disabled={!!row.isUsed}
-                      title={
-                        row.isUsed
-                          ? "Impossible de supprimer un widget utilisé dans un dashboard"
-                          : "Supprimer le widget"
-                      }
-                      onClick={() => {
-                        setSelectedWidget(row);
-                        setDeleteModalOpen(true);
-                      }}
+                      className=" w-max border-none!"
+                      title="Modifier le widget"
                     >
-                      Supprimer
+                      Modifier
                     </Button>
-                  )}
-                </div>
-              ),
-            }}
-          />
-        )}
+                  </Link>
+                )}
+                <Button
+                  color="indigo"
+                  size="sm"
+                  variant="outline"
+                  title="Modfier la source"
+                  className=" w-max border-none!"
+                  onClick={() => {
+                    setSelectedConfig(row);
+                    setModalOpen(true);
+                  }}
+                >
+                  Voir la config
+                </Button>
+                {hasPermission("widget:canDelete") && (
+                  <Button
+                    color="red"
+                    size="sm"
+                    variant="outline"
+                    className="w-max border-none! "
+                    disabled={!!row.isUsed}
+                    title={
+                      row.isUsed
+                        ? "Impossible de supprimer un widget utilisé dans un dashboard"
+                        : "Supprimer le widget"
+                    }
+                    onClick={() => {
+                      setSelectedWidget(row);
+                      setDeleteModalOpen(true);
+                    }}
+                  >
+                    Supprimer
+                  </Button>
+                )}
+              </div>
+            ),
+          }}
+        />
         <Modal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
@@ -210,8 +204,7 @@ export default function WidgetListPage() {
           onConfirm={handleCreateWidget}
           sources={sources}
         />
-      </div>
-
+      </Section>
     </AuthLayout>
   );
 }

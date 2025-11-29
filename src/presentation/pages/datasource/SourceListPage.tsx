@@ -11,6 +11,8 @@ import { DocumentTextIcon, TableCellsIcon } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
 import AuthLayout from "@/presentation/components/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
+import Section from "@components/Section";
+import PageHeader from "@components/PageHeader";
 
 export default function SourcesPage() {
   const {
@@ -99,76 +101,69 @@ export default function SourcesPage() {
     <AuthLayout permission="datasource:canView"
       breadcrumb={breadcrumbs.datasourceList}
     >
-      <div className="max-w-7xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold ">Sources de données</h1>
-          <div className="flex items-center gap-2">
-            {hasPermission("datasource:canCreate") && (
+      <Section>
+        <PageHeader
+          title="Sources de données"
+          actions={
+            hasPermission("datasource:canCreate") && (
               <Link
                 to={ROUTES.addSource}
-                className=" w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
-                color="indigo"
+                className="w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
               >
                 Ajouter une source
               </Link>
-            )}
-          </div>
-        </div>
-        <div className="mt-10">
-          <h2 className="text-lg font-semibold mb-2">Mes sources</h2>
-          {isLoading ? (
-            <div>Chargemnt...</div>
-          ) : (
-            <Table
-              columns={columns}
-              data={sources}
-              emptyMessage="Aucune source enregistrée."
-              actionsColumn={{
-                key: "empty",
-                label: "",
-                render: (row: DataSource) => (
-                  <div className="flex gap-2">
-                    {hasPermission("datasource:canUpdate") && (
-                      <Button
-                        color="indigo"
-                        size="sm"
-                        variant="outline"
-                        title="Modfier la source"
-                        className=" w-max border-none!"
-                        onClick={() => {
-                          navigate(`/sources/edit/${row.id}`);
-                        }}
-                      >
-                        Modifier
-                      </Button>
-                    )}
-                    {hasPermission("datasource:canDelete") && (
-                      <Button
-                        color="red"
-                        size="sm"
-                        variant="outline"
-                        className="w-max border-none! "
-                        title={
-                          row.isUsed
-                            ? "Impossible de supprimer une source utilisée"
-                            : "Supprimer la source"
-                        }
-                        onClick={() => {
-                          setSelectedSource(row);
-                          setModalType("delete");
-                          setModalOpen(true);
-                        }}
-                        disabled={row.isUsed}
-                      >
-                        Supprimer
-                      </Button>
-                    )}
-                  </div>
-                ),
-              }}
-            />
-          )}
-        </div>
+            )
+          }
+        />
+        <Table
+          columns={columns}
+          data={sources}
+          loading={isLoading}
+          emptyMessage="Aucune source enregistrée."
+          actionsColumn={{
+            key: "empty",
+            label: "",
+            render: (row: DataSource) => (
+              <div className="flex gap-2">
+                {hasPermission("datasource:canUpdate") && (
+                  <Button
+                    color="indigo"
+                    size="sm"
+                    variant="outline"
+                    title="Modfier la source"
+                    className=" w-max border-none!"
+                    onClick={() => {
+                      navigate(`/sources/edit/${row.id}`);
+                    }}
+                  >
+                    Modifier
+                  </Button>
+                )}
+                {hasPermission("datasource:canDelete") && (
+                  <Button
+                    color="red"
+                    size="sm"
+                    variant="outline"
+                    className="w-max border-none! "
+                    title={
+                      row.isUsed
+                        ? "Impossible de supprimer une source utilisée"
+                        : "Supprimer la source"
+                    }
+                    onClick={() => {
+                      setSelectedSource(row);
+                      setModalType("delete");
+                      setModalOpen(true);
+                    }}
+                    disabled={row.isUsed}
+                  >
+                    Supprimer
+                  </Button>
+                )}
+              </div>
+            ),
+          }}
+        />
         <Modal
           open={modalOpen && modalType === "delete"}
           onClose={() => {
@@ -188,7 +183,7 @@ export default function SourcesPage() {
             />
           )}
         </Modal>
-      </div>
+      </Section>
     </AuthLayout>
   );
 }
