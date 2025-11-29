@@ -1,15 +1,11 @@
-import Button from "@/presentation/components/shared/forms/Button";
-import Table from "@/presentation/components/shared/datatable/Table";
 import type { Dashboard } from "@domain/entities/Dashboard.entity";
-import Modal from "@/presentation/components/shared/Modal";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { ROUTES } from "@constants/routes";
+import { ROUTES } from "@/core/constants/routes";
 import { useDashboardListPage } from "@/application/hooks/dashboard/useDashboardListPage";
-import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
-import Section from "@/presentation/components/shared/Section";
-import PageHeader from "@/presentation/components/shared/layouts/PageHeader";
 import breadcrumbs from "@/core/utils/breadcrumbs";
+import AuthLayout from "@/presentation/layout/AuthLayout";
+import { Button, DataTable, Modal, PageHeader, Section } from "@datavise/ui";
 
 export default function DashboardListPage() {
   const {
@@ -41,7 +37,7 @@ export default function DashboardListPage() {
             )
           }
         />
-        <Table
+        <DataTable
           searchable={true}
           paginable={true}
           rowPerPage={5}

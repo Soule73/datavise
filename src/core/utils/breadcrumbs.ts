@@ -1,4 +1,5 @@
-import { type BreadcrumbItem } from "@/presentation/components/shared/layouts/Breadcrumb";
+
+import type { BreadcrumbItem } from "@datavise/ui";
 import { ROUTES } from "../constants/routes";
 
 const breadcrumbs = {

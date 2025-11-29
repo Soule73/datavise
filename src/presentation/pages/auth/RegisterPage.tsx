@@ -1,11 +1,9 @@
-import GuestLayout from "@/presentation/components/shared/layouts/GuestLayout";
-import InputField from "@/presentation/components/shared/forms/InputField";
-import Button from "@/presentation/components/shared/forms/Button";
 import { useRegisterForm } from "@/application/hooks/auth/useAuth";
 import logoDataVise from "@assets/logo-datavise.svg";
 import { Navigate } from "react-router-dom";
 import { useUserStore } from "@store/user";
-import { ROUTES } from "@constants/routes";
+import { ROUTES } from "@/core/constants/routes";
+import { Button, GuestLayout, InputField } from "@datavise/ui";
 
 export default function Register() {
   const user = useUserStore((s) => s.user);

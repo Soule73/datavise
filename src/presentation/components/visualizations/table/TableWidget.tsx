@@ -1,9 +1,9 @@
-import Table from "@/presentation/components/shared/datatable/Table";
-import { NoDataWidget, InvalideConfigWidget } from "@components/widgets/states";
+import { NoDataWidget, InvalideConfigWidget } from "@/presentation/pages/widget/components/states";
 import { TableCellsIcon } from "@heroicons/react/24/outline";
 import { useTableWidgetLogic } from "@/application/hooks/visualizations/useTableWidgetVM";
 import { validateTableConfig } from "@utils/kpi/tableDataUtils";
 import type { TableWidgetProps } from "@/application/hooks/visualizations/useTableWidgetVM";
+import { DataTable } from "@datavise/ui";
 
 export default function TableWidget({
   data,
@@ -35,7 +35,7 @@ export default function TableWidget({
 
   return (
     <div className="bg-white shadow dark:bg-gray-900 rounded w-full max-w-full h-full p-2">
-      <Table
+      <DataTable
         columns={columns}
         name={tableTitle}
         data={displayData}

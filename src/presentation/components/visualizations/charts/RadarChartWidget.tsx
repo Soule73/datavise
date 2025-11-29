@@ -1,6 +1,6 @@
 import { Radar } from "react-chartjs-2";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import { InvalideConfigWidget, NoDataWidget } from "@components/widgets/states";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
 import { useRadarChartLogic } from "@/application/hooks/visualizations/charts";
 import {
   Chart as ChartJS,

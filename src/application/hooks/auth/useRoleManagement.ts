@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { roleSchema } from "@validation/role";
 import { groupPermissionsByModel, toggleArrayValue } from "@utils/roleUtils";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@constants/routes";
+import { ROUTES } from "@/core/constants/routes";
 import type { Role } from "@domain/entities/Role.entity";
 import type { Permission } from "@domain/value-objects/Permission.vo";
 

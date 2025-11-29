@@ -1,22 +1,17 @@
 import { useNavigate, Link } from "react-router-dom";
-import { ROUTES } from "@constants/routes";
-import Table from "@/presentation/components/shared/datatable/Table";
-import Modal from "@/presentation/components/shared/Modal";
+import { ROUTES } from "@/core/constants/routes";
 import { useWidgetListPage } from "@/application/hooks/widget/useWidgetListPage";
-import { DeleteWidgetModal, WidgetTypeSelectionModal } from "@components/widgets/modals";
-import Button from "@/presentation/components/shared/forms/Button";
+import { DeleteWidgetModal, WidgetTypeSelectionModal } from "./components/modals";
 import type { Widget } from "@domain/entities/Widget.entity";
 import type { WidgetType } from "@/domain/value-objects";
 import { useMemo, useState } from "react";
 import { WIDGETS } from "@/core/config/visualizations";
-import Badge from "@/presentation/components/shared/Badge";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useDataSourceList } from "@/application/hooks/datasource/useDataSourceList";
-import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
+import { Badge, Button, DataTable, Modal, PageHeader, Section } from "@datavise/ui";
+import AuthLayout from "@/presentation/layout/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
-import Section from "@/presentation/components/shared/Section";
-import PageHeader from "@/presentation/components/shared/layouts/PageHeader";
 
 export default function WidgetListPage() {
   const navigate = useNavigate();
@@ -107,7 +102,7 @@ export default function WidgetListPage() {
             )
           }
         />
-        <Table
+        <DataTable
           paginable={true}
           searchable={true}
           rowPerPage={5}

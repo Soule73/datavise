@@ -4,17 +4,14 @@ import {
   PermissionGroup,
   RoleActions,
   RoleInfo,
-} from "@components/RoleManagementParts";
-import AlertModal from "@/presentation/components/shared/AlertModal";
+} from "./components/RoleManagementParts";
 import { Link } from "react-router-dom";
-import { ROUTES } from "@constants/routes";
-import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
+import { ROUTES } from "@/core/constants/routes";
 import { useRoleManagement } from "@/application/hooks/auth/useRoleManagement";
 import { useUserStore } from "@store/user";
-import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
-import Section from "@/presentation/components/shared/Section";
-import PageHeader from "@/presentation/components/shared/layouts/PageHeader";
+import AuthLayout from "@/presentation/layout/AuthLayout";
+import { AlertModal, CheckboxField, PageHeader, Section } from "@datavise/ui";
 
 export default function RoleManagementPage() {
   const {

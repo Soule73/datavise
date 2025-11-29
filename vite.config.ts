@@ -26,7 +26,6 @@ export default defineConfig({
       '@assets': path.resolve(__dirname, './src/core/assets'),
       '@hooks': path.resolve(__dirname, './src/core/hooks'),
       '@type': path.resolve(__dirname, './src/core/types'),
-      '@constants': path.resolve(__dirname, './src/core/constants'),
       '@services': path.resolve(__dirname, './src/data/services'),
       '@repositories': path.resolve(__dirname, './src/data/repositories'),
       '@adapters': path.resolve(__dirname, './src/data/adapters'),
@@ -35,6 +34,8 @@ export default defineConfig({
       '@domain': path.resolve(__dirname, './src/domain'),
       '@infrastructure': path.resolve(__dirname, './src/infrastructure'),
       '@application': path.resolve(__dirname, './src/application'),
+      '@datavise/ui': path.resolve(__dirname, './packages/ui/src'),
+      '@datavise/utils': path.resolve(__dirname, './packages/utils/src'),
     }
   }
 })

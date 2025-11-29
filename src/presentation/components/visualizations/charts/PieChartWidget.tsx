@@ -2,7 +2,7 @@ import "@utils/charts/chartjs-register";
 import { usePieChartLogic } from "@/application/hooks/visualizations/charts";
 import { Pie } from "react-chartjs-2";
 import { ChartPieIcon } from "@heroicons/react/24/outline";
-import { InvalideConfigWidget, NoDataWidget } from "@components/widgets/states";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
 import type { PieChartWidgetProps } from "@/application/hooks/visualizations/charts/usePieChartVM";
 
 export default function PieChartWidget({

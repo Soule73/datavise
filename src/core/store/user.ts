@@ -4,7 +4,7 @@ import type { StateCreator } from "zustand";
 import type { User } from "@domain/entities/User.entity";
 import type { Permission } from "@domain/value-objects/Permission.vo";
 
-interface UserStoreWithPerms {
+export interface UserStoreWithPerms {
   user: User | null;
   token: string | null;
   setUser: (user: User | null, token: string) => void;

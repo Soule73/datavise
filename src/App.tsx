@@ -5,7 +5,7 @@ import Register from "@pages/auth/RegisterPage";
 import SourcesPage from "@pages/datasource/SourceListPage";
 import AddSourcePage from "@pages/datasource/AddSourcePage";
 import EditSourcePage from "@pages/datasource/EditSourcePage";
-import { ROUTES } from "@constants/routes";
+import { ROUTES } from "@/core/constants/routes";
 import WidgetListPage from "@pages/widget/WidgetListPage";
 import WidgetCreatePage from "@pages/widget/WidgetCreatePage";
 import RoleManagementPage from "@pages/auth/RoleManagementPage";
@@ -16,9 +16,9 @@ import DashboardListPage from "@pages/dashboard/DashboardListPage";
 import WidgetEditPage from "@pages/widget/WidgetEditPage";
 import DashboardSharePage from "@pages/dashboard/DashboardSharePage";
 import LandingPage from "@pages/LandingPage";
-import DocumentationPage from "@pages/DocumentationPage";
+import DocumentationPage from "@/presentation/pages/documentation/DocumentationPage";
 import AIBuilderPage from "@pages/ai/AIBuilderPage";
-import { ProtectedRoute } from "@/presentation/components/auth/ProtectedRoute";
+import { ProtectedRoute } from "@/presentation/layout/ProtectedRoute";
 
 const App: React.FC = () => {
   return (

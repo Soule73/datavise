@@ -55,9 +55,6 @@
       "@type/*": [
         "./src/core/types/*"
       ],
-      "@constants/*": [
-        "./src/core/constants/*"
-      ],
       "@services/*": [
         "./src/data/services/*"
       ],
@@ -78,10 +75,24 @@
       ],
       "@application/*": [
         "./src/application/*"
+      ],
+      "@datavise/ui": [
+        "./packages/ui/src"
+      ],
+      "@datavise/ui/*": [
+        "./packages/ui/src/*"
+      ],
+      "@datavise/utils": [
+        "./packages/utils/src"
+      ],
+      "@datavise/utils/*": [
+        "./packages/utils/src/*"
       ]
     }
   },
   "include": [
-    "src"
+    "src",
+    "src/presentation/layout/ErrorPage.tsx",
+    "src/presentation/layout/GuestLayout.tsx"
   ]
 }

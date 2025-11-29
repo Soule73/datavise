@@ -6,7 +6,7 @@ import { UpdateDataSourceUseCase } from "@/domain/use-cases/datasource/UpdateDat
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
 import { useColumnDetection } from "./useColumnDetection";
 import { useNotificationStore } from "@store/notification";
-import { ROUTES } from "@constants/routes";
+import { ROUTES } from "@/core/constants/routes";
 import type { DataSource } from "@/domain/entities/DataSource.entity";
 import type { DetectColumnsParams } from "@/domain/ports/repositories/IDataSourceRepository";
 import type { DataSourceType } from "@/domain/value-objects";

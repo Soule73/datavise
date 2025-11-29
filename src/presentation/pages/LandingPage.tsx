@@ -9,19 +9,19 @@ import {
     CheckIcon,
     StarIcon
 } from '@heroicons/react/24/outline';
-import LandingNavbar from '@components/navigation/LandingNavbar';
+import LandingNavbar from '@/presentation/layout/LandingNavbar';
 import logoDataVise from "@assets/logo-datavise.svg";
 
 // Hero Section
 function HeroSection() {
     return (
-        <div className="relative bg-gradient-to-br from-indigo-900 via-blue-900 to-purple-900 overflow-hidden">
+        <div className="relative bg-linear-to-br from-indigo-900 via-blue-900 to-purple-900 overflow-hidden">
             <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
                 <div className="text-center">
                     <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 select-text">
                         Transformez vos données en
-                        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+                        <span className="block text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-400">
                             insights puissants
                         </span>
                     </h1>
@@ -32,7 +32,7 @@ function HeroSection() {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                             to="/register"
-                            className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
+                            className="bg-linear-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
                         >
                             Commencer gratuitement
                             <ArrowRightIcon className="w-5 h-5" />
@@ -101,7 +101,7 @@ function FeaturesSection() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {features.map((feature, index) => (
                         <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200">
-                            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                            <div className="bg-linear-to-br from-indigo-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                                 <feature.icon className="w-6 h-6 text-white" />
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
@@ -157,7 +157,7 @@ function ScreenshotsSection() {
                         </ul>
                     </div>
 
-                    <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-xl p-8 shadow-2xl">
+                    <div className="bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-xl p-8 shadow-2xl">
                         <div className="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-lg">
                             <div className="flex items-center gap-2 mb-4">
                                 <div className="w-3 h-3 bg-red-500 rounded-full"></div>
@@ -166,12 +166,12 @@ function ScreenshotsSection() {
                                 <div className="text-sm text-gray-500 ml-4">Data Vise Dashboard</div>
                             </div>
                             <div className="space-y-3">
-                                <div className="bg-gradient-to-r from-blue-400 to-purple-500 h-20 rounded-lg"></div>
+                                <div className="bg-linear-to-r from-blue-400 to-purple-500 h-20 rounded-lg"></div>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <div className="bg-gradient-to-r from-green-400 to-blue-500 h-16 rounded-lg"></div>
-                                    <div className="bg-gradient-to-r from-purple-400 to-pink-500 h-16 rounded-lg"></div>
+                                    <div className="bg-linear-to-r from-green-400 to-blue-500 h-16 rounded-lg"></div>
+                                    <div className="bg-linear-to-r from-purple-400 to-pink-500 h-16 rounded-lg"></div>
                                 </div>
-                                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 h-12 rounded-lg"></div>
+                                <div className="bg-linear-to-r from-yellow-400 to-orange-500 h-12 rounded-lg"></div>
                             </div>
                         </div>
                     </div>
@@ -252,7 +252,7 @@ function PricingSection() {
                         >
                             {plan.popular && (
                                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                    <span className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
+                                    <span className="bg-linear-to-r from-indigo-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
                                         <StarIcon className="w-4 h-4" />
                                         Plus populaire
                                     </span>
@@ -273,7 +273,7 @@ function PricingSection() {
                             <ul className="space-y-3 mb-8">
                                 {plan.features.map((feature, featureIndex) => (
                                     <li key={featureIndex} className="flex items-center gap-3">
-                                        <CheckIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                                        <CheckIcon className="w-5 h-5 text-green-500 shrink-0" />
                                         <span className="text-gray-600 dark:text-gray-300">{feature}</span>
                                     </li>
                                 ))}
@@ -281,7 +281,7 @@ function PricingSection() {
 
                             <button
                                 className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors duration-200 ${plan.popular
-                                    ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700'
+                                    ? 'bg-linear-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700'
                                     : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600'
                                     }`}
                             >
@@ -405,7 +405,7 @@ function ContactSection() {
 
                             <button
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-indigo-600 hover:to-purple-700 transition-colors duration-200"
+                                className="w-full bg-linear-to-r from-indigo-500 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-indigo-600 hover:to-purple-700 transition-colors duration-200"
                             >
                                 Envoyer le message
                             </button>

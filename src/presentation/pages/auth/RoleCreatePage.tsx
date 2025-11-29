@@ -1,9 +1,7 @@
 import { useRoleCreate } from "@/application/hooks/auth/useRoleManagement";
-import Button from "@/presentation/components/shared/forms/Button";
-import InputField from "@/presentation/components/shared/forms/InputField";
-import CheckboxField from "@/presentation/components/shared/forms/CheckboxField";
-import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
+import AuthLayout from "@/presentation/layout/AuthLayout";
+import { Button, CheckboxField, InputField } from "@datavise/ui";
 import type { Permission } from "@domain/value-objects/Permission.vo";
 
 export default function RoleCreatePage() {

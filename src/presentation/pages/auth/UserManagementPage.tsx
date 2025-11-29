@@ -1,13 +1,10 @@
 import { useUserManagement } from "@/application/hooks/auth/useUserManagement";
-import Table from "@/presentation/components/shared/datatable/Table";
-import Button from "@/presentation/components/shared/forms/Button";
 import type { User } from "@domain/entities/User.entity";
-import UserModalForm from "@components/auth/UserModalForm";
-import UserDeleteModal from "@components/auth/UserDeleteModal";
-import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
-import Section from "@/presentation/components/shared/Section";
-import PageHeader from "@/presentation/components/shared/layouts/PageHeader";
+import AuthLayout from "@/presentation/layout/AuthLayout";
+import { Button, DataTable, PageHeader, Section } from "@datavise/ui";
+import UserDeleteModal from "./components/UserDeleteModal";
+import UserModalForm from "./components/UserModalForm";
 
 function getErrorMsg(err: unknown) {
   if (!err) return undefined;
@@ -65,7 +62,7 @@ export default function UserManagementPage() {
             )
           }
         />
-        <Table
+        <DataTable
           searchable={true}
           paginable={true}
           rowPerPage={5}

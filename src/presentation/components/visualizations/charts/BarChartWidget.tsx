@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import { InvalideConfigWidget, NoDataWidget } from "@components/widgets/states";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
 import type { BarChartWidgetProps } from "@/application/hooks/visualizations/charts/useBarChartVM";
 
 ChartJS.register(

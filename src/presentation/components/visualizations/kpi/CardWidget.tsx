@@ -1,6 +1,6 @@
 import { useCardWidgetVM } from "@/application/hooks/visualizations/kpi/useCardWidgetVM";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import { InvalideConfigWidget, NoDataWidget } from "@components/widgets/states";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
 import type { CardWidgetProps } from "@/application/hooks/visualizations/kpi/useCardWidgetVM";
 
 export default function CardWidget({

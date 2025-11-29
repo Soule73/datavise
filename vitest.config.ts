@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-    plugins: [react()],
+    plugins: [react()] as any,
     test: {
         globals: true,
         environment: 'jsdom',
@@ -33,7 +33,6 @@ export default defineConfig({
             '@assets': path.resolve(__dirname, './src/core/assets'),
             '@hooks': path.resolve(__dirname, './src/core/hooks'),
             '@type': path.resolve(__dirname, './src/core/types'),
-            '@constants': path.resolve(__dirname, './src/core/constants'),
             '@services': path.resolve(__dirname, './src/data/services'),
             '@repositories': path.resolve(__dirname, './src/data/repositories'),
             '@adapters': path.resolve(__dirname, './src/data/adapters'),

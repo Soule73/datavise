@@ -1,5 +1,5 @@
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import { InvalideConfigWidget, NoDataWidget } from "@components/widgets/states";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
 import KPIWidget from "@components/visualizations/kpi/KPIWidget";
 import { useKPIGroupVM } from "@/application/hooks/visualizations/kpi/useKPIGroupVM";
 import type { Metric } from "@/application/types/metricBucketTypes";

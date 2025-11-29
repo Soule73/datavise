@@ -8,10 +8,10 @@ import {
   generateTableTitle,
 } from "@utils/kpi/tableDataUtils";
 import type { TableWidgetConfig } from "@/domain/value-objects/widgets/visualization";
-import type { TableColumn } from "@/presentation/components/shared/datatable/Table";
+import type { DataTableColumn } from "@datavise/ui/components/common/datatable/DataTable";
 
 export interface TableWidgetVM {
-  columns: TableColumn<any>[];
+  columns: DataTableColumn<any>[];
   displayData: Record<string, any>[];
   tableTitle: string;
 }

@@ -5,17 +5,14 @@ import { useAIConversationList } from "@/application/hooks/ai/useAIConversationL
 import { useAIConversation } from "@/application/hooks/ai/useAIConversation";
 import { useConversationWidgets } from "@/application/hooks/ai/useConversationWidgets";
 import { useDataSourceList } from "@/application/hooks/datasource/useDataSourceList";
-import AILoadingOverlay from "@components/ai/AILoadingOverlay";
-import AIGeneratedWidgetCard from "@components/ai/AIGeneratedWidgetCard";
-import AIConversationSidebar from "@components/ai/AIConversationSidebar";
-import AIMessageHistory from "@components/ai/AIMessageHistory";
-import { DeleteWidgetModal } from "@components/widgets/modals";
-import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
+import { DeleteWidgetModal } from "@/presentation/pages/widget/components/modals";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { ROUTES } from "@/core/constants/routes";
-import type { BreadcrumbItem } from "@/presentation/components/shared/layouts/Breadcrumb";
-import AIBuilderHeader from "@/presentation/components/ai/AIBuilderHeader";
 import { getWidgetId, getWidgetName } from "@utils/aiHelpers";
+import AuthLayout from "@/presentation/layout/AuthLayout";
+import type { BreadcrumbItem } from "@datavise/ui";
+import AIBuilderHeader from "./components/AIBuilderHeader";
+import { AIConversationSidebar, AIGeneratedWidgetCard, AILoadingOverlay, AIMessageHistory } from "./components";
 
 const aiBuilder = (conversationName?: string): BreadcrumbItem[] => [
     { label: "AI Builder", href: ROUTES.aiBuilder, icon: <SparklesIcon className="w-7 h-7 text-indigo-600 dark:text-indigo-400" /> },

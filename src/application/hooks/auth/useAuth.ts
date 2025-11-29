@@ -14,8 +14,8 @@ import { useUserStore } from "@store/user";
 import { loginSchema, type LoginForm } from "@validation/login";
 import { registerSchema, type RegisterForm } from "@validation/register";
 import { useState } from "react";
-import { ROUTES } from "@constants/routes";
 import type { ApiResponse } from "@/infrastructure/api/dto/ApiResponse.dto";
+import { ROUTES } from "@/core/constants/routes";
 
 type ApiError = ApiResponse<never> & { success: false };
 

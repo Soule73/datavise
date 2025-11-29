@@ -1,8 +1,8 @@
-import SourceForm from "@components/source/SourceForm";
+import SourceForm from "./components/SourceForm";
 import { useDataSourceForm } from "@/application/hooks/datasource/useDataSourceForm";
-import AuthLayout from "@/presentation/components/shared/layouts/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";
-import Section from "@/presentation/components/shared/Section";
+import AuthLayout from "@/presentation/layout/AuthLayout";
+import { Section } from "@datavise/ui";
 
 export default function AddSourcePage() {
   const formProps = useDataSourceForm(false);

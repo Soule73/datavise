@@ -18,7 +18,6 @@ export function useSidebar(sidebarGroups: SidebarGroup[]) {
   const user = useUserStore((s) => s.user);
   const open = useSidebarStore((s) => s.open);
   const closeSidebar = useSidebarStore((s) => s.closeSidebar);
-  const isMobile = useSidebarStore((s) => s.isMobile);
   const hasPermission = useUserStore((s) => s.hasPermission);
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
   const toggleGroup = (label: string) =>
@@ -49,7 +48,6 @@ export function useSidebar(sidebarGroups: SidebarGroup[]) {
     user,
     open,
     closeSidebar,
-    isMobile,
     hasPermission,
     openGroups,
     toggleGroup,
