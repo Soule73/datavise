@@ -1,10 +1,14 @@
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import NoDataWidget from "@components/widgets/NoDataWidget";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
 import KPIWidget from "@components/visualizations/kpi/KPIWidget";
-import { useKPIGroupVM } from "@hooks/visualizations/kpi/useKPIGroupVM";
-import type { Metric } from "@type/metricBucketTypes";
-import type { KPIGroupWidgetProps } from "@type/widgetTypes";
+import { useKPIGroupVM } from "@/application/hooks/visualizations/kpi/useKPIGroupVM";
+import type { Metric } from "@/application/types/metricBucketTypes";
+import type { KPIGroupWidgetConfig } from "@/domain/value-objects/widgets/visualization";
+
+export interface KPIGroupWidgetProps {
+  data: Record<string, any>[];
+  config: KPIGroupWidgetConfig;
+}
 
 export default function KPIGroupWidget({
   data,

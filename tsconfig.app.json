@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -26,53 +26,73 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     /* Paths */
-    "baseUrl": ".",
+    // "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "@styles/*": [
-        "src/styles/*"
+        "./src/styles/*"
       ],
       "@components/*": [
-        "src/presentation/components/*"
+        "./src/presentation/components/*"
       ],
       "@pages/*": [
-        "src/presentation/pages/*"
+        "./src/presentation/pages/*"
       ],
       "@store/*": [
-        "src/core/store/*"
+        "./src/core/store/*"
       ],
       "@utils/*": [
-        "src/core/utils/*"
+        "./src/core/utils/*"
       ],
       "@assets/*": [
-        "src/core/assets/*"
+        "./src/core/assets/*"
       ],
       "@hooks/*": [
-        "src/core/hooks/*"
+        "./src/core/hooks/*"
       ],
       "@type/*": [
-        "src/core/types/*"
-      ],
-      "@constants/*": [
-        "src/core/constants/*"
+        "./src/core/types/*"
       ],
       "@services/*": [
-        "src/data/services/*"
+        "./src/data/services/*"
       ],
       "@repositories/*": [
-        "src/data/repositories/*"
+        "./src/data/repositories/*"
       ],
       "@adapters/*": [
-        "src/data/adapters/*"
+        "./src/data/adapters/*"
       ],
       "@validation/*": [
-        "src/core/validation/*"
+        "./src/core/validation/*"
+      ],
+      "@domain/*": [
+        "./src/domain/*"
+      ],
+      "@infrastructure/*": [
+        "./src/infrastructure/*"
+      ],
+      "@application/*": [
+        "./src/application/*"
+      ],
+      "@datavise/ui": [
+        "./packages/ui/src"
+      ],
+      "@datavise/ui/*": [
+        "./packages/ui/src/*"
+      ],
+      "@datavise/utils": [
+        "./packages/utils/src"
+      ],
+      "@datavise/utils/*": [
+        "./packages/utils/src/*"
       ]
     }
   },
   "include": [
-    "src"
+    "src",
+    "src/presentation/layout/ErrorPage.tsx",
+    "src/presentation/layout/GuestLayout.tsx"
   ]
 }

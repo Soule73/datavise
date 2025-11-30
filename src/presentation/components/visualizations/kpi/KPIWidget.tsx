@@ -5,10 +5,8 @@ import {
   ChevronDownIcon,
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
-import { useKPIWidgetVM } from "@hooks/visualizations/kpi/useKPIWidgetVM";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import NoDataWidget from "@components/widgets/NoDataWidget";
-import type { KPIWidgetProps } from "@type/widgetTypes";
+import { useKPIWidgetVM, type KPIWidgetProps } from "@/application/hooks/visualizations/kpi/useKPIWidgetVM";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
 
 export default function KPIWidget({
   data,

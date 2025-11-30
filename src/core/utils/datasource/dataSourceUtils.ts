@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DataSource, SourceOption } from "@type/dataSource";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
+
+export interface SourceOption {
+    value: string;
+    label: string;
+}
 
 
 /**
@@ -9,7 +14,7 @@ export function generateSourceOptions(sources: DataSource[]): SourceOption[] {
     return [
         { value: "", label: "Sélectionner une source" },
         ...sources.map((s: DataSource) => ({
-            value: s._id || "",
+            value: s.id,
             label: s.name,
         })),
     ];
@@ -19,7 +24,7 @@ export function generateSourceOptions(sources: DataSource[]): SourceOption[] {
  * Trouve une source de données par son ID
  */
 export function findSourceById(sources: DataSource[], sourceId: string): DataSource | undefined {
-    return sources.find((s: DataSource) => s._id === sourceId);
+    return sources.find((s: DataSource) => s.id === sourceId);
 }
 
 /**

@@ -1,14 +1,13 @@
-import Button from "@components/forms/Button";
-import Table from "@components/Table";
-import Modal from "@components/Modal";
-import { useSourcesPage } from "@hooks/datasource/useSourcesPage";
-import { ROUTES } from "@constants/routes";
+import { useDataSourceListPage } from "@/application/hooks/datasource/useDataSourceListPage";
+import { ROUTES } from "@/core/constants/routes";
 import { Link } from "react-router-dom";
-import { DeleteSourceForm } from "@components/source/DeleteSourceForm";
-import type { DataSource } from "@type/dataSource";
-import Badge from "@components/Badge";
+import { DeleteSourceForm } from "./components/DeleteSourceForm";
+import type { DataSource } from "@/domain/entities/DataSource.entity";
 import { DocumentTextIcon, TableCellsIcon } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
+import breadcrumbs from "@/core/utils/breadcrumbs";
+import { Badge, Button, DataTable, Modal, PageHeader, Section } from "@datavise/ui";
+import AuthLayout from "@/presentation/layout/AuthLayout";
 
 export default function SourcesPage() {
   const {
@@ -20,11 +19,12 @@ export default function SourcesPage() {
     setSelectedSource,
     modalType,
     setModalType,
-    deleteMutation,
+    isDeleting,
     hasPermission,
     handleDownload,
+    handleConfirmDelete,
     navigate,
-  } = useSourcesPage();
+  } = useDataSourceListPage();
 
   const columns = useMemo(
     () => [
@@ -76,7 +76,7 @@ export default function SourcesPage() {
               size="sm"
               variant="outline"
               title="Télécharger le fichier"
-              className=" w-max !border-none"
+              className=" w-max border-none!"
               onClick={(e) => {
                 e.stopPropagation();
                 handleDownload(row.filePath, row.name + ".csv");
@@ -93,77 +93,72 @@ export default function SourcesPage() {
   );
 
   return (
-    <>
-      <div className="max-w-5xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow-sm">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold ">Sources de données</h1>
-          <div className="flex items-center gap-2">
-            {hasPermission("datasource:canCreate") && (
+    <AuthLayout permission="datasource:canView"
+      breadcrumb={breadcrumbs.datasourceList}
+    >
+      <Section>
+        <PageHeader
+          title="Sources de données"
+          actions={
+            hasPermission("datasource:canCreate") && (
               <Link
                 to={ROUTES.addSource}
-                className=" w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
-                color="indigo"
+                className="w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
               >
                 Ajouter une source
               </Link>
-            )}
-          </div>
-        </div>
-        <div className="mt-10">
-          <h2 className="text-lg font-semibold mb-2">Mes sources</h2>
-          {isLoading ? (
-            <div>Chargemnt...</div>
-          ) : (
-            <Table
-              columns={columns}
-              data={sources}
-              emptyMessage="Aucune source enregistrée."
-              actionsColumn={{
-                key: "empty",
-                label: "",
-                render: (row: DataSource) => (
-                  <div className="flex gap-2">
-                    {hasPermission("datasource:canUpdate") && (
-                      <Button
-                        color="indigo"
-                        size="sm"
-                        variant="outline"
-                        title="Modfier la source"
-                        className=" w-max !border-none"
-                        onClick={() => {
-                          navigate(`/sources/edit/${row._id}`);
-                        }}
-                      >
-                        Modifier
-                      </Button>
-                    )}
-                    {hasPermission("datasource:canDelete") && (
-                      <Button
-                        color="red"
-                        size="sm"
-                        variant="outline"
-                        className="w-max !border-none "
-                        title={
-                          row.isUsed
-                            ? "Impossible de supprimer une source utilisée"
-                            : "Supprimer la source"
-                        }
-                        onClick={() => {
-                          setSelectedSource(row);
-                          setModalType("delete");
-                          setModalOpen(true);
-                        }}
-                        disabled={row.isUsed}
-                      >
-                        Supprimer
-                      </Button>
-                    )}
-                  </div>
-                ),
-              }}
-            />
-          )}
-        </div>
+            )
+          }
+        />
+        <DataTable
+          columns={columns}
+          data={sources}
+          loading={isLoading}
+          emptyMessage="Aucune source enregistrée."
+          actionsColumn={{
+            key: "empty",
+            label: "",
+            render: (row: DataSource) => (
+              <div className="flex gap-2">
+                {hasPermission("datasource:canUpdate") && (
+                  <Button
+                    color="indigo"
+                    size="sm"
+                    variant="outline"
+                    title="Modfier la source"
+                    className=" w-max border-none!"
+                    onClick={() => {
+                      navigate(`/sources/edit/${row.id}`);
+                    }}
+                  >
+                    Modifier
+                  </Button>
+                )}
+                {hasPermission("datasource:canDelete") && (
+                  <Button
+                    color="red"
+                    size="sm"
+                    variant="outline"
+                    className="w-max border-none! "
+                    title={
+                      row.isUsed
+                        ? "Impossible de supprimer une source utilisée"
+                        : "Supprimer la source"
+                    }
+                    onClick={() => {
+                      setSelectedSource(row);
+                      setModalType("delete");
+                      setModalOpen(true);
+                    }}
+                    disabled={row.isUsed}
+                  >
+                    Supprimer
+                  </Button>
+                )}
+              </div>
+            ),
+          }}
+        />
         <Modal
           open={modalOpen && modalType === "delete"}
           onClose={() => {
@@ -177,15 +172,13 @@ export default function SourcesPage() {
           {modalType === "delete" && selectedSource && (
             <DeleteSourceForm
               source={selectedSource}
-              onDelete={() =>
-                selectedSource && deleteMutation.mutate(selectedSource._id)
-              }
+              onDelete={handleConfirmDelete}
               onCancel={() => setModalOpen(false)}
-              loading={deleteMutation.isPending}
+              loading={isDeleting}
             />
           )}
         </Modal>
-      </div>
-    </>
+      </Section>
+    </AuthLayout>
   );
 }

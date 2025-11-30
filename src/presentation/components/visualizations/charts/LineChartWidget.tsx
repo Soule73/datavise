@@ -1,4 +1,4 @@
-import { useLineChartLogic } from "@hooks/visualizations/charts";
+import { useLineChartLogic } from "@/application/hooks/visualizations/charts";
 import { PresentationChartLineIcon } from "@heroicons/react/24/outline";
 import {
   Chart as ChartJS,
@@ -12,9 +12,9 @@ import {
   Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import NoDataWidget from "@components/widgets/NoDataWidget";
-import type { LineChartWidgetProps } from "@type/widgetTypes";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
+import type { LineChartWidgetProps } from "@/application/hooks/visualizations/charts/useLineChartVM";
+
 
 ChartJS.register(
   LineElement,

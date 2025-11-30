@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./landing.css";
+@import "./react-grid-layout.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
 body {
@@ -16,7 +17,7 @@ body {
 }
 
 .config-scrollbar::-webkit-scrollbar {
-  @apply w-[1px]
+  @apply w-px
 }
 
 .config-scrollbar::-webkit-scrollbar-track {
@@ -161,4 +162,71 @@ textarea:focus {
   -khtml-user-drag: none;
   -moz-user-drag: none;
   -o-user-drag: none;
+}
+
+/* AI Widget Preview Container */
+.widget-preview {
+  position: relative;
+  overflow: hidden;
+  contain: layout size style;
+}
+
+.widget-preview>div {
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+}
+
+/* Scrollbar pour les previews de widgets */
+.widget-preview::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.widget-preview::-webkit-scrollbar-track {
+  background-color: rgb(243 244 246);
+  border-radius: 3px;
+}
+
+.dark .widget-preview::-webkit-scrollbar-track {
+  background-color: rgb(55 65 81);
+}
+
+.widget-preview::-webkit-scrollbar-thumb {
+  background-color: rgb(209 213 219);
+  border-radius: 3px;
+}
+
+.dark .widget-preview::-webkit-scrollbar-thumb {
+  background-color: rgb(75 85 99);
+}
+
+.widget-preview::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(156 163 175);
+}
+
+.dark .widget-preview::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(107 114 128);
+}
+
+/* Empêche les canvas/svg de dépasser */
+.widget-preview canvas,
+.widget-preview svg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Tables dans les previews */
+.widget-preview table {
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* KPI widgets dans les previews */
+.widget-preview .kpi-widget,
+.widget-preview .kpi-group {
+  max-width: 100%;
+  overflow: hidden;
 }

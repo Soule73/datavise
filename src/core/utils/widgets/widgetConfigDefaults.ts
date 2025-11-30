@@ -1,8 +1,11 @@
-import type { DefaultWidgetConfig, WidgetType } from '@type/widgetTypes';
-import type { MultiBucketConfig, Metric } from '@type/metricBucketTypes';
+import type { WidgetType } from '@/domain/value-objects';
+import type { MultiBucketConfig, Metric } from '@/application/types/metricBucketTypes';
 import { createDefaultBucket } from '@utils/bucketMetrics/bucketUtils';
 
-
+export interface DefaultWidgetConfig {
+    metrics: Metric[];
+    buckets: MultiBucketConfig[];
+}
 
 /**
  * Crée une configuration par défaut pour un type de widget donné
@@ -72,7 +75,7 @@ export function createDefaultWidgetConfig(
         }
 
         case 'kpi':
-        case 'kpi_group': {
+        case 'kpiGroup': {
             // Les KPI n'utilisent généralement pas de buckets
             break;
         }
@@ -249,7 +252,7 @@ export function optimizeWidgetConfig(
         }
 
         case 'kpi':
-        case 'kpi_group': {
+        case 'kpiGroup': {
             // Les KPI ne devraient pas avoir de buckets
             optimized.buckets = [];
             break;

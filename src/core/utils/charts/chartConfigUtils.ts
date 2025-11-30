@@ -7,7 +7,7 @@ import {
     allSameDay,
     formatXTicksLabel,
 } from "@utils/charts/chartUtils";
-import type { ChartType } from "@type/widgetTypes";
+import type { ChartType } from "@/domain/value-objects";
 
 /**
  * Crée un dataset par défaut selon le type de chart

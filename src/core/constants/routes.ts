@@ -21,4 +21,5 @@ export const ROUTES = {
   docs: "/docs",
   docsSection: "/docs/:section",
   docsPage: "/docs/:section/:page",
+  aiBuilder: "/ai-builder",
 };

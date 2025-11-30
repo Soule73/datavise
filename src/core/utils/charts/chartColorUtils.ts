@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DEFAULT_CHART_COLORS } from "@adapters/visualizations";
-import type { ChartType } from "@type/widgetTypes";
+import { DEFAULT_CHART_COLORS } from "@/core/config/visualizations";
+import type { ChartType } from "@/domain/value-objects";
 
 
 /**

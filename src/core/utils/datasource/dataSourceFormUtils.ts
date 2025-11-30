@@ -1,4 +1,20 @@
-import type { DetectParams } from "@type/dataSource";
+import type { DataSourceType } from "@/domain/value-objects";
+
+export interface DetectParams {
+  type?: DataSourceType;
+  timestampField?: string;
+  endpoint?: string;
+  indexPattern?: string;
+  query?: string;
+  csvOrigin?: string;
+  csvFile?: File;
+  file?: File;
+  httpMethod?: string;
+  authType?: string;
+  authConfig?: unknown;
+  esIndex?: string;
+  esQuery?: string;
+}
 
 /**
  * Mappe les colonnes détectées avec leur type.

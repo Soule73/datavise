@@ -1,7 +1,8 @@
-import { useRoleCreate } from "@hooks/auth/useRoleCreate";
-import Button from "@components/forms/Button";
-import InputField from "@components/forms/InputField";
-import CheckboxField from "@components/forms/CheckboxField";
+import { useRoleCreate } from "@/application/hooks/auth/useRoleManagement";
+import breadcrumbs from "@/core/utils/breadcrumbs";
+import AuthLayout from "@/presentation/layout/AuthLayout";
+import { Button, CheckboxField, InputField } from "@datavise/ui";
+import type { Permission } from "@domain/value-objects/Permission.vo";
 
 export default function RoleCreatePage() {
   const {
@@ -17,7 +18,9 @@ export default function RoleCreatePage() {
   } = useRoleCreate();
 
   return (
-    <>
+    <AuthLayout permission="role:canCreate"
+      breadcrumb={breadcrumbs.roleCreate}
+    >
       <div className="flex items-center justify-between mb-6 flex-wrap">
         <h1 className="text-2xl font-bold">Créer un nouveau rôle</h1>
         <Button
@@ -74,13 +77,13 @@ export default function RoleCreatePage() {
                     {model}
                   </div>
                   <div className="space-y-1 grid">
-                    {(perms ?? []).map((perm) => (
+                    {(perms ?? []).map((perm: Permission) => (
                       <CheckboxField
-                        key={perm._id}
+                        key={perm.id}
                         label={perm.description || perm.name}
-                        checked={form.permissions.includes(perm._id)}
-                        onChange={() => handleTogglePerm(perm._id)}
-                        id={`perm-${perm._id}`}
+                        checked={form.permissions.includes(perm.id)}
+                        onChange={() => handleTogglePerm(perm.id)}
+                        id={`perm-${perm.id}`}
                         name="permissions"
                       />
                     ))}
@@ -91,6 +94,6 @@ export default function RoleCreatePage() {
           </div>
         </form>
       )}
-    </>
+    </AuthLayout>
   );
 }

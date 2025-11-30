@@ -1,10 +1,18 @@
-import AuthLayout from "@components/layouts/AuthLayout";
-import InputField from "@components/forms/InputField";
-import Button from "@components/forms/Button";
-import { useRegisterForm } from "@hooks/auth/useRegisterForm";
+import { useRegisterForm } from "@/application/hooks/auth/useAuth";
 import logoDataVise from "@assets/logo-datavise.svg";
+import { Navigate } from "react-router-dom";
+import { useUserStore } from "@store/user";
+import { ROUTES } from "@/core/constants/routes";
+import { Button, GuestLayout, InputField } from "@datavise/ui";
 
 export default function Register() {
+  const user = useUserStore((s) => s.user);
+  const token = useUserStore((s) => s.token);
+
+  if (user && token) {
+    return <Navigate to={ROUTES.dashboards} replace />;
+  }
+
   const {
     register,
     handleSubmit,
@@ -15,7 +23,7 @@ export default function Register() {
   } = useRegisterForm();
 
   return (
-    <AuthLayout
+    <GuestLayout
       title="Créer un compte"
       logoUrl={logoDataVise}
       bottomText={
@@ -74,6 +82,6 @@ export default function Register() {
           Créer un compte
         </Button>
       </form>
-    </AuthLayout>
+    </GuestLayout>
   );
 }

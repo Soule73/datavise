@@ -1,25 +1,22 @@
 import { useNavigate, Link } from "react-router-dom";
-import { ROUTES } from "@constants/routes";
-import Table from "@components/Table";
-import Modal from "@components/Modal";
-import { useWidgetListPage } from "@hooks/widget/useWidgetListPage";
-import { DeleteWidgetModal } from "@components/widgets/DeleteWidgetModal";
-import Button from "@components/forms/Button";
-import type { Widget, WidgetType } from "@type/widgetTypes";
+import { ROUTES } from "@/core/constants/routes";
+import { useWidgetListPage } from "@/application/hooks/widget/useWidgetListPage";
+import { DeleteWidgetModal, WidgetTypeSelectionModal } from "./components/modals";
+import type { Widget } from "@domain/entities/Widget.entity";
+import type { WidgetType } from "@/domain/value-objects";
 import { useMemo, useState } from "react";
-import { WIDGETS } from "@adapters/visualizations";
-import Badge from "@components/Badge";
+import { WIDGETS } from "@/core/config/visualizations";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
-import WidgetTypeSelectionModal from "@components/widgets/WidgetTypeSelectionModal";
-import { useSourcesQuery } from "@/data/repositories/datasources";
-import { useQueryClient } from "@tanstack/react-query";
+import { useDataSourceList } from "@/application/hooks/datasource/useDataSourceList";
+import { Badge, Button, DataTable, Modal, PageHeader, Section } from "@datavise/ui";
+import AuthLayout from "@/presentation/layout/AuthLayout";
+import breadcrumbs from "@/core/utils/breadcrumbs";
 
 export default function WidgetListPage() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const { data: sources = [] } = useSourcesQuery({ queryClient });
+  const { dataSources: sources } = useDataSourceList();
 
   const {
     tableData,
@@ -38,7 +35,6 @@ export default function WidgetListPage() {
 
   const handleCreateWidget = (sourceId: string, type: WidgetType) => {
     setShowCreateModal(false);
-    // Naviguer vers la page de création avec les paramètres
     navigate(`${ROUTES.createWidget}?sourceId=${sourceId}&type=${type}`);
   };
 
@@ -74,6 +70,13 @@ export default function WidgetListPage() {
         label: "Type",
       },
       {
+        key: "isGeneratedByAI",
+        label: "Généré par IA",
+        render: (row: Widget) => (
+          row.isGeneratedByAI ? <Badge color="indigo">Oui</Badge> : <Badge color="gray">Non</Badge>
+        ),
+      },
+      {
         key: "dataSourceId",
         label: "Source",
       },
@@ -82,29 +85,30 @@ export default function WidgetListPage() {
   );
 
   return (
-    <div className="max-w-5xl mx-auto py-4 bg-white dark:bg-gray-900 px-4 sm:px-6 lg:px-8 shadow mt-2s">
-      <div className="flex items-center justify-end mb-3">
-        <div className="flex items-center gap-2">
-          {hasPermission("widget:canCreate") && (
-            <Button
-              color="indigo"
-              onClick={() => setShowCreateModal(true)}
-              className="w-max"
-            >
-              Ajouter une visualisation
-            </Button>
-          )}
-        </div>
-      </div>
-      {isLoading ? (
-        <div>Chargement...</div>
-      ) : (
-        <Table
+    <AuthLayout permission="widget:canView"
+      breadcrumb={breadcrumbs.widgetList}
+    >
+      <Section>
+        <PageHeader
+          title="Visualisations"
+          actions={
+            hasPermission("widget:canCreate") && (
+              <Link
+                to={ROUTES.createWidget}
+                className="w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
+              >
+                Nouvelle visualisation
+              </Link>
+            )
+          }
+        />
+        <DataTable
           paginable={true}
           searchable={true}
           rowPerPage={5}
           columns={columns}
           data={tableData}
+          loading={isLoading}
           emptyMessage="Aucune visualisation."
           actionsColumn={{
             key: "actions",
@@ -114,14 +118,14 @@ export default function WidgetListPage() {
                 {hasPermission("widget:canUpdate") && (
                   <Link
                     to={
-                      row._id ? ROUTES.editWidget.replace(":id", row._id) : "#"
+                      row.id ? ROUTES.editWidget.replace(":id", row.id) : "#"
                     }
                   >
                     <Button
                       color="indigo"
                       size="sm"
                       variant="outline"
-                      className=" w-max !border-none"
+                      className=" w-max border-none!"
                       title="Modifier le widget"
                     >
                       Modifier
@@ -133,7 +137,7 @@ export default function WidgetListPage() {
                   size="sm"
                   variant="outline"
                   title="Modfier la source"
-                  className=" w-max !border-none"
+                  className=" w-max border-none!"
                   onClick={() => {
                     setSelectedConfig(row);
                     setModalOpen(true);
@@ -146,7 +150,7 @@ export default function WidgetListPage() {
                     color="red"
                     size="sm"
                     variant="outline"
-                    className="w-max !border-none "
+                    className="w-max border-none! "
                     disabled={!!row.isUsed}
                     title={
                       row.isUsed
@@ -165,37 +169,37 @@ export default function WidgetListPage() {
             ),
           }}
         />
-      )}
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title="Configuration du widget"
-        size="2xl"
-      >
-        <SyntaxHighlighter
-          language="json"
-          style={okaidia}
-          className="text-x config-scrollbar rounded p-2 overflow-y-auto max-h-80"
+        <Modal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title="Configuration du widget"
+          size="2xl"
         >
-          {selectedConfig ? JSON.stringify(selectedConfig, null, 2) : ""}
-        </SyntaxHighlighter>
-      </Modal>
-      <DeleteWidgetModal
-        open={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onDelete={() =>
-          selectedWidget && deleteMutation.mutate(selectedWidget._id!)
-        }
-        loading={deleteMutation.isPending}
-        widget={selectedWidget}
-      />
+          <SyntaxHighlighter
+            language="json"
+            style={okaidia}
+            className="text-x config-scrollbar rounded p-2 overflow-y-auto max-h-80"
+          >
+            {selectedConfig ? JSON.stringify(selectedConfig, null, 2) : ""}
+          </SyntaxHighlighter>
+        </Modal>
+        <DeleteWidgetModal
+          open={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onDelete={() =>
+            selectedWidget && deleteMutation.mutate(selectedWidget.id)
+          }
+          loading={deleteMutation.isPending}
+          widget={selectedWidget}
+        />
 
-      <WidgetTypeSelectionModal
-        open={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-        onConfirm={handleCreateWidget}
-        sources={sources}
-      />
-    </div>
+        <WidgetTypeSelectionModal
+          open={showCreateModal}
+          onClose={() => setShowCreateModal(false)}
+          onConfirm={handleCreateWidget}
+          sources={sources}
+        />
+      </Section>
+    </AuthLayout>
   );
 }

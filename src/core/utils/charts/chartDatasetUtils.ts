@@ -1,11 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Metric } from "@type/metricBucketTypes";
-import type { DatasetCreationContext } from "@type/widgetTypes";
+import type { Metric } from "@/application/types/metricBucketTypes";
 import { createDefaultDataset } from "@utils/charts/chartConfigUtils";
 import { getDatasetColor, generateColorsForLabels, addTransparency } from "@utils/charts/chartColorUtils";
 import { aggregate } from "@utils/charts/chartUtils";
+import type { ChartType } from "@/domain/value-objects";
 
-
+export interface DatasetCreationContext {
+    chartType: ChartType;
+    labels: string[];
+    widgetParams: any;
+    metrics: Metric[];
+    metricStyles: any[];
+    processedData: any;
+    getValues: (metric: Metric) => number[];
+}
 
 /**
  * Crée des datasets pour les séries divisées (split series)

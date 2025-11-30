@@ -1,8 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatLabelsForDisplay } from "@utils/charts/chartDataUtils";
-import type { ProcessedData } from "@type/metricBucketTypes";
-import type { TableColumn, TableConfig, TableDataResult } from "@type/widgetTypes";
+import type { ProcessedData } from "../bucketMetrics/multiBucketProcessor";
+import type { DataTableColumn } from "@datavise/ui/components/common/datatable/DataTable";
 
+export interface TableConfig {
+    metrics?: any[];
+    buckets?: any[];
+    columns?: any[];
+    widgetParams?: any;
+    globalFilters?: any[];
+}
+
+export interface TableDataResult {
+    columns: DataTableColumn<any>[];
+    displayData: any[];
+}
 
 /**
  * Détecte le type de configuration de tableau
@@ -22,7 +34,7 @@ export function detectTableConfigType(config: TableConfig) {
 /**
  * Crée les colonnes pour les buckets
  */
-export function createBucketColumns(buckets: any[]): TableColumn[] {
+export function createBucketColumns(buckets: any[]): DataTableColumn<any>[] {
     return buckets.map((bucket: any) => ({
         key: bucket.field,
         label: bucket.label || bucket.field,
@@ -32,7 +44,7 @@ export function createBucketColumns(buckets: any[]): TableColumn[] {
 /**
  * Crée les colonnes pour les métriques
  */
-export function createMetricColumns(metrics: any[]): TableColumn[] {
+export function createMetricColumns(metrics: any[]): DataTableColumn<any>[] {
     return metrics.map((metric: any) => ({
         key: metric.field,
         label: metric.label || metric.field,
@@ -42,7 +54,7 @@ export function createMetricColumns(metrics: any[]): TableColumn[] {
 /**
  * Crée les colonnes automatiquement depuis les données
  */
-export function createAutoColumns(data: any[]): TableColumn[] {
+export function createAutoColumns(data: any[]): DataTableColumn<any>[] {
     if (!data || data.length === 0) return [];
 
     const firstRow = data[0];

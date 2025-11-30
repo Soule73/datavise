@@ -1,6 +1,6 @@
-import type { WidgetType } from "@type/widgetTypes";
-import { WIDGET_DATA_CONFIG } from "@adapters/visualizations";
-import type { Metric } from "@type/metricBucketTypes";
+import type { WidgetType } from "@/domain/value-objects";
+import { WIDGET_DATA_CONFIG } from "@/core/config/visualizations";
+import type { Metric } from "@/application/types/metricBucketTypes";
 
 /**
  * Génère un label automatique pour une métrique

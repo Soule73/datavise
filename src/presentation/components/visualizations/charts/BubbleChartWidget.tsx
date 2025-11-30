@@ -1,9 +1,8 @@
 import { Bubble } from "react-chartjs-2";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import NoDataWidget from "@components/widgets/NoDataWidget";
-import { useBubbleChartLogic } from "@hooks/visualizations/charts";
-import type { BubbleChartWidgetProps } from "@type/widgetTypes";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
+import { useBubbleChartLogic } from "@/application/hooks/visualizations/charts";
+import type { BubbleChartWidgetProps } from "@/application/hooks/visualizations/charts/useBubbleChartVM";
 
 export default function BubbleChartWidget({
   data,

@@ -1,0 +1,63 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "skipLibCheck": true,
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedSideEffectImports": true,
+        "declaration": true,
+        "declarationMap": true,
+        // "baseUrl": "../../",
+        "paths": {
+            "@store/*": [
+                "../../src/core/store/*"
+            ],
+            "@constants/*": [
+                "../../src/core/constants/*"
+            ],
+            "@assets/*": [
+                "../../src/core/assets/*"
+            ],
+            "@hooks/*": [
+                "../../src/core/hooks/*"
+            ],
+            "@/application/*": [
+                "../../src/application/*"
+            ],
+            "@/core/*": [
+                "../../src/core/*"
+            ],
+            "@domain/*": [
+                "../../src/domain/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*",
+        "../../src/presentation/layout/ErrorPage.tsx",
+        "../../src/presentation/layout/GuestLayout.tsx",
+        "../../src/presentation/layout/Navbar.tsx",
+        "../../src/presentation/layout/Sidebar.tsx",
+        "../../src/presentation/layout/UserDropdown.tsx",
+        "../../src/presentation/layout/AppLoader.tsx"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

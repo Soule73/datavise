@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Dashboard, IntervalUnit } from "@type/dashboardTypes";
+import type { IntervalUnit } from "@/domain/value-objects";
+import type { Dashboard } from "@/domain/entities/Dashboard.entity";
 
 /**
  * Calcule la période effective selon le mode (absolu/relatif).
@@ -104,40 +105,6 @@ export function getAutoRefreshMs(value?: number, unit?: IntervalUnit): number {
     default:
       return 60 * 1000;
   }
-}
-
-/**
- * Retourne le breadcrumb pour le dashboard (création ou édition).
- */
-export function getDashboardBreadcrumb({
-  isCreate,
-  dashboard,
-  pendingTitle,
-  ROUTES,
-}: {
-  isCreate: boolean;
-  dashboard: any;
-  pendingTitle: string;
-  ROUTES: any;
-}) {
-  if (isCreate) {
-    return [
-      { url: ROUTES.dashboard, label: "Tableaux de bord" },
-      {
-        url: ROUTES.createDashboard,
-        label: pendingTitle || "Nouveau dashboard",
-      },
-    ];
-  } else if (dashboard && dashboard._id && dashboard.title) {
-    return [
-      { url: ROUTES.dashboard, label: "Tableaux de bord" },
-      {
-        url: ROUTES.dashboardDetail.replace(":id", dashboard._id),
-        label: dashboard.title,
-      },
-    ];
-  }
-  return [];
 }
 
 /**

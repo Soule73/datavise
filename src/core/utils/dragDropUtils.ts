@@ -1,7 +1,14 @@
 import React from "react";
-import type { DragDropHandlers } from "@type/ui";
 
 
+/**
+ * Interface pour la gestion du drag & drop
+ */
+export interface DragDropHandlers {
+    handleDragStart: (idx: number) => void;
+    handleDragOver: (idx: number, e: React.DragEvent) => void;
+    handleDrop: (idx: number) => void;
+}
 
 /**
  * Crée les handlers pour le drag & drop des métriques

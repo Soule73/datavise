@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ChartOptions, TooltipItem } from "chart.js";
-import type { ChartType } from "@type/widgetTypes";
+import type { ChartType } from "@/domain/value-objects";
 
 /**
  * Crée les options personnalisées pour bar chart

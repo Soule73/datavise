@@ -1,8 +1,8 @@
-import DashboardGrid from "@components/dashoards/DashboardGrid";
 import { useParams } from "react-router-dom";
-import { useDashboardShare } from "@hooks/dashboard/useDashboardShare";
-import BaseLayout from "@components/layouts/BaseLayout";
-import ErrorPage from "@components/layouts/ErrorPage";
+import { useDashboardShareView } from "@/application/hooks/dashboard/useDashboardShareView";
+import { ErrorPage } from "@datavise/ui";
+import BaseLayout from "@/presentation/layout/BaseLayout";
+import DashboardGrid from "./components/DashboardGrid";
 
 function EmptyDashboard() {
   return (
@@ -16,7 +16,7 @@ function EmptyDashboard() {
 export default function DashboardSharePage() {
   const { shareId } = useParams<{ shareId: string }>();
   const { dashboard, sources, loading, error, errorCode } =
-    useDashboardShare(shareId);
+    useDashboardShareView(shareId);
 
   if (loading) return <div className="p-8 text-center">Chargement…</div>;
   if (error) {
@@ -45,10 +45,10 @@ export default function DashboardSharePage() {
           editMode={false}
           hasUnsavedChanges={false}
           handleAddWidget={() => { }}
-          timeRangeFrom={dashboard.timeRange?.from}
-          timeRangeTo={dashboard.timeRange?.to}
-          forceRefreshKey={0}
-          shareId={shareId}
+        // timeRangeFrom={dashboard.timeRange?.from}
+        // timeRangeTo={dashboard.timeRange?.to}
+        // forceRefreshKey={0}
+        // shareId={shareId}
         />
       )}
     </BaseLayout>

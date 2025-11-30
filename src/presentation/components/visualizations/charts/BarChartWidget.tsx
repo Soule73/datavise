@@ -1,4 +1,4 @@
-import { useBarChartLogic } from "@hooks/visualizations/charts";
+import { useBarChartLogic } from "@/application/hooks/visualizations/charts";
 import {
   Chart as ChartJS,
   BarElement,
@@ -10,9 +10,8 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import InvalideConfigWidget from "@components/widgets/InvalideConfigWidget";
-import type { BarChartWidgetProps } from "@type/widgetTypes";
-import NoDataWidget from "@components/widgets/NoDataWidget";
+import { InvalideConfigWidget, NoDataWidget } from "@/presentation/pages/widget/components/states";
+import type { BarChartWidgetProps } from "@/application/hooks/visualizations/charts/useBarChartVM";
 
 ChartJS.register(
   BarElement,

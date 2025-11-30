@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ScatterMetricConfig } from "@type/metricBucketTypes";
-import type { Filter } from "@type/visualization";
+import type { ScatterMetricConfig } from "@/application/types/metricBucketTypes";
+import type { Filter } from "@/domain/value-objects/widgets/visualization";
 import { applyAllFilters } from "@utils/filterUtils";
 
 /**

@@ -1,6 +1,11 @@
 import { create } from 'zustand';
-import type { ThemeMode, ThemeStore } from '@type/themeTypes';
 
+export type ThemeMode = "system" | "light" | "dark";
+
+interface ThemeStore {
+  theme: ThemeMode;
+  setTheme: (theme: ThemeMode) => void;
+}
 
 function getInitialTheme(): ThemeMode {
   if (typeof window === 'undefined') return 'system';

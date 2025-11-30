@@ -1,4 +1,4 @@
-import type { MultiBucketConfig, BucketType } from '@type/metricBucketTypes';
+import type { MultiBucketConfig, BucketType } from '@/application/types/metricBucketTypes';
 
 export const BUCKET_TYPES: Array<{ value: BucketType; label: string; description: string }> = [
     {
@@ -156,7 +156,7 @@ export function generateBucketLabel(bucket: MultiBucketConfig): string {
     const bucketType = BUCKET_TYPES.find(t => t.value === bucket.type);
     const typeName = bucketType?.label || bucket.type;
 
-    return `${typeName}${bucket.field ? ` · ${bucket.field}` : ''}`;
+    return `${typeName}${bucket.field ? ` - ${bucket.field}` : ''}`;
 }
 
 /**

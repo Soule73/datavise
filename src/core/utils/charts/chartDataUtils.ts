@@ -1,7 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Metric } from "@type/metricBucketTypes";
+import type { Metric } from "@/application/types/metricBucketTypes";
 import { aggregate, getLabels } from "@utils/charts/chartUtils";
-import type { ProcessedDataContext } from "@type/widgetTypes";
+
+
+/**
+ * Interface pour les données processées
+ */
+export interface ProcessedDataContext {
+    bucketHierarchy: any[];
+    labels: string[];
+    splitData: {
+        series: any[];
+    };
+}
 
 
 /**
