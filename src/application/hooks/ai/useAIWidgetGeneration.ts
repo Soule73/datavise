@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { GenerateWidgetsUseCase } from "@/domain/use-cases/ai/GenerateWidgets.usecase";
-import { RefineWidgetsUseCase } from "@/domain/use-cases/ai/RefineWidgets.usecase";
+import { GenerateWidgetsUseCase } from "@domain/use-cases/ai/GenerateWidgets.usecase";
+import { RefineWidgetsUseCase } from "@domain/use-cases/ai/RefineWidgets.usecase";
 import { AIWidgetRepository } from "@/infrastructure/repositories/AIWidgetRepository";
-import type { GenerateWidgetsPayload, RefineWidgetsPayload } from "@/domain/ports/repositories/IAIWidgetRepository";
-import { useNotificationStore } from "@store/notification";
+import type { GenerateWidgetsPayload, RefineWidgetsPayload } from "@domain/ports/repositories/IAIWidgetRepository";
+import { useNotificationStore } from "@stores/notification";
 
 const aiWidgetRepository = new AIWidgetRepository();
 const generateWidgetsUseCase = new GenerateWidgetsUseCase(aiWidgetRepository);

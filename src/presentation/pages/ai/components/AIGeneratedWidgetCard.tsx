@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import type { Widget } from "@/domain/entities/Widget.entity";
+import type { Widget } from "@domain/entities/Widget.entity";
 import { WIDGETS } from "@/core/config/visualizations";
 import { useState, useEffect } from "react";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";

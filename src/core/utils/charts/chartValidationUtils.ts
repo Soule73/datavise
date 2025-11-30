@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ChartData, ChartOptions } from "chart.js";
-import type { ChartType, Metric, MultiBucketConfig } from "@/domain/value-objects";
+import type { ChartType, Metric, MultiBucketConfig } from "@domain/value-objects";
 
 /**
  * Interface pour le contexte de validation d'un graphique

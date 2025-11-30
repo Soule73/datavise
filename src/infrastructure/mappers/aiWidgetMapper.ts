@@ -1,11 +1,11 @@
-import { Widget } from "@/domain/entities/Widget.entity";
-import { createDataSourceSummary, type DataSourceSummary } from "@/domain/value-objects/DataSourceSummary.vo";
+import { Widget } from "@domain/entities/Widget.entity";
+import { createDataSourceSummary, type DataSourceSummary } from "@domain/value-objects/DataSourceSummary.vo";
 import type {
     AIGeneratedWidgetDTO,
     GenerateWidgetsResponseDTO,
     AnalyzeDataSourceResponseDTO,
 } from "../api/dto/AIWidgetDTO";
-import type { GenerateWidgetsResult } from "@/domain/ports/repositories/IAIWidgetRepository";
+import type { GenerateWidgetsResult } from "@domain/ports/repositories/IAIWidgetRepository";
 
 export const aiWidgetMapper = {
     widgetToDomain(dto: AIGeneratedWidgetDTO): Widget {

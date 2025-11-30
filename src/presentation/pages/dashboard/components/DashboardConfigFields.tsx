@@ -17,8 +17,8 @@ import {
 import {
   INTERVAL_UNITS,
 } from "@utils/timeUtils";
-import { useDashboardConfigStore } from "@/core/store/useDashboardConfigStore";
-import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
+import { useDashboardConfigStore } from "@stores/useDashboardConfigStore";
+import { useDashboardUIStore } from "@stores/useDashboardUIStore";
 import { Button, InputField, SelectField } from "@datavise/ui";
 
 type Props = {

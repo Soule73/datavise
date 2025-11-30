@@ -1,4 +1,4 @@
-import type { User } from "@/domain/entities/User.entity";
+import type { User } from "@domain/entities/User.entity";
 import { AlertModal } from "@datavise/ui";
 
 

@@ -1,9 +1,9 @@
 import React, { type ReactNode } from "react";
 import DashboardSharePopover from "@/presentation/pages/dashboard/components/DashboardSharePopover";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
-import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
-import { useDashboardShareStore } from "@/core/store/useDashboardShareStore";
-import { useUserStore } from "@/core/store/user";
+import { useDashboardUIStore } from "@stores/useDashboardUIStore";
+import { useDashboardShareStore } from "@stores/useDashboardShareStore";
+import { useUserStore } from "@stores/user";
 import { Button } from "@datavise/ui";
 
 export interface DashboardHeaderProps {

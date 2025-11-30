@@ -34,14 +34,14 @@
       "@styles/*": [
         "./src/styles/*"
       ],
-      "@components/*": [
-        "./src/presentation/components/*"
-      ],
+      // "@components/*": [
+      //   "./src/presentation/components/*"
+      // ],
       "@pages/*": [
         "./src/presentation/pages/*"
       ],
-      "@store/*": [
-        "./src/core/store/*"
+      "@stores/*": [
+        "./src/application/stores/*"
       ],
       "@utils/*": [
         "./src/core/utils/*"
@@ -50,7 +50,7 @@
         "./src/core/assets/*"
       ],
       "@hooks/*": [
-        "./src/core/hooks/*"
+        "./src/application/hooks/*"
       ],
       "@type/*": [
         "./src/core/types/*"
@@ -87,6 +87,12 @@
       ],
       "@datavise/utils/*": [
         "./packages/utils/src/*"
+      ],
+      "@datavise/visualizations": [
+        "./packages/visualizations/src"
+      ],
+      "@datavise/visualizations/*": [
+        "./packages/visualizations/src/*"
       ]
     }
   },

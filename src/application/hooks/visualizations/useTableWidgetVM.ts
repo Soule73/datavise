@@ -7,7 +7,7 @@ import {
   processRawData,
   generateTableTitle,
 } from "@utils/kpi/tableDataUtils";
-import type { TableWidgetConfig } from "@/domain/value-objects/widgets/visualization";
+import type { TableWidgetConfig } from "@domain/value-objects/widgets/visualization";
 import type { DataTableColumn } from "@datavise/ui/components/common/datatable/DataTable";
 
 export interface TableWidgetVM {

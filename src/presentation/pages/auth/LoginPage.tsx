@@ -1,7 +1,7 @@
-import { useLoginForm } from "@/application/hooks/auth/useAuth";
+import { useLoginForm } from "@hooks/auth/useAuth";
 import logoDataVise from "@assets/logo-datavise.svg";
 import { Navigate } from "react-router-dom";
-import { useUserStore } from "@store/user";
+import { useUserStore } from "@stores/user";
 import { ROUTES } from "@/core/constants/routes";
 import { Button, GuestLayout, InputField } from "@datavise/ui";
 

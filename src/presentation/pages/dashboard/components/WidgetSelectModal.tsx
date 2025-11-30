@@ -1,7 +1,7 @@
 import type { Widget } from "@domain/entities/Widget.entity";
 import { WIDGETS } from "@/core/config/visualizations";
 import { useState, useMemo } from "react";
-import { useWidgetList } from "@/application/hooks/widget/useWidgetList";
+import { useWidgetList } from "@hooks/widget/useWidgetList";
 import { Button, InputField } from "@datavise/ui";
 import ModalSidebarRight from "./ModalSidebarRight";
 

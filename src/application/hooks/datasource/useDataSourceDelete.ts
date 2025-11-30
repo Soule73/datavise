@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DeleteDataSourceUseCase } from "@/domain/use-cases/datasource/DeleteDataSource.usecase";
+import { DeleteDataSourceUseCase } from "@domain/use-cases/datasource/DeleteDataSource.usecase";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
-import { useNotificationStore } from "@store/notification";
+import { useNotificationStore } from "@stores/notification";
 
 const dataSourceRepository = new DataSourceRepository();
 const deleteDataSourceUseCase = new DeleteDataSourceUseCase(dataSourceRepository);

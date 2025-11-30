@@ -12,10 +12,10 @@
  */
 import { useEffect, useMemo, useRef } from "react";
 import { useQueries } from "@tanstack/react-query";
-import type { DashboardLayoutItem } from "@/domain/value-objects";
+import type { DashboardLayoutItem } from "@domain/value-objects";
 import { getWidgetDataFields } from "@utils/widgets/widgetDataFields";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
-import { useDashboardDataStore } from "@/core/store/useDashboardDataStore";
+import { useDashboardDataStore } from "@stores/useDashboardDataStore";
 
 const dataSourceRepository = new DataSourceRepository();
 

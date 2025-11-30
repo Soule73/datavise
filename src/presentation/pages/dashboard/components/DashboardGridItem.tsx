@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import type { DataSource } from "@/domain/entities/DataSource.entity";
-import type { Widget } from "@/domain/entities/Widget.entity";
-import type { DashboardLayoutItem } from "@/domain/value-objects";
+import type { DataSource } from "@domain/entities/DataSource.entity";
+import type { Widget } from "@domain/entities/Widget.entity";
+import type { DashboardLayoutItem } from "@domain/value-objects";
 import { TrashIcon, Bars3Icon, PencilIcon } from "@heroicons/react/24/outline";
 import { WIDGETS } from "@/core/config/visualizations";
-import { useDashboardDataStore } from "@/core/store/useDashboardDataStore";
+import { useDashboardDataStore } from "@stores/useDashboardDataStore";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/core/constants/routes";
 

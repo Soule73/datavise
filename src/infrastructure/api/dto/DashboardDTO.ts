@@ -1,4 +1,4 @@
-import type { DashboardLayoutItem, IntervalUnit } from "@/domain/value-objects";
+import type { DashboardLayoutItem, IntervalUnit } from "@domain/value-objects";
 import type { WidgetDTO } from "./WidgetDTO";
 
 export interface DashboardDTO {

@@ -1,7 +1,7 @@
 import {
     UserValidationError,
     UserNotFoundError,
-} from "@domain/errors/DomainError";
+} from "../errors/DomainError";
 import type { Role } from "./Role.entity";
 
 export class User {

@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateConversationUseCase } from "@/domain/use-cases/ai/CreateConversation.usecase";
-import { AddMessageUseCase } from "@/domain/use-cases/ai/AddMessage.usecase";
-import { UpdateConversationTitleUseCase } from "@/domain/use-cases/ai/UpdateConversationTitle.usecase";
-import { DeleteConversationUseCase } from "@/domain/use-cases/ai/DeleteConversation.usecase";
+import { CreateConversationUseCase } from "@domain/use-cases/ai/CreateConversation.usecase";
+import { AddMessageUseCase } from "@domain/use-cases/ai/AddMessage.usecase";
+import { UpdateConversationTitleUseCase } from "@domain/use-cases/ai/UpdateConversationTitle.usecase";
+import { DeleteConversationUseCase } from "@domain/use-cases/ai/DeleteConversation.usecase";
 import { AIConversationRepository } from "@/infrastructure/repositories/AIConversationRepository";
-import type { CreateConversationPayload, AddMessagePayload, UpdateTitlePayload } from "@/domain/ports/repositories/IAIConversationRepository";
-import { useNotificationStore } from "@store/notification";
+import type { CreateConversationPayload, AddMessagePayload, UpdateTitlePayload } from "@domain/ports/repositories/IAIConversationRepository";
+import { useNotificationStore } from "@stores/notification";
 
 const conversationRepository = new AIConversationRepository();
 const createConversationUseCase = new CreateConversationUseCase(conversationRepository);

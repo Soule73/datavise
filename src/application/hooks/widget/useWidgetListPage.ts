@@ -1,14 +1,14 @@
 import { useState, useMemo } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { WidgetRepository } from "@/infrastructure/repositories/WidgetRepository";
-import { DeleteWidgetUseCase } from "@/domain/use-cases/widget/DeleteWidget.usecase";
-import { PublishWidgetUseCase } from "@/domain/use-cases/widget/PublishWidget.usecase";
+import { DeleteWidgetUseCase } from "@domain/use-cases/widget/DeleteWidget.usecase";
+import { PublishWidgetUseCase } from "@domain/use-cases/widget/PublishWidget.usecase";
 import { useWidgetList } from "./useWidgetList";
 import { useDataSourceList } from "../datasource/useDataSourceList";
-import { useUserStore } from "@/core/store/user";
-import { useNotificationStore } from "@/core/store/notification";
+import { useUserStore } from "@stores/user";
+import { useNotificationStore } from "@stores/notification";
 import { WIDGETS } from "@/core/config/visualizations";
-import type { Widget } from "@/domain/entities/Widget.entity";
+import type { Widget } from "@domain/entities/Widget.entity";
 
 const widgetRepository = new WidgetRepository();
 const deleteWidgetUseCase = new DeleteWidgetUseCase(widgetRepository);

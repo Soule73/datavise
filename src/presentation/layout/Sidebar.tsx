@@ -8,7 +8,7 @@ import {
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 import { ROUTES } from "@/core/constants/routes";
-import { useSidebar, type SidebarGroup } from "@/application/hooks/useSidebar";
+import { useSidebar, type SidebarGroup } from "@hooks/useSidebar";
 import { Transition } from "@headlessui/react";
 import { SideBarGroupItem } from "@datavise/ui";
 

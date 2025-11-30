@@ -1,20 +1,22 @@
-import BarChartWidget from "@components/visualizations/charts/BarChartWidget";
-import LineChartWidget from "@components/visualizations/charts/LineChartWidget";
-import PieChartWidget from "@components/visualizations/charts/PieChartWidget";
-import TableWidget from "@components/visualizations/table/TableWidget";
-import ScatterChartWidget from "@components/visualizations/charts/ScatterChartWidget";
-import BubbleChartWidget from "@components/visualizations/charts/BubbleChartWidget";
-import RadarChartWidget from "@components/visualizations/charts/RadarChartWidget";
-import KPIWidget from "@components/visualizations/kpi/KPIWidget";
-import KPIGroupWidget from "@components/visualizations/kpi/KPIGroupWidget";
-import CardWidget from "@components/visualizations/kpi/CardWidget";
+import {
+  BarChartWidget,
+  LineChartWidget,
+  PieChartWidget,
+  TableWidget,
+  ScatterChartWidget,
+  BubbleChartWidget,
+  RadarChartWidget,
+  KPIWidget,
+  KPIGroupWidget,
+  CardWidget,
+} from "@datavise/visualizations";
 import {
   BarChartConfig,
   LineChartConfig,
   PieChartConfig,
   TableWidgetConfig,
-} from "@/domain/value-objects/widgets/visualization";
-import type { WidgetType, WidgetDefinition } from "@/domain/value-objects";
+} from "@domain/value-objects/widgets/visualization";
+import type { WidgetType, WidgetDefinition } from "@domain/value-objects";
 import {
   ChartBarIcon,
   ChartPieIcon,

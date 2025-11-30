@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDataSourceList } from "./useDataSourceList";
 import { useDataSourceDelete } from "./useDataSourceDelete";
-import { useNotificationStore } from "@store/notification";
-import { useUserStore } from "@store/user";
-import type { DataSource } from "@/domain/entities/DataSource.entity";
+import { useNotificationStore } from "@stores/notification";
+import { useUserStore } from "@stores/user";
+import type { DataSource } from "@domain/entities/DataSource.entity";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
 
 const dataSourceRepository = new DataSourceRepository();

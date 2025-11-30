@@ -1,4 +1,4 @@
-import type { DataSource } from "@/domain/entities/DataSource.entity";
+import type { DataSource } from "@domain/entities/DataSource.entity";
 import { Button } from "@datavise/ui";
 
 export function DeleteSourceForm({

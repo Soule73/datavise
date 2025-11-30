@@ -3,7 +3,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { Radio, RadioGroup } from "@headlessui/react";
-import type { DataSourceType } from "@/domain/value-objects";
+import type { DataSourceType } from "@domain/value-objects";
 import { Button, Collapsible, DataTable, FileField, InputField, Modal, SelectField, TextareaField } from "@datavise/ui";
 
 interface SourceFormState {

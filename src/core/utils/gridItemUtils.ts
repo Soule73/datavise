@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DashboardLayoutItem } from "@/domain/value-objects";
+import type { DashboardLayoutItem } from "@domain/value-objects";
 
 /**
  * Trouve le parent flex-wrap d'un élément.

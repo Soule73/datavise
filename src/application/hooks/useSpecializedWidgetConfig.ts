@@ -1,4 +1,4 @@
-import type { WidgetType } from "@/domain/value-objects";
+import type { WidgetType } from "@domain/value-objects";
 import type { BubbleMetricConfig, RadarMetricConfig, ScatterMetricConfig } from "@/application/types/metricBucketTypes";
 
 /**

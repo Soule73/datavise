@@ -1,5 +1,5 @@
 import SourceForm from "./components/SourceForm";
-import { useDataSourceForm } from "@/application/hooks/datasource/useDataSourceForm";
+import { useDataSourceForm } from "@hooks/datasource/useDataSourceForm";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import AuthLayout from "@/presentation/layout/AuthLayout";
 import { Section } from "@datavise/ui";

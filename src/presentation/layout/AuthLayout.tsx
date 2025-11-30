@@ -1,9 +1,9 @@
 
-import { useUserStore } from '@/core/store/user';
+import { useUserStore } from '@stores/user';
 import { type ReactNode } from 'react';
 import { ErrorPage, Toast, Navbar, Sidebar } from '@datavise/ui';
 import type { BreadcrumbItem } from '@datavise/ui';
-import { useNotificationStore } from '@/core/store/notification';
+import { useNotificationStore } from '@stores/notification';
 
 export interface AuthLayoutProps {
     hideSidebar?: boolean;

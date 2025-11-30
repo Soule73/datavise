@@ -11,10 +11,10 @@ import type {
     UpdateUserPayload,
 } from "@domain/ports/repositories/IUserRepository";
 import { useState, useMemo } from "react";
-import { useNotificationStore } from "@store/notification";
+import { useNotificationStore } from "@stores/notification";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUserStore } from "@store/user";
+import { useUserStore } from "@stores/user";
 import type { User } from "@domain/entities/User.entity";
 import type { Role } from "@domain/entities/Role.entity";
 import { userSchema } from "@validation/user";

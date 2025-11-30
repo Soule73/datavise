@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useDashboardShareView } from "@/application/hooks/dashboard/useDashboardShareView";
+import { useDashboardShareView } from "@hooks/dashboard/useDashboardShareView";
 import { ErrorPage } from "@datavise/ui";
 import BaseLayout from "@/presentation/layout/BaseLayout";
 import DashboardGrid from "./components/DashboardGrid";

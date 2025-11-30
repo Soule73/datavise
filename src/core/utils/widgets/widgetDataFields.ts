@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Filter } from "@/domain/value-objects/widgets/visualization";
+import type { Filter } from "@domain/value-objects/widgets/visualization";
 import type {
   Metric,
   ScatterMetricConfig,

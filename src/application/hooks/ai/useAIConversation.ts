@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { GetConversationUseCase } from "@/domain/use-cases/ai/GetConversation.usecase";
+import { GetConversationUseCase } from "@domain/use-cases/ai/GetConversation.usecase";
 import { AIConversationRepository } from "@/infrastructure/repositories/AIConversationRepository";
-import type { AIConversation } from "@/domain/entities/AIConversation.entity";
+import type { AIConversation } from "@domain/entities/AIConversation.entity";
 
 const conversationRepository = new AIConversationRepository();
 const getConversationUseCase = new GetConversationUseCase(conversationRepository);

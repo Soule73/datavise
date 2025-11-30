@@ -10,7 +10,7 @@ import type {
     UpdateRolePayload,
 } from "@domain/ports/repositories/IRoleRepository";
 import { useState, useMemo } from "react";
-import { useNotificationStore } from "@store/notification";
+import { useNotificationStore } from "@stores/notification";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { roleSchema } from "@validation/role";

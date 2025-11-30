@@ -4,9 +4,9 @@ import type {
     AddMessagePayload,
     UpdateTitlePayload,
     RefineWidgetsDbPayload,
-} from "@/domain/ports/repositories/IAIConversationRepository";
-import type { AIConversation } from "@/domain/entities/AIConversation.entity";
-import type { Widget } from "@/domain/entities/Widget.entity";
+} from "@domain/ports/repositories/IAIConversationRepository";
+import type { AIConversation } from "@domain/entities/AIConversation.entity";
+import type { Widget } from "@domain/entities/Widget.entity";
 import { aiConversationMapper } from "../mappers/aiConversationMapper";
 import { aiWidgetMapper } from "../mappers/aiWidgetMapper";
 import { AI_CONVERSATION_ENDPOINTS } from "../api/endpoints/ai.endpoints";

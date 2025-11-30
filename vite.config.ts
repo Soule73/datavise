@@ -21,10 +21,10 @@ export default defineConfig({
       "@styles": path.resolve(__dirname, './src/styles'),
       '@components': path.resolve(__dirname, './src/presentation/components'),
       '@pages': path.resolve(__dirname, './src/presentation/pages'),
-      '@store': path.resolve(__dirname, './src/core/store'),
+      '@stores': path.resolve(__dirname, './src/application/stores'),
       '@utils': path.resolve(__dirname, './src/core/utils'),
       '@assets': path.resolve(__dirname, './src/core/assets'),
-      '@hooks': path.resolve(__dirname, './src/core/hooks'),
+      '@hooks': path.resolve(__dirname, './src/application/hooks'),
       '@type': path.resolve(__dirname, './src/core/types'),
       '@services': path.resolve(__dirname, './src/data/services'),
       '@repositories': path.resolve(__dirname, './src/data/repositories'),
@@ -36,6 +36,7 @@ export default defineConfig({
       '@application': path.resolve(__dirname, './src/application'),
       '@datavise/ui': path.resolve(__dirname, './packages/ui/src'),
       '@datavise/utils': path.resolve(__dirname, './packages/utils/src'),
+      '@datavise/visualizations': path.resolve(__dirname, './packages/visualizations/src'),
     }
   }
 })

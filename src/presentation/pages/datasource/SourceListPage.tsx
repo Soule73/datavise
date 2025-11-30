@@ -1,8 +1,8 @@
-import { useDataSourceListPage } from "@/application/hooks/datasource/useDataSourceListPage";
+import { useDataSourceListPage } from "@hooks/datasource/useDataSourceListPage";
 import { ROUTES } from "@/core/constants/routes";
 import { Link } from "react-router-dom";
 import { DeleteSourceForm } from "./components/DeleteSourceForm";
-import type { DataSource } from "@/domain/entities/DataSource.entity";
+import type { DataSource } from "@domain/entities/DataSource.entity";
 import { DocumentTextIcon, TableCellsIcon } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
 import breadcrumbs from "@/core/utils/breadcrumbs";

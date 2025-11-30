@@ -1,14 +1,14 @@
 import { useNavigate, Link } from "react-router-dom";
 import { ROUTES } from "@/core/constants/routes";
-import { useWidgetListPage } from "@/application/hooks/widget/useWidgetListPage";
-import { DeleteWidgetModal, WidgetTypeSelectionModal } from "./components/modals";
+import { useWidgetListPage } from "@hooks/widget/useWidgetListPage";
+import { DeleteWidgetModal, WidgetTypeSelectionModal } from "@datavise/ui";
 import type { Widget } from "@domain/entities/Widget.entity";
-import type { WidgetType } from "@/domain/value-objects";
+import type { WidgetType } from "@domain/value-objects";
 import { useMemo, useState } from "react";
 import { WIDGETS } from "@/core/config/visualizations";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useDataSourceList } from "@/application/hooks/datasource/useDataSourceList";
+import { useDataSourceList } from "@hooks/datasource/useDataSourceList";
 import { Badge, Button, DataTable, Modal, PageHeader, Section } from "@datavise/ui";
 import AuthLayout from "@/presentation/layout/AuthLayout";
 import breadcrumbs from "@/core/utils/breadcrumbs";

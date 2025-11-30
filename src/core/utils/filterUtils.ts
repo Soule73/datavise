@@ -1,4 +1,4 @@
-import type { Filter } from "@/domain/value-objects/widgets/WidgetConfig";
+import type { Filter } from "@domain/value-objects/widgets/WidgetConfig";
 
 /**
  * Utilitaires pour la gestion des filtres dans les widgets

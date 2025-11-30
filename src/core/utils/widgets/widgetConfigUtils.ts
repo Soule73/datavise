@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { WidgetType } from "@/domain/value-objects";
+import type { WidgetType } from "@domain/value-objects";
 import {
     WIDGETS,
     WIDGET_CONFIG_FIELDS,

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import type { WidgetType, WidgetConfig } from '@/domain/value-objects';
+import type { WidgetType, WidgetConfig } from '@domain/value-objects';
 import type { MultiBucketConfig } from '@/application/types/metricBucketTypes';
 import { createDefaultWidgetConfig, optimizeWidgetConfig } from '@utils/widgets/widgetConfigDefaults';
 

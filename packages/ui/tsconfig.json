@@ -24,8 +24,8 @@
         "declarationMap": true,
         // "baseUrl": "../../",
         "paths": {
-            "@store/*": [
-                "../../src/core/store/*"
+            "@stores/*": [
+                "../../src/application/stores/*"
             ],
             "@constants/*": [
                 "../../src/core/constants/*"
@@ -34,7 +34,7 @@
                 "../../src/core/assets/*"
             ],
             "@hooks/*": [
-                "../../src/core/hooks/*"
+                "../../src/application/hooks/*"
             ],
             "@/application/*": [
                 "../../src/application/*"
@@ -44,7 +44,10 @@
             ],
             "@domain/*": [
                 "../../src/domain/*"
-            ]
+            ],
+            "@utils/*": [
+                "../../src/core/utils/*"
+            ],
         }
     },
     "include": [

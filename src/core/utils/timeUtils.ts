@@ -1,4 +1,4 @@
-import type { IntervalUnit } from "@/domain/value-objects";
+import type { IntervalUnit } from "@domain/value-objects";
 
 /**
  * Convertit une valeur et une unité d'intervalle en millisecondes.

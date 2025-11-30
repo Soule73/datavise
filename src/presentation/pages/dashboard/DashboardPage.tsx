@@ -1,18 +1,18 @@
-import { useDashboardActions } from "@/application/hooks/dashboard/useDashboardActions";
-import { useDashboardShare } from "@/application/hooks/dashboard/useDashboardShare";
-import { useDashboardDataLoader } from "@/application/hooks/dashboard/useDashboardDataLoader";
-import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
-import { useDashboardConfigStore } from "@/core/store/useDashboardConfigStore";
-import { useDashboardStore } from "@/core/store/dashboard";
+import { useDashboardActions } from "@hooks/dashboard/useDashboardActions";
+import { useDashboardShare } from "@hooks/dashboard/useDashboardShare";
+import { useDashboardDataLoader } from "@hooks/dashboard/useDashboardDataLoader";
+import { useDashboardUIStore } from "@stores/useDashboardUIStore";
+import { useDashboardConfigStore } from "@stores/useDashboardConfigStore";
+import { useDashboardStore } from "@stores/dashboard";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import AuthLayout from "@/presentation/layout/AuthLayout";
-import { WidgetSelectModal } from "@/presentation/pages/widget/components";
 import DashboardConfigFields from "./components/DashboardConfigFields";
 import DashboardGrid from "./components/DashboardGrid";
 import DashboardHeader from "./components/DashboardHeader";
 import { EmptyDashboard } from "./components/EmptyDashboard";
 import ExportPDFModal from "./components/ExportPDFModal";
 import { DashboardSaveModal } from "./components/DashboardSaveModal";
+import WidgetSelectModal from "./components/WidgetSelectModal";
 
 export default function DashboardPage() {
   const {

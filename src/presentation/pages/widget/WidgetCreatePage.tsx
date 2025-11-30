@@ -1,9 +1,9 @@
-import { useWidgetCreate } from "@/application/hooks/widget/useWidgetActions";
+import { useWidgetCreate } from "@hooks/widget/useWidgetActions";
 import { useSearchParams } from "react-router-dom";
-import type { WidgetType } from "@/domain/value-objects";
+import type { WidgetType } from "@domain/value-objects";
 import breadcrumbs from "@/core/utils/breadcrumbs";
-import { useWidgetFormStore } from "@/core/store/widgetFormStore";
-import WidgetFormLayout from "./components/layouts/WidgetFormLayout";
+import { useWidgetFormStore } from "@stores/widgetFormStore";
+import WidgetFormLayout from "./components/WidgetFormLayout";
 import AuthLayout from "@/presentation/layout/AuthLayout";
 
 export default function WidgetCreatePage() {

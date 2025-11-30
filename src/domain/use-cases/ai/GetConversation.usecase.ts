@@ -1,5 +1,5 @@
-import type { IAIConversationRepository } from "@/domain/ports/repositories/IAIConversationRepository";
-import type { AIConversation } from "@/domain/entities/AIConversation.entity";
+import type { IAIConversationRepository } from "@domain/ports/repositories/IAIConversationRepository";
+import type { AIConversation } from "@domain/entities/AIConversation.entity";
 
 export class GetConversationUseCase {
     private conversationRepository: IAIConversationRepository;

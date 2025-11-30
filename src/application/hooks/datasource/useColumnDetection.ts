@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { DetectColumnsUseCase } from "@/domain/use-cases/datasource/DetectColumns.usecase";
+import { DetectColumnsUseCase } from "@domain/use-cases/datasource/DetectColumns.usecase";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
-import type { DetectionResult } from "@/domain/value-objects/ColumnMetadata.vo";
-import type { DetectColumnsParams } from "@/domain/ports/repositories/IDataSourceRepository";
+import type { DetectionResult } from "@domain/value-objects/ColumnMetadata.vo";
+import type { DetectColumnsParams } from "@domain/ports/repositories/IDataSourceRepository";
 
 const dataSourceRepository = new DataSourceRepository();
 const detectColumnsUseCase = new DetectColumnsUseCase(dataSourceRepository);

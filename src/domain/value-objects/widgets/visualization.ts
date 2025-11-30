@@ -5,7 +5,7 @@ import type {
   ScatterMetricConfig,
   MultiBucketConfig,
 } from "@/application/types/metricBucketTypes";
-import type { Filter } from "@/domain/value-objects";
+import type { Filter } from "@domain/value-objects";
 
 // --- Base params communs à la plupart des visualisations ---
 export interface BaseChartParams {
@@ -158,7 +158,7 @@ export interface MetricStyle {
   borderColor?: string; // Couleur de bordure par métrique
 }
 
-export type { Filter, FilterOperator, DatasetFilter } from "@/domain/value-objects";
+export type { Filter, FilterOperator, DatasetFilter } from "@domain/value-objects";
 
 export interface MetricStyleConfig {
   [key: string]: MetricStyle;

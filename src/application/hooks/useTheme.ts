@@ -1,5 +1,5 @@
 
-import type { ThemeMode } from '@/core/store/theme';
+import type { ThemeMode } from '@stores/theme';
 import { useEffect } from 'react';
 
 export function useApplyThemeClass(theme: ThemeMode) {

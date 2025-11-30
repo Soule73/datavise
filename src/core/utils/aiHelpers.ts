@@ -1,4 +1,4 @@
-import type { Widget } from "@/domain/entities/Widget.entity";
+import type { Widget } from "@domain/entities/Widget.entity";
 
 export function getWidgetId(widget: Widget | any): string {
     return widget.widgetId || widget.id || widget._id || "";

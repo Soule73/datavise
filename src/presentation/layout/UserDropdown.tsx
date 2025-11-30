@@ -1,5 +1,5 @@
 import { ROUTES } from "@/core/constants/routes";
-import { useUserStore, type UserStoreWithPerms } from "@/core/store/user";
+import { useUserStore, type UserStoreWithPerms } from "@stores/user";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   ChevronDownIcon,

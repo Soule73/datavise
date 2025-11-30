@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { AIConversation } from "@/domain/entities/AIConversation.entity";
+import type { AIConversation } from "@domain/entities/AIConversation.entity";
 import {
     PlusIcon,
     ChatBubbleLeftRightIcon,

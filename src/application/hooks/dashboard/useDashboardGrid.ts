@@ -1,6 +1,6 @@
 // import { useState, useEffect } from "react";
 // import { getSlotStyleUtil } from "@utils/dashboard/dashboardGridUtils";
-// import type { DashboardLayoutItem } from "@/domain/value-objects";
+// import type { DashboardLayoutItem } from "@domain/value-objects";
 
 // interface UseDashboardGridProps {
 //     layout: DashboardLayoutItem[];

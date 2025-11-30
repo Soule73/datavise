@@ -1,8 +1,8 @@
 import {
     RoleValidationError,
     RoleNotFoundError,
-} from "@domain/errors/DomainError";
-import type { Permission } from "@domain/value-objects/Permission.vo";
+} from "../errors/DomainError";
+import type { Permission } from "../value-objects/Permission.vo";
 
 export class Role {
     readonly id: string;

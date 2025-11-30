@@ -2,7 +2,7 @@ import type { Dashboard } from "@domain/entities/Dashboard.entity";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/core/constants/routes";
-import { useDashboardListPage } from "@/application/hooks/dashboard/useDashboardListPage";
+import { useDashboardListPage } from "@hooks/dashboard/useDashboardListPage";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import AuthLayout from "@/presentation/layout/AuthLayout";
 import { Button, DataTable, Modal, PageHeader, Section } from "@datavise/ui";

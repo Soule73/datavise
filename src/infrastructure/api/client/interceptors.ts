@@ -1,5 +1,5 @@
 import { type AxiosInstance, type AxiosError } from "axios";
-import { useUserStore } from "@store/user";
+import { useUserStore } from "@stores/user";
 import { ROUTES } from "@/core/constants/routes";
 
 export function setupInterceptors(client: AxiosInstance): void {
