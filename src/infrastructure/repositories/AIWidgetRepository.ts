@@ -3,8 +3,8 @@ import type {
     GenerateWidgetsPayload,
     RefineWidgetsPayload,
     GenerateWidgetsResult,
-} from "@/domain/ports/repositories/IAIWidgetRepository";
-import type { DataSourceSummary } from "@/domain/value-objects/DataSourceSummary.vo";
+} from "@domain/ports/repositories/IAIWidgetRepository";
+import type { DataSourceSummary } from "@domain/value-objects/DataSourceSummary.vo";
 import { aiWidgetMapper } from "../mappers/aiWidgetMapper";
 import { AI_WIDGET_ENDPOINTS } from "../api/endpoints/ai.endpoints";
 import { apiClient } from "../api/client/apiClient";

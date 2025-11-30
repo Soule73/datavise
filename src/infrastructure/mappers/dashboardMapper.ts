@@ -1,6 +1,6 @@
-import { Dashboard } from "@/domain/entities/Dashboard.entity";
+import { Dashboard } from "@domain/entities/Dashboard.entity";
 import type { DashboardDTO } from "../api/dto/DashboardDTO";
-import { createTimeRange, type TimeRange } from "@/domain/value-objects/TimeRange.vo";
+import { createTimeRange, type TimeRange } from "@domain/value-objects/TimeRange.vo";
 import { widgetMapper } from "./widgetMapper";
 
 export const dashboardMapper = {

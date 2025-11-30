@@ -1,17 +1,17 @@
 import { useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
-import { useAIStore } from "@store/aiStore";
-import { useNotificationStore } from "@store/notification";
+import { useAIStore } from "@stores/aiStore";
+import { useNotificationStore } from "@stores/notification";
 import { formatErrorMessage, getSavedWidgetIds } from "@utils/aiHelpers";
 import { useAIConversationActions } from "./useAIConversationActions";
 import { useAIWidgetGeneration } from "./useAIWidgetGeneration";
-import { DeleteWidgetUseCase } from "@/domain/use-cases/widget/DeleteWidget.usecase";
-import { PublishWidgetUseCase } from "@/domain/use-cases/widget/PublishWidget.usecase";
-import { CreateWidgetUseCase } from "@/domain/use-cases/widget/CreateWidget.usecase";
+import { DeleteWidgetUseCase } from "@domain/use-cases/widget/DeleteWidget.usecase";
+import { PublishWidgetUseCase } from "@domain/use-cases/widget/PublishWidget.usecase";
+import { CreateWidgetUseCase } from "@domain/use-cases/widget/CreateWidget.usecase";
 import { WidgetRepository } from "@/infrastructure/repositories/WidgetRepository";
 import { toWidgetPayload, aiLogger } from "@utils/aiHelpers";
-import type { Widget } from "@/domain/entities/Widget.entity";
+import type { Widget } from "@domain/entities/Widget.entity";
 
 const widgetRepository = new WidgetRepository();
 const deleteWidgetUseCase = new DeleteWidgetUseCase(widgetRepository);

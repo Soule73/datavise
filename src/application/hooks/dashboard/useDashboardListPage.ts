@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DashboardRepository } from "@/infrastructure/repositories/DashboardRepository";
-import { DeleteDashboardUseCase } from "@/domain/use-cases/dashboard/DeleteDashboard.usecase";
+import { DeleteDashboardUseCase } from "@domain/use-cases/dashboard/DeleteDashboard.usecase";
 import { useDashboardList } from "./useDashboardList";
-import { useUserStore } from "@/core/store/user";
-import { useNotificationStore } from "@/core/store/notification";
+import { useUserStore } from "@stores/user";
+import { useNotificationStore } from "@stores/notification";
 import { useNavigate } from "react-router-dom";
-import type { Dashboard } from "@/domain/entities/Dashboard.entity";
+import type { Dashboard } from "@domain/entities/Dashboard.entity";
 
 const dashboardRepository = new DashboardRepository();
 const deleteDashboardUseCase = new DeleteDashboardUseCase(dashboardRepository);

@@ -2,9 +2,9 @@ import type {
     IDataSourceRepository,
     DataSourceFilters,
     DetectColumnsParams,
-} from "@/domain/ports/repositories/IDataSourceRepository";
-import type { DataSource } from "@/domain/entities/DataSource.entity";
-import type { DetectionResult } from "@/domain/value-objects/ColumnMetadata.vo";
+} from "@domain/ports/repositories/IDataSourceRepository";
+import type { DataSource } from "@domain/entities/DataSource.entity";
+import type { DetectionResult } from "@domain/value-objects/ColumnMetadata.vo";
 import { apiClient } from "../api/client/apiClient";
 import { dataSourceMapper } from "../mappers/dataSourceMapper";
 import { DATASOURCE_ENDPOINTS } from "../api/endpoints/datasource.endpoints";

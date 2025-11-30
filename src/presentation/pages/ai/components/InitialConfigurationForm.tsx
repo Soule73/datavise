@@ -1,4 +1,4 @@
-import type { DataSource } from "@/domain/entities/DataSource.entity";
+import type { DataSource } from "@domain/entities/DataSource.entity";
 
 interface Props {
     dataSources: DataSource[];

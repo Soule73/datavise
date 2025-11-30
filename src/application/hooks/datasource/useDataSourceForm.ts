@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { CreateDataSourceUseCase } from "@/domain/use-cases/datasource/CreateDataSource.usecase";
-import { UpdateDataSourceUseCase } from "@/domain/use-cases/datasource/UpdateDataSource.usecase";
+import { CreateDataSourceUseCase } from "@domain/use-cases/datasource/CreateDataSource.usecase";
+import { UpdateDataSourceUseCase } from "@domain/use-cases/datasource/UpdateDataSource.usecase";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
 import { useColumnDetection } from "./useColumnDetection";
-import { useNotificationStore } from "@store/notification";
+import { useNotificationStore } from "@stores/notification";
 import { ROUTES } from "@/core/constants/routes";
-import type { DataSource } from "@/domain/entities/DataSource.entity";
-import type { DetectColumnsParams } from "@/domain/ports/repositories/IDataSourceRepository";
-import type { DataSourceType } from "@/domain/value-objects";
-import { createConnectionConfig } from "@/domain/value-objects/datasource/ConnectionConfig.vo";
+import type { DataSource } from "@domain/entities/DataSource.entity";
+import type { DetectColumnsParams } from "@domain/ports/repositories/IDataSourceRepository";
+import type { DataSourceType } from "@domain/value-objects";
+import { createConnectionConfig } from "@domain/value-objects/datasource/ConnectionConfig.vo";
 
 const dataSourceRepository = new DataSourceRepository();
 const createDataSourceUseCase = new CreateDataSourceUseCase(dataSourceRepository);

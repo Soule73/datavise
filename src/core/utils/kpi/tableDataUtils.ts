@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatLabelsForDisplay } from "@utils/charts/chartDataUtils";
 import type { ProcessedData } from "../bucketMetrics/multiBucketProcessor";
-import type { DataTableColumn } from "@datavise/ui/components/common/datatable/DataTable";
+import type { DataTableColumn } from "@datavise/ui";
 
 export interface TableConfig {
     metrics?: any[];

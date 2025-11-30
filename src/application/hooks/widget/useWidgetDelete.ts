@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DeleteWidgetUseCase } from "@domain/use-cases/widget/DeleteWidget.usecase";
 import { WidgetRepository } from "@infrastructure/repositories/WidgetRepository";
-import { useNotificationStore } from "@store/notification";
+import { useNotificationStore } from "@stores/notification";
 
 const widgetRepository = new WidgetRepository();
 const deleteWidgetUseCase = new DeleteWidgetUseCase(widgetRepository);

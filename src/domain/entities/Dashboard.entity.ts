@@ -1,4 +1,4 @@
-import type { DashboardLayoutItem, IntervalUnit } from "@/domain/value-objects";
+import type { DashboardLayoutItem, IntervalUnit } from "@domain/value-objects";
 import type { Widget } from "./Widget.entity";
 import { DashboardValidationError } from "../errors/DomainError";
 import type { TimeRange } from "../value-objects/TimeRange.vo";

@@ -1,4 +1,4 @@
-import type { DataSourceType } from "@/domain/value-objects";
+import type { DataSourceType } from "@domain/value-objects";
 
 export interface DetectParams {
   type?: DataSourceType;

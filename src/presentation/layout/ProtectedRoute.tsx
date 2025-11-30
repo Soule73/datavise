@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useUserStore } from "@store/user";
+import { useUserStore } from "@stores/user";
 import { ROUTES } from "@/core/constants/routes";
 import { useEffect } from "react";
 

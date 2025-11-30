@@ -2,7 +2,7 @@ import type { Metric } from "@/application/types/metricBucketTypes";
 import { createDefaultDataset } from "@utils/charts/chartConfigUtils";
 import { getDatasetColor, generateColorsForLabels, addTransparency } from "@utils/charts/chartColorUtils";
 import { aggregate } from "@utils/charts/chartUtils";
-import type { ChartType } from "@/domain/value-objects";
+import type { ChartType } from "@domain/value-objects";
 
 export interface DatasetCreationContext {
     chartType: ChartType;

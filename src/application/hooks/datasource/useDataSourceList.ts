@@ -1,8 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ListDataSourcesUseCase } from "@/domain/use-cases/datasource/ListDataSources.usecase";
+import { ListDataSourcesUseCase } from "@domain/use-cases/datasource/ListDataSources.usecase";
 import { DataSourceRepository } from "@/infrastructure/repositories/DataSourceRepository";
-import type { DataSource } from "@/domain/entities/DataSource.entity";
-import type { DataSourceFilters } from "@/domain/ports/repositories/IDataSourceRepository";
+import type { DataSource } from "@domain/entities/DataSource.entity";
+import type { DataSourceFilters } from "@domain/ports/repositories/IDataSourceRepository";
 
 const dataSourceRepository = new DataSourceRepository();
 const listDataSourcesUseCase = new ListDataSourcesUseCase(dataSourceRepository);

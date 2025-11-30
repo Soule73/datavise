@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ShareDashboardUseCase } from "@/domain/use-cases/dashboard/ShareDashboard.usecase";
+import { ShareDashboardUseCase } from "@domain/use-cases/dashboard/ShareDashboard.usecase";
 import { DashboardRepository } from "@/infrastructure/repositories/DashboardRepository";
-import { useNotificationStore } from "@store/notification";
+import { useNotificationStore } from "@stores/notification";
 
 const dashboardRepository = new DashboardRepository();
 const shareDashboardUseCase = new ShareDashboardUseCase(dashboardRepository);

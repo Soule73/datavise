@@ -1,5 +1,5 @@
-import { useApplyThemeClass } from "@/application/hooks/useTheme";
-import { useThemeStore, type ThemeMode } from "@/core/store/theme";
+import { useApplyThemeClass } from "@hooks/useTheme";
+import { useThemeStore, type ThemeMode } from "@stores/theme";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   MoonIcon,

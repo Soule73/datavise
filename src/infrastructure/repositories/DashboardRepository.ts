@@ -3,8 +3,8 @@ import type {
     DashboardFilters,
     UpdateDashboardPayload,
     ShareDashboardResult,
-} from "@/domain/ports/repositories/IDashboardRepository";
-import type { Dashboard } from "@/domain/entities/Dashboard.entity";
+} from "@domain/ports/repositories/IDashboardRepository";
+import type { Dashboard } from "@domain/entities/Dashboard.entity";
 import { apiClient } from "../api/client/apiClient";
 import { dashboardMapper } from "../mappers/dashboardMapper";
 import { DASHBOARD_ENDPOINTS } from "../api/endpoints/dashboard.endpoints";

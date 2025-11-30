@@ -1,6 +1,6 @@
-import { useChartLogic } from "@/application/hooks/visualizations/charts/useChartVM";
+import { useChartLogic } from "@hooks/visualizations/charts/useChartVM";
 import { createLineChartDataset } from "@utils/charts/chartDatasetUtils";
-import type { LineChartConfig } from "@/domain/value-objects/widgets/visualization";
+import type { LineChartConfig } from "@domain/value-objects/widgets/visualization";
 import type { ChartData, ChartOptions } from "chart.js";
 import type { BaseChartWidgetVM } from "@/application/types/baseChartVM";
 

@@ -1,7 +1,7 @@
-import { DataSource } from "@/domain/entities/DataSource.entity";
+import { DataSource } from "@domain/entities/DataSource.entity";
 import type { DataSourceDTO, DetectColumnsResponseDTO } from "../api/dto/DataSourceDTO";
-import type { DetectionResult, ColumnMetadata } from "@/domain/value-objects/ColumnMetadata.vo";
-import { createConnectionConfig } from "@/domain/value-objects/datasource/ConnectionConfig.vo";
+import type { DetectionResult, ColumnMetadata } from "@domain/value-objects/ColumnMetadata.vo";
+import { createConnectionConfig } from "@domain/value-objects/datasource/ConnectionConfig.vo";
 
 export const dataSourceMapper = {
     toDomain(dto: DataSourceDTO): DataSource {

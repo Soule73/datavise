@@ -1,0 +1,51 @@
+{
+    "extends": "../../tsconfig.app.json",
+    "compilerOptions": {
+        // "baseUrl": ".",
+        "paths": {
+            "@stores/*": [
+                "../../src/application/stores/*"
+            ],
+            "@hooks/*": [
+                "../../src/application/hooks/*"
+            ],
+            "@type/*": [
+                "../../src/core/types/*"
+            ],
+            "@utils/*": [
+                "../../src/core/utils/*"
+            ],
+            "@adapters/*": [
+                "../../src/data/adapters/*"
+            ],
+            "@/core/*": [
+                "../../src/core/*"
+            ],
+            "@/data/*": [
+                "../../src/data/*"
+            ],
+            "@/application/*": [
+                "../../src/application/*"
+            ],
+            "@/presentation/*": [
+                "../../src/presentation/*"
+            ],
+            "@domain/*": [
+                "../../src/domain/*"
+            ],
+            "@datavise/ui": [
+                "../ui/src"
+            ],
+            "@datavise/ui/*": [
+                "../ui/src/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

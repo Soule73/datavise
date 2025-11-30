@@ -1,4 +1,4 @@
-import { useUserManagement } from "@/application/hooks/auth/useUserManagement";
+import { useUserManagement } from "@hooks/auth/useUserManagement";
 import type { User } from "@domain/entities/User.entity";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import AuthLayout from "@/presentation/layout/AuthLayout";

@@ -2,17 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { DashboardRepository } from "@/infrastructure/repositories/DashboardRepository";
-import { GetDashboardUseCase } from "@/domain/use-cases/dashboard/GetDashboard.usecase";
-import { CreateDashboardUseCase } from "@/domain/use-cases/dashboard/CreateDashboard.usecase";
-import { UpdateDashboardUseCase } from "@/domain/use-cases/dashboard/UpdateDashboard.usecase";
-import { useDashboardStore } from "@/core/store/dashboard";
-import { useNotificationStore } from "@/core/store/notification";
-import { useUserStore } from "@/core/store/user";
-import { useDashboardUIStore } from "@/core/store/useDashboardUIStore";
-import { useDashboardConfigStore } from "@/core/store/useDashboardConfigStore";
+import { GetDashboardUseCase } from "@domain/use-cases/dashboard/GetDashboard.usecase";
+import { CreateDashboardUseCase } from "@domain/use-cases/dashboard/CreateDashboard.usecase";
+import { UpdateDashboardUseCase } from "@domain/use-cases/dashboard/UpdateDashboard.usecase";
+import { useDashboardStore } from "@stores/dashboard";
+import { useNotificationStore } from "@stores/notification";
+import { useUserStore } from "@stores/user";
+import { useDashboardUIStore } from "@stores/useDashboardUIStore";
+import { useDashboardConfigStore } from "@stores/useDashboardConfigStore";
 import { useDataSourceList } from "../datasource/useDataSourceList";
-import type { DashboardLayoutItem, IntervalUnit } from "@/domain/value-objects";
-import type { Widget } from "@/domain/entities/Widget.entity";
+import type { DashboardLayoutItem, IntervalUnit } from "@domain/value-objects";
+import type { Widget } from "@domain/entities/Widget.entity";
 import {
     getEffectiveTimeRange,
     buildTimeRange,

@@ -1,6 +1,6 @@
-import { AIConversation } from "@/domain/entities/AIConversation.entity";
-import { createAIMessage, type AIMessage } from "@/domain/value-objects/AIMessage.vo";
-import { createDataSourceSummary } from "@/domain/value-objects/DataSourceSummary.vo";
+import { AIConversation } from "@domain/entities/AIConversation.entity";
+import { createAIMessage, type AIMessage } from "@domain/value-objects/AIMessage.vo";
+import { createDataSourceSummary } from "@domain/value-objects/DataSourceSummary.vo";
 import type { AIConversationDTO, AIMessageDTO } from "../api/dto/AIConversationDTO";
 
 export const aiConversationMapper = {

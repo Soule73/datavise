@@ -1,7 +1,2 @@
-export * from './config';
-export * from './fields';
-export * from './modals';
-export * from './sections';
-export * from './layouts';
-export * from './states';
-export * from './universal';
+export { default as WidgetFormLayout } from './WidgetFormLayout';
+export { default as WidgetConfigTabs } from './WidgetConfigTabs';

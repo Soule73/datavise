@@ -1,5 +1,5 @@
-// export type { Filter } from "@/domain/value-objects";
-import type { Filter } from "@/domain/value-objects/widgets/visualization";
+// export type { Filter } from "@domain/value-objects";
+import type { Filter } from "@domain/value-objects/widgets/visualization";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Base {

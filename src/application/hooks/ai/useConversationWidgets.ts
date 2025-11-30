@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AIConversationRepository } from "@/infrastructure/repositories/AIConversationRepository";
 import { widgetMapper } from "@/infrastructure/mappers/widgetMapper";
-import type { Widget } from "@/domain/entities/Widget.entity";
+import type { Widget } from "@domain/entities/Widget.entity";
 import { isValidObjectId } from "@utils/validation";
 
 const conversationRepository = new AIConversationRepository();

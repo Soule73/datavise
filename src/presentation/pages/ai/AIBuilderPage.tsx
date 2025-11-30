@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useAIStore } from "@store/aiStore";
-import { useAIBuilderActions } from "@/application/hooks/ai/useAIBuilderActions";
-import { useAIConversationList } from "@/application/hooks/ai/useAIConversationList";
-import { useAIConversation } from "@/application/hooks/ai/useAIConversation";
-import { useConversationWidgets } from "@/application/hooks/ai/useConversationWidgets";
-import { useDataSourceList } from "@/application/hooks/datasource/useDataSourceList";
-import { DeleteWidgetModal } from "@/presentation/pages/widget/components/modals";
+import { useAIStore } from "@stores/aiStore";
+import { useAIBuilderActions } from "@hooks/ai/useAIBuilderActions";
+import { useAIConversationList } from "@hooks/ai/useAIConversationList";
+import { useAIConversation } from "@hooks/ai/useAIConversation";
+import { useConversationWidgets } from "@hooks/ai/useConversationWidgets";
+import { useDataSourceList } from "@hooks/datasource/useDataSourceList";
+import { DeleteWidgetModal } from "@datavise/ui";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { ROUTES } from "@/core/constants/routes";
 import { getWidgetId, getWidgetName } from "@utils/aiHelpers";
@@ -119,7 +119,7 @@ export default function AIBuilderPage() {
                 {/* Zone principale - Contenu central */}
                 <div className="flex-1 flex flex-col min-w-0 overflow-y-auto ">
                     {dataSourceSummary && <AIBuilderHeader
-                        sourName={dataSourceSummary?.name || "Inconnue"}
+                        sourceName={dataSourceSummary?.name || "Inconnue"}
                         widgetLength={widgets.length}
                         showActions={widgets.length > 0}
                         handleReset={handleReset}

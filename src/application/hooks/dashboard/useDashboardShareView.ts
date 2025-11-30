@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { DashboardRepository } from "@/infrastructure/repositories/DashboardRepository";
 import { useDataSourceList } from "../datasource/useDataSourceList";
-import type { Dashboard } from "@/domain/entities/Dashboard.entity";
+import type { Dashboard } from "@domain/entities/Dashboard.entity";
 
 const dashboardRepository = new DashboardRepository();
 

@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
-import { useAIStore } from "@store/aiStore";
-import { useAIBuilderActions } from "@/application/hooks/ai/useAIBuilderActions";
+import { useAIStore } from "@stores/aiStore";
+import { useAIBuilderActions } from "@hooks/ai/useAIBuilderActions";
 import MessageBubble from "./MessageBubble";
 import SuggestionButtons from "./SuggestionButtons";
 import MessageInput from "./MessageInput";

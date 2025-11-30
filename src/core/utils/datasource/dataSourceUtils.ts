@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DataSource } from "@/domain/entities/DataSource.entity";
+import type { DataSource } from "@domain/entities/DataSource.entity";
 
 export interface SourceOption {
     value: string;

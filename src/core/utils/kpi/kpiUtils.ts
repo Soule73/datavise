@@ -1,6 +1,6 @@
 import type { Metric } from "@/application/types/metricBucketTypes";
 import { applyAllFilters } from "@utils/filterUtils";
-import type { Filter, MetricStyleConfig } from "@/domain/value-objects/widgets/visualization";
+import type { Filter, MetricStyleConfig } from "@domain/value-objects/widgets/visualization";
 
 
 export interface ProcessedBucketItem {

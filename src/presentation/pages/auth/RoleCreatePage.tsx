@@ -1,4 +1,4 @@
-import { useRoleCreate } from "@/application/hooks/auth/useRoleManagement";
+import { useRoleCreate } from "@hooks/auth/useRoleManagement";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import AuthLayout from "@/presentation/layout/AuthLayout";
 import { Button, CheckboxField, InputField } from "@datavise/ui";

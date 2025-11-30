@@ -1,5 +1,5 @@
 import { Sidebar, Navbar, Toast } from '@datavise/ui';
-import { useNotificationStore } from "@store/notification";
+import { useNotificationStore } from "@stores/notification";
 
 
 

@@ -1,6 +1,6 @@
 import { useEffect, useState, type JSX } from "react";
-import { useSidebarStore } from "@store/sidebar";
-import { useUserStore } from "@store/user";
+import { useSidebarStore } from "@stores/sidebar";
+import { useUserStore } from "@stores/user";
 
 export interface SidebarGroup {
   label: string;

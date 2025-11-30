@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect, useRef } from "react";
 import GridLayout from "react-grid-layout";
-import type { DataSource } from "@/domain/entities/DataSource.entity";
-import type { DashboardLayoutItem } from "@/domain/value-objects";
+import type { DataSource } from "@domain/entities/DataSource.entity";
+import type { DashboardLayoutItem } from "@domain/value-objects";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import DashboardGridItem from "@/presentation/pages/dashboard/components/DashboardGridItem";
 import "react-grid-layout/css/styles.css";

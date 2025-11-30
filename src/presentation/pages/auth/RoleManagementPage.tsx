@@ -7,8 +7,8 @@ import {
 } from "./components/RoleManagementParts";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/core/constants/routes";
-import { useRoleManagement } from "@/application/hooks/auth/useRoleManagement";
-import { useUserStore } from "@store/user";
+import { useRoleManagement } from "@hooks/auth/useRoleManagement";
+import { useUserStore } from "@stores/user";
 import breadcrumbs from "@/core/utils/breadcrumbs";
 import AuthLayout from "@/presentation/layout/AuthLayout";
 import { AlertModal, CheckboxField, PageHeader, Section } from "@datavise/ui";

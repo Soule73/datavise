@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { WidgetRepository } from "@/infrastructure/repositories/WidgetRepository";
-import { CreateWidgetUseCase, type CreateWidgetInput } from "@/domain/use-cases/widget/CreateWidget.usecase";
-import { UpdateWidgetUseCase, type UpdateWidgetInput } from "@/domain/use-cases/widget/UpdateWidget.usecase";
-import { GetWidgetUseCase } from "@/domain/use-cases/widget/GetWidget.usecase";
-import { useNotificationStore } from "@/core/store/notification";
+import { CreateWidgetUseCase, type CreateWidgetInput } from "@domain/use-cases/widget/CreateWidget.usecase";
+import { UpdateWidgetUseCase, type UpdateWidgetInput } from "@domain/use-cases/widget/UpdateWidget.usecase";
+import { GetWidgetUseCase } from "@domain/use-cases/widget/GetWidget.usecase";
+import { useNotificationStore } from "@stores/notification";
 import { ROUTES } from "@/core/constants/routes";
-import type { Widget } from "@/domain/entities/Widget.entity";
-import type { WidgetConfig, WidgetType } from "@/domain/value-objects";
-import { useWidgetForm } from "@/core/hooks/widget/useWidgetForm";
-import { useWidgetFormStore } from "@/core/store/widgetFormStore";
+import type { Widget } from "@domain/entities/Widget.entity";
+import type { WidgetConfig, WidgetType } from "@domain/value-objects";
+import { useWidgetForm } from "@hooks/widget/useWidgetForm";
+import { useWidgetFormStore } from "@stores/widgetFormStore";
 
 interface WidgetFormInitialValues {
     type: WidgetType;

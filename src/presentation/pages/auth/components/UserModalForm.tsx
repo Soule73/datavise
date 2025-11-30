@@ -1,5 +1,5 @@
 import React from "react";
-import type { User } from "@/domain/entities/User.entity";
+import type { User } from "@domain/entities/User.entity";
 import type { UseFormReturn } from "react-hook-form";
 import { Button, InputField, Modal, SelectField } from "@datavise/ui";
 

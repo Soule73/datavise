@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { WIDGETS } from "@/core/config/visualizations";
-import type { WidgetType, WidgetConfig } from "@/domain/value-objects";
+import type { WidgetType, WidgetConfig } from "@domain/value-objects";
 
 
 export interface TabConfig {
