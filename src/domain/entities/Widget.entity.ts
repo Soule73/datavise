@@ -116,6 +116,7 @@ export class Widget {
             overrides.type ?? this.type,
             overrides.config ?? this.config,
             overrides.dataSourceId ?? this.dataSourceId,
+            overrides.ownerId ?? this.ownerId,
             overrides.visibility ?? this.visibility,
             overrides.isDraft ?? this.isDraft,
             overrides.isGeneratedByAI ?? this.isGeneratedByAI,
