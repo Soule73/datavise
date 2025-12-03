@@ -24,21 +24,8 @@ export default function AIGeneratedWidgetCard({ widget, onRemove, onSave }: Prop
 
     const isSaved = !!widget.id && !widget.isDraft;
 
-    console.log("🎨 [AIGeneratedWidgetCard] Render:", {
-        id: widget.id,
-        title: widget.title,
-        isSaved,
-    });
-
     const [previewData, setPreviewData] = useState<any[]>([]);
     const [isLoadingPreview, setIsLoadingPreview] = useState(true);
-
-    useEffect(() => {
-        console.log("🔄 [AIGeneratedWidgetCard] widget changed:", {
-            id: widget.id,
-            isSaved,
-        });
-    }, [widget.id, isSaved]);
 
     // Charger les données pour la prévisualisation
     useEffect(() => {

@@ -26,7 +26,9 @@ function AuthLayout({
     const notif = useNotificationStore((s) => s.notification);
     const closeNotif = useNotificationStore((s) => s.closeNotification);
 
-    if (permission && !hasPermission(permission)) {
+    const hasNoPermission = permission && !hasPermission(permission);
+
+    if (hasNoPermission) {
         return (
             <ErrorPage
                 code={403}
@@ -35,6 +37,7 @@ function AuthLayout({
             />
         );
     }
+
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-800 transition-colors duration-300 pt-12 dark:text-white text-gray-900">
             <Toast

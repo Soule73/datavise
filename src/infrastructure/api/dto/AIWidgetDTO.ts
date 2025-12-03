@@ -8,6 +8,7 @@ export interface AIGeneratedWidgetDTO {
     type: string;
     config: WidgetConfig;
     dataSourceId: string;
+    ownerId?: string;
     reasoning?: string;
     confidence?: number;
 }

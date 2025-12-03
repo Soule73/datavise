@@ -9,10 +9,6 @@ export default function Register() {
   const user = useUserStore((s) => s.user);
   const token = useUserStore((s) => s.token);
 
-  if (user && token) {
-    return <Navigate to={ROUTES.dashboards} replace />;
-  }
-
   const {
     register,
     handleSubmit,
@@ -21,6 +17,10 @@ export default function Register() {
     loading,
     globalError,
   } = useRegisterForm();
+
+  if (user && token) {
+    return <Navigate to={ROUTES.dashboards} replace />;
+  }
 
   return (
     <GuestLayout

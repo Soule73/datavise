@@ -1,3 +1,5 @@
+import type { WidgetDTO } from './WidgetDTO';
+
 export interface AIMessageDTO {
     role: "user" | "assistant";
     content: string;
@@ -11,7 +13,7 @@ export interface AIConversationDTO {
     dataSourceId: string | { _id: string; name: string; type: string };
     title: string;
     messages: AIMessageDTO[];
-    widgets?: Array<any>;
+    widgets?: WidgetDTO[];
     dataSourceSummary?: {
         name: string;
         type: string;

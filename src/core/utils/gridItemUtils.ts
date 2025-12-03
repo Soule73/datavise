@@ -49,25 +49,6 @@ export function getWidgetComponent(widget: any, WIDGETS: any) {
 }
 
 /**
- * Retourne le message d'erreur de données pour un widget.
- */
-export function getDataError({ source, error, loading, widgetData }: {
-  source: any;
-  error: any;
-  loading: boolean;
-  widgetData: any;
-}): string {
-  if (!source) {
-    return "Source de données introuvable.";
-  } else if (error) {
-    return error;
-  } else if (!loading && (!widgetData || !widgetData.length)) {
-    return "Aucune donnée disponible pour cette source.";
-  }
-  return "";
-}
-
-/**
  * Calcule les props de style et de classe pour un item de dashboard grid.
  */
 export function getGridItemStyleProps({

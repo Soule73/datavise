@@ -4,9 +4,9 @@ import type {
     AddMessagePayload,
     UpdateTitlePayload,
     RefineWidgetsDbPayload,
-} from "@domain/ports/repositories/IAIConversationRepository";
-import type { AIConversation } from "@domain/entities/AIConversation.entity";
-import type { Widget } from "@domain/entities/Widget.entity";
+} from "@/domain/ports/repositories/IAIConversationRepository";
+import type { AIConversation } from "@/domain/entities/AIConversation.entity";
+import type { Widget } from "@/domain/entities/Widget.entity";
 import { aiConversationMapper } from "../mappers/aiConversationMapper";
 import { aiWidgetMapper } from "../mappers/aiWidgetMapper";
 import { AI_CONVERSATION_ENDPOINTS } from "../api/endpoints/ai.endpoints";
@@ -42,6 +42,26 @@ export class AIConversationRepository implements IAIConversationRepository {
             const err = error as { response?: { status?: number } };
             if (err.response?.status === 404) {
                 return null;
+            }
+            throw error;
+        }
+    }
+
+    async getConversationWidgets(conversationId: string): Promise<Widget[]> {
+        try {
+            const response = await apiClient.get<AIConversationDTO>(
+                AI_CONVERSATION_ENDPOINTS.byId(conversationId)
+            );
+
+            if (!response.success || !response.data) {
+                return [];
+            }
+
+            return aiConversationMapper.extractWidgets(response.data);
+        } catch (error: unknown) {
+            const err = error as { response?: { status?: number } };
+            if (err.response?.status === 404) {
+                return [];
             }
             throw error;
         }
