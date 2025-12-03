@@ -2,6 +2,9 @@ import { AIConversation } from "@domain/entities/AIConversation.entity";
 import { createAIMessage, type AIMessage } from "@domain/value-objects/AIMessage.vo";
 import { createDataSourceSummary } from "@domain/value-objects/DataSourceSummary.vo";
 import type { AIConversationDTO, AIMessageDTO } from "../api/dto/AIConversationDTO";
+import type { Widget } from "@domain/entities/Widget.entity";
+import type { WidgetDTO } from "../api/dto/WidgetDTO";
+import { widgetMapper } from "./widgetMapper";
 
 export const aiConversationMapper = {
     messageToDomain(dto: AIMessageDTO): AIMessage {
@@ -24,7 +27,7 @@ export const aiConversationMapper = {
     toDomain(dto: AIConversationDTO): AIConversation {
         const messages = dto.messages.map((m) => aiConversationMapper.messageToDomain(m));
 
-        const widgetIds = dto.widgets?.map((w) => w._id || w.id) ?? [];
+        const widgetIds = dto.widgets?.map((w) => w.widgetId) ?? [];
 
         const dataSourceId = typeof dto.dataSourceId === "string"
             ? dto.dataSourceId
@@ -53,14 +56,10 @@ export const aiConversationMapper = {
         );
     },
 
-    toDTO(conversation: AIConversation): Partial<AIConversationDTO> {
-        return {
-            _id: conversation.id,
-            userId: conversation.userId,
-            dataSourceId: conversation.dataSourceId,
-            title: conversation.title,
-            messages: conversation.messages.map((m) => aiConversationMapper.messageToDTO(m)),
-            suggestions: conversation.suggestions,
-        };
+    extractWidgets(dto: AIConversationDTO): Widget[] {
+        if (!dto.widgets || dto.widgets.length === 0) {
+            return [];
+        }
+        return dto.widgets.map((w: WidgetDTO) => widgetMapper.toDomain(w));
     },
 };

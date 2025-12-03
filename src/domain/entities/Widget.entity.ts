@@ -10,6 +10,7 @@ export class Widget {
     readonly type: WidgetType;
     readonly config: unknown;
     readonly dataSourceId: string;
+    readonly ownerId: string;
     readonly visibility: Visibility;
     readonly isDraft: boolean;
     readonly isGeneratedByAI: boolean;
@@ -28,6 +29,7 @@ export class Widget {
         type: WidgetType,
         config: unknown,
         dataSourceId: string,
+        ownerId: string,
         visibility: Visibility,
         isDraft: boolean,
         isGeneratedByAI: boolean,
@@ -45,6 +47,7 @@ export class Widget {
         this.type = type;
         this.config = config;
         this.dataSourceId = dataSourceId;
+        this.ownerId = ownerId;
         this.visibility = visibility;
         this.isDraft = isDraft;
         this.isGeneratedByAI = isGeneratedByAI;
@@ -113,6 +116,7 @@ export class Widget {
             overrides.type ?? this.type,
             overrides.config ?? this.config,
             overrides.dataSourceId ?? this.dataSourceId,
+            overrides.ownerId ?? this.ownerId,
             overrides.visibility ?? this.visibility,
             overrides.isDraft ?? this.isDraft,
             overrides.isGeneratedByAI ?? this.isGeneratedByAI,

@@ -1,11 +1,12 @@
-import { Widget } from "@domain/entities/Widget.entity";
-import { createDataSourceSummary, type DataSourceSummary } from "@domain/value-objects/DataSourceSummary.vo";
+import { Widget } from "@/domain/entities/Widget.entity";
+import { createDataSourceSummary, type DataSourceSummary } from "@/domain/value-objects/DataSourceSummary.vo";
 import type {
     AIGeneratedWidgetDTO,
     GenerateWidgetsResponseDTO,
     AnalyzeDataSourceResponseDTO,
 } from "../api/dto/AIWidgetDTO";
-import type { GenerateWidgetsResult } from "@domain/ports/repositories/IAIWidgetRepository";
+import type { GenerateWidgetsResult } from "@/domain/ports/repositories/IAIWidgetRepository";
+import type { WidgetType, WidgetConfig } from "@domain/value-objects";
 
 export const aiWidgetMapper = {
     widgetToDomain(dto: AIGeneratedWidgetDTO): Widget {
@@ -13,9 +14,10 @@ export const aiWidgetMapper = {
             dto._id || dto.id,
             dto.id,
             dto.name,
-            dto.type as any,
-            dto.config as any,
+            dto.type as WidgetType,
+            dto.config,
             dto.dataSourceId,
+            dto.ownerId || "",
             "private",
             true,
             true,
@@ -34,8 +36,9 @@ export const aiWidgetMapper = {
             name: widget.title,
             description: widget.description || "",
             type: widget.type,
-            config: widget.config as any,
+            config: widget.config as WidgetConfig,
             dataSourceId: widget.dataSourceId,
+            ownerId: widget.ownerId,
             reasoning: widget.reasoning || "",
             confidence: widget.confidence || 0,
         };

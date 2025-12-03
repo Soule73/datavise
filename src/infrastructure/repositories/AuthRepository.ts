@@ -7,6 +7,7 @@ import type {
 import { apiClient } from "../api/client/apiClient";
 import { AUTH_ENDPOINTS } from "@infrastructure/api/endpoints/auth.endpoints";
 import type { LoginResponseDTO } from "@infrastructure/api/dto/AuthDTO";
+import { authMapper } from "@infrastructure/mappers/authMapper";
 
 export class AuthRepository implements IAuthRepository {
     async login(payload: LoginPayload): Promise<LoginResult> {
@@ -19,7 +20,7 @@ export class AuthRepository implements IAuthRepository {
             throw new Error(response.error?.message || "Erreur de connexion");
         }
 
-        return response.data as unknown as LoginResult;
+        return authMapper.loginResponseToDomain(response.data);
     }
 
     async register(payload: RegisterPayload): Promise<LoginResult> {
@@ -32,7 +33,7 @@ export class AuthRepository implements IAuthRepository {
             throw new Error(response.error?.message || "Erreur d'inscription");
         }
 
-        return response.data as unknown as LoginResult;
+        return authMapper.loginResponseToDomain(response.data);
     }
 }
 

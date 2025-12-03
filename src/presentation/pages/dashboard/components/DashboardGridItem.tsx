@@ -19,10 +19,10 @@ interface DashboardGridItemProps {
 export default function DashboardGridItem({
   widget,
   editMode,
-  sources,
+  // sources,
   onRemove,
 }: DashboardGridItemProps) {
-  const { getSourceData, isSourceLoading, getSourceError } = useDashboardDataStore();
+  const { getSourceData, isSourceLoading } = useDashboardDataStore();
 
   if (!widget) {
     return (
@@ -36,11 +36,11 @@ export default function DashboardGridItem({
 
   const widgetData = widget.dataSourceId ? getSourceData(widget.dataSourceId) : [];
   const loading = widget.dataSourceId ? isSourceLoading(widget.dataSourceId) : false;
-  const error = widget.dataSourceId ? getSourceError(widget.dataSourceId) : null;
+  // const error = widget.dataSourceId ? getSourceError(widget.dataSourceId) : null;
 
-  const source = sources?.find(
-    (s: DataSource) => String(s.id) === String(widget?.dataSourceId)
-  );
+  // const source = sources?.find(
+  //   (s: DataSource) => String(s.id) === String(widget?.dataSourceId)
+  // );
 
   const config = useMemo(() => widget?.config || {}, [widget?.config]);
 
@@ -49,13 +49,13 @@ export default function DashboardGridItem({
 
   const isRefreshing = loading && widgetData.length > 0;
 
-  const dataError: string = !source
-    ? "Source de données introuvable."
-    : error
-      ? String(error)
-      : !loading && (!widgetData || !widgetData.length)
-        ? "Aucune donnée disponible pour cette source."
-        : "";
+  // const dataError: string = !source
+  //   ? "Source de données introuvable."
+  //   : String(error);
+  // // ? String(error)
+  // // : !loading && (!widgetData || !widgetData.length)
+  // //   ? "Aucune donnée disponible pour cette source."
+  // //   : "";
 
   return (
     <div className="relative h-full w-full bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -87,28 +87,30 @@ export default function DashboardGridItem({
         </div>
       )}
 
-      {dataError ? (
-        <div className="h-full flex items-center justify-center text-center text-red-500 text-sm p-4">
-          {dataError}
-        </div>
-      ) : loading && !widgetData.length ? (
-        <div className="h-full flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
-        </div>
-      ) : !WidgetComponent ? (
-        <div className="h-full flex items-center justify-center text-red-500 text-sm">
-          Type de widget inconnu : {widget?.type}
-        </div>
-      ) : (
-        <div className="relative h-full">
-          {isRefreshing && (
-            <div className="absolute top-2 right-2 z-10">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600" />
-            </div>
-          )}
-          <WidgetComponent data={widgetData} config={config} />
-        </div>
-      )}
+      {
+        // dataError ? (
+        //   <div className="h-full flex items-center justify-center text-center text-red-500 text-sm p-4">
+        //     {dataError}
+        //   </div>
+        // ) : 
+        loading ? (
+          <div className="h-full flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+          </div>
+        ) : !WidgetComponent ? (
+          <div className="h-full flex items-center justify-center text-red-500 text-sm">
+            Type de widget inconnu : {widget?.type}
+          </div>
+        ) : (
+          <div className="relative h-full">
+            {isRefreshing && (
+              <div className="absolute top-2 right-2 z-10">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600" />
+              </div>
+            )}
+            <WidgetComponent data={widgetData} config={config} />
+          </div>
+        )}
     </div>
   );
 }

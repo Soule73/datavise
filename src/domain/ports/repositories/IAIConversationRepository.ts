@@ -26,6 +26,7 @@ export interface RefineWidgetsDbPayload {
 export interface IAIConversationRepository {
     findAll(): Promise<AIConversation[]>;
     findById(conversationId: string): Promise<AIConversation | null>;
+    getConversationWidgets(conversationId: string): Promise<Widget[]>;
     create(payload: CreateConversationPayload): Promise<AIConversation>;
     addMessage(conversationId: string, message: AddMessagePayload): Promise<AIConversation>;
     updateTitle(conversationId: string, payload: UpdateTitlePayload): Promise<AIConversation>;

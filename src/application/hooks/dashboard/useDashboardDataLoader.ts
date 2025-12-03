@@ -83,10 +83,6 @@ export function useDashboardDataLoader({
             });
             const fieldsArray = Array.from(allFields);
             fields.set(sourceId, fieldsArray);
-
-            if (process.env.NODE_ENV === 'development') {
-                console.log(`[DashboardDataLoader] Source ${sourceId}: ${items.length} widgets, ${fieldsArray.length} champs uniques:`, fieldsArray);
-            }
         });
         return fields;
     }, [widgetsBySource]);

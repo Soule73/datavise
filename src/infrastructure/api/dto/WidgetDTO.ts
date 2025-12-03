@@ -5,6 +5,7 @@ export interface WidgetDTO {
     type: string;
     config: unknown;
     dataSourceId: string;
+    ownerId: string;
     visibility: "public" | "private";
     isDraft?: boolean;
     isGeneratedByAI?: boolean;

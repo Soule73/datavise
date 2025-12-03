@@ -8,6 +8,7 @@ import type { DetectionResult } from "@domain/value-objects/ColumnMetadata.vo";
 import { apiClient } from "../api/client/apiClient";
 import { dataSourceMapper } from "../mappers/dataSourceMapper";
 import { DATASOURCE_ENDPOINTS } from "../api/endpoints/datasource.endpoints";
+import type { DataSourceDTO, DetectColumnsResponseDTO } from "../api/dto/DataSourceDTO";
 
 export class DataSourceRepository implements IDataSourceRepository {
     async findAll(filters?: DataSourceFilters): Promise<DataSource[]> {
@@ -24,24 +25,24 @@ export class DataSourceRepository implements IDataSourceRepository {
         }
 
         const url = `${DATASOURCE_ENDPOINTS.list}${params.toString() ? `?${params}` : ""}`;
-        const response = await apiClient.get<unknown[]>(url);
+        const response = await apiClient.get<DataSourceDTO[]>(url);
 
-        if (!response.success) {
+        if (!response.success || !response.data) {
             throw new Error(response.error?.message || "Erreur lors de la récupération des sources");
         }
 
-        return (response.data as any[]).map(dataSourceMapper.toDomain);
+        return response.data.map(dataSourceMapper.toDomain);
     }
 
     async findById(id: string): Promise<DataSource | null> {
         try {
-            const response = await apiClient.get<unknown>(DATASOURCE_ENDPOINTS.byId(id));
+            const response = await apiClient.get<DataSourceDTO>(DATASOURCE_ENDPOINTS.byId(id));
 
-            if (!response.success) {
+            if (!response.success || !response.data) {
                 return null;
             }
 
-            return dataSourceMapper.toDomain(response.data as any);
+            return dataSourceMapper.toDomain(response.data);
         } catch (error) {
             console.error("Erreur findById:", error);
             return null;
@@ -74,34 +75,34 @@ export class DataSourceRepository implements IDataSourceRepository {
 
             formData.append("file", file);
 
-            const response = await apiClient.post<unknown>(DATASOURCE_ENDPOINTS.create, formData);
+            const response = await apiClient.post<DataSourceDTO>(DATASOURCE_ENDPOINTS.create, formData);
 
-            if (!response.success) {
+            if (!response.success || !response.data) {
                 throw new Error(response.error?.message || "Erreur lors de la création de la source");
             }
 
-            return dataSourceMapper.toDomain(response.data as any);
+            return dataSourceMapper.toDomain(response.data);
         } else {
             const dto = dataSourceMapper.toDTO(dataSource as DataSource);
-            const response = await apiClient.post<unknown>(DATASOURCE_ENDPOINTS.create, dto);
+            const response = await apiClient.post<DataSourceDTO>(DATASOURCE_ENDPOINTS.create, dto);
 
-            if (!response.success) {
+            if (!response.success || !response.data) {
                 throw new Error(response.error?.message || "Erreur lors de la création de la source");
             }
 
-            return dataSourceMapper.toDomain(response.data as any);
+            return dataSourceMapper.toDomain(response.data);
         }
     }
 
     async update(id: string, updates: Partial<DataSource>): Promise<DataSource> {
         const dto = dataSourceMapper.partialToDTO(updates);
-        const response = await apiClient.patch<unknown>(DATASOURCE_ENDPOINTS.update(id), dto);
+        const response = await apiClient.patch<DataSourceDTO>(DATASOURCE_ENDPOINTS.update(id), dto);
 
-        if (!response.success) {
+        if (!response.success || !response.data) {
             throw new Error(response.error?.message || "Erreur lors de la mise à jour de la source");
         }
 
-        return dataSourceMapper.toDomain(response.data as any);
+        return dataSourceMapper.toDomain(response.data);
     }
 
     async delete(id: string): Promise<void> {
@@ -118,13 +119,13 @@ export class DataSourceRepository implements IDataSourceRepository {
             formData.append("type", params.type);
             formData.append("file", params.file);
 
-            const response = await apiClient.post<unknown>(DATASOURCE_ENDPOINTS.detectColumns, formData);
+            const response = await apiClient.post<DetectColumnsResponseDTO>(DATASOURCE_ENDPOINTS.detectColumns, formData);
 
-            if (!response.success) {
+            if (!response.success || !response.data) {
                 throw new Error(response.error?.message || "Erreur lors de la détection des colonnes");
             }
 
-            return dataSourceMapper.detectionResultToDomain(response.data as any);
+            return dataSourceMapper.detectionResultToDomain(response.data);
         } else {
             const payload = {
                 type: params.type,
@@ -136,13 +137,13 @@ export class DataSourceRepository implements IDataSourceRepository {
                 esQuery: params.esQuery,
             };
 
-            const response = await apiClient.post<unknown>(DATASOURCE_ENDPOINTS.detectColumns, payload);
+            const response = await apiClient.post<DetectColumnsResponseDTO>(DATASOURCE_ENDPOINTS.detectColumns, payload);
 
-            if (!response.success) {
+            if (!response.success || !response.data) {
                 throw new Error(response.error?.message || "Erreur lors de la détection des colonnes");
             }
 
-            return dataSourceMapper.detectionResultToDomain(response.data as any);
+            return dataSourceMapper.detectionResultToDomain(response.data);
         }
     }
 

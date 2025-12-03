@@ -8,6 +8,7 @@ import type { Dashboard } from "@domain/entities/Dashboard.entity";
 import { apiClient } from "../api/client/apiClient";
 import { dashboardMapper } from "../mappers/dashboardMapper";
 import { DASHBOARD_ENDPOINTS } from "../api/endpoints/dashboard.endpoints";
+import type { DashboardDTO } from "../api/dto/DashboardDTO";
 
 export class DashboardRepository implements IDashboardRepository {
     async findAll(filters?: DashboardFilters): Promise<Dashboard[]> {
@@ -24,24 +25,24 @@ export class DashboardRepository implements IDashboardRepository {
         }
 
         const url = `${DASHBOARD_ENDPOINTS.list}${params.toString() ? `?${params}` : ""}`;
-        const response = await apiClient.get<unknown[]>(url);
+        const response = await apiClient.get<DashboardDTO[]>(url);
 
         if (!response.success) {
             throw new Error(response.error?.message || "Erreur lors de la récupération des dashboards");
         }
 
-        return (response.data as any[]).map(dashboardMapper.toDomain);
+        return response.data!.map(dashboardMapper.toDomain);
     }
 
     async findById(id: string): Promise<Dashboard | null> {
         try {
-            const response = await apiClient.get<unknown>(DASHBOARD_ENDPOINTS.byId(id));
+            const response = await apiClient.get<DashboardDTO>(DASHBOARD_ENDPOINTS.byId(id));
 
-            if (!response.success) {
+            if (!response.success || !response.data) {
                 return null;
             }
 
-            return dashboardMapper.toDomain(response.data as any);
+            return dashboardMapper.toDomain(response.data);
         } catch (error) {
             console.error("Erreur findById dashboard:", error);
             return null;
@@ -50,13 +51,13 @@ export class DashboardRepository implements IDashboardRepository {
 
     async findByShareId(shareId: string): Promise<Dashboard | null> {
         try {
-            const response = await apiClient.get<unknown>(DASHBOARD_ENDPOINTS.byShareId(shareId));
+            const response = await apiClient.get<DashboardDTO>(DASHBOARD_ENDPOINTS.byShareId(shareId));
 
-            if (!response.success) {
+            if (!response.success || !response.data) {
                 return null;
             }
 
-            return dashboardMapper.toDomain(response.data as any);
+            return dashboardMapper.toDomain(response.data);
         } catch (error) {
             console.error("Erreur findByShareId:", error);
             return null;
@@ -75,13 +76,13 @@ export class DashboardRepository implements IDashboardRepository {
             autoRefreshIntervalUnit: dashboard.autoRefreshIntervalUnit,
         };
 
-        const response = await apiClient.post<unknown>(DASHBOARD_ENDPOINTS.create, payload);
+        const response = await apiClient.post<DashboardDTO>(DASHBOARD_ENDPOINTS.create, payload);
 
-        if (!response.success) {
+        if (!response.success || !response.data) {
             throw new Error(response.error?.message || "Erreur lors de la création du dashboard");
         }
 
-        return dashboardMapper.toDomain(response.data as any);
+        return dashboardMapper.toDomain(response.data);
     }
 
     async update(id: string, updates: UpdateDashboardPayload): Promise<Dashboard> {
@@ -96,13 +97,13 @@ export class DashboardRepository implements IDashboardRepository {
         if (updates.autoRefreshIntervalUnit !== undefined)
             payload.autoRefreshIntervalUnit = updates.autoRefreshIntervalUnit;
 
-        const response = await apiClient.patch<unknown>(DASHBOARD_ENDPOINTS.update(id), payload);
+        const response = await apiClient.patch<DashboardDTO>(DASHBOARD_ENDPOINTS.update(id), payload);
 
-        if (!response.success) {
+        if (!response.success || !response.data) {
             throw new Error(response.error?.message || "Erreur lors de la mise à jour du dashboard");
         }
 
-        return dashboardMapper.toDomain(response.data as any);
+        return dashboardMapper.toDomain(response.data);
     }
 
     async delete(id: string): Promise<void> {

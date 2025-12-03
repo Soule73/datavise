@@ -151,7 +151,7 @@ export default function DataTable<T extends { [key: string]: any }>({
   const searchMountCount = useRef(0);
 
   return (
-    <div className="relative w-full h-full max-w-full max-h-full overflow-auto config-scrollbar bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+    <div className="relative w-full h-full max-w-full max-h-full overflow-auto config-scrollbar bg-white dark:bg-gray-900 rounded-lg ">
       {searchable && (
         <DataTableSearch
           value={effectiveSearch}
