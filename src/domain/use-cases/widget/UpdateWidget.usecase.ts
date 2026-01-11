@@ -17,13 +17,15 @@ export class UpdateWidgetUseCase {
     }
 
     async execute(widgetId: string, updates: UpdateWidgetInput): Promise<Widget> {
-        if (updates.title !== undefined && updates.title.trim().length < 3) {
-            throw new WidgetValidationError("Le titre doit contenir au moins 3 caractères");
-        }
-
         const widget = await this.widgetRepository.findById(widgetId);
         if (!widget) {
-            throw new WidgetValidationError("Widget non trouvé");
+            throw new WidgetValidationError("Widget non trouv\u00e9");
+        }
+
+        if (updates.title !== undefined && updates.title.trim().length === 0) {
+            if (!widget.isGeneratedByAI && !widget.isDraft) {
+                throw new WidgetValidationError("Le titre ne peut pas \u00eatre vide");
+            }
         }
 
         return this.widgetRepository.update(widgetId, updates as Partial<Widget>);

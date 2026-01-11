@@ -38,10 +38,25 @@ export function setupInterceptors(client: AxiosInstance): void {
     client.interceptors.response.use(
         (response) => response,
         async (error: AxiosError) => {
-            if (error.response?.status === 401 || error.response?.status === 403) {
-                console.error("Session expirée, déconnexion...");
-                useUserStore.getState().logout();
-                window.location.replace(ROUTES.login);
+            const config = error.config;
+            const isAIRequest = config?.url?.includes('/ai/');
+
+            if (error.response?.status === 401) {
+                if (!isAIRequest) {
+                    console.error("Session expirée, déconnexion...");
+                    useUserStore.getState().logout();
+                    window.location.replace(ROUTES.login);
+                } else {
+                    console.warn("Erreur 401 sur requête AI, vérification du token...");
+                    const store = useUserStore.getState();
+                    if (store.isTokenExpired()) {
+                        console.error("Token expiré, déconnexion...");
+                        store.logout();
+                        window.location.replace(ROUTES.login);
+                    }
+                }
+            } else if (error.response?.status === 403) {
+                console.error("Accès refusé (403)");
             }
 
             if (error.response?.status === 429) {

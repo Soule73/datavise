@@ -13,7 +13,7 @@ export async function exportDashboardToPDF({
 } = {}) {
   const grid = document.querySelector(gridSelector);
   if (!grid) {
-    alert("Grille du dashboard introuvable");
+    console.log("Grille du dashboard introuvable");
     return;
   }
   try {
@@ -83,7 +83,7 @@ export async function exportDashboardToPDF({
     pdf.save(filename);
 
   } catch (err) {
-    alert("Erreur lors de la génération du PDF.");
+    // alert("Erreur lors de la génération du PDF.");
     console.error("Erreur lors de la sauvegarde du PDF:", err);
   }
 }

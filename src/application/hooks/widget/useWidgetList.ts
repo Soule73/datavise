@@ -3,16 +3,17 @@ import { ListWidgetsUseCase } from "@domain/use-cases/widget/ListWidgets.usecase
 import { WidgetRepository } from "@infrastructure/repositories/WidgetRepository";
 import type { Widget } from "@domain/entities/Widget.entity";
 import type { WidgetFilters } from "@domain/ports/repositories/IWidgetRepository";
+import type { Pagination } from "@/domain/value-objects/Pagination.vo";
 
 const widgetRepository = new WidgetRepository();
 const listWidgetsUseCase = new ListWidgetsUseCase(widgetRepository);
 
-export function useWidgetList(filters?: WidgetFilters) {
+export function useWidgetList(filters?: WidgetFilters, pagination?: Pagination) {
     const queryClient = useQueryClient();
 
     const { data: widgets, isLoading, error } = useQuery<Widget[]>({
-        queryKey: ["widgets", filters],
-        queryFn: () => listWidgetsUseCase.execute(filters),
+        queryKey: ["widgets", filters, pagination],
+        queryFn: () => listWidgetsUseCase.execute(filters, pagination),
         staleTime: 1000 * 60 * 5,
     });
 

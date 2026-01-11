@@ -18,6 +18,7 @@ export interface ProcessedBucketItem {
  */
 export interface FilterableConfig {
     globalFilters?: Filter[];
+    metrics?: Metric[];
 }
 
 
@@ -43,6 +44,12 @@ export function applyKPIFilters(
     // Priorité aux filtres globaux (nouveau système)
     if (config.globalFilters && config.globalFilters.length > 0) {
         baseData = applyAllFilters(baseData, config.globalFilters, []);
+    }
+
+    // Appliquer les filtres individuels de la métrique
+    const metric = config.metrics?.[0];
+    if (metric && metric.filters && metric.filters.length > 0) {
+        baseData = applyAllFilters(baseData, metric.filters, []);
     }
 
     return baseData;

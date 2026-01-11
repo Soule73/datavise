@@ -1,4 +1,4 @@
-import type { Widget } from "../../entities/Widget.entity";
+import type { Widget } from "@/domain/entities/Widget.entity";
 import type { DataSourceSummary } from "../../value-objects/DataSourceSummary.vo";
 
 export interface GenerateWidgetsPayload {
@@ -10,8 +10,7 @@ export interface GenerateWidgetsPayload {
 }
 
 export interface RefineWidgetsPayload {
-    dataSourceId: string;
-    currentWidgets: Widget[];
+    conversationId: string;
     refinementPrompt: string;
 }
 

@@ -23,6 +23,10 @@ export class PublishWidgetUseCase {
             throw new WidgetValidationError("Le widget est déjà publié");
         }
 
+        if (!existingWidget.title || existingWidget.title.trim().length === 0) {
+            throw new WidgetValidationError("Le titre ne peut pas être vide pour publier le widget");
+        }
+
         return this.repository.publish(widgetId);
     }
 }

@@ -35,8 +35,7 @@ export class AIWidgetRepository implements IAIWidgetRepository {
 
     async refineWidgets(payload: RefineWidgetsPayload): Promise<GenerateWidgetsResult> {
         const requestBody = {
-            dataSourceId: payload.dataSourceId,
-            currentWidgets: payload.currentWidgets.map((w) => aiWidgetMapper.widgetToDTO(w)),
+            conversationId: payload.conversationId,
             refinementPrompt: payload.refinementPrompt,
         };
 

@@ -13,6 +13,7 @@ interface Base {
 export interface Metric extends Base {
   agg: string;
   type?: string;
+  filters?: Filter[];
 }
 
 // Nouveaux types pour les buckets multiples

@@ -3,6 +3,7 @@ export interface Metric {
     field: string;
     agg: string;
     type?: string;
+    filters?: Filter[];
 }
 
 export type BucketType =

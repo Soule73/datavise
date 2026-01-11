@@ -16,7 +16,7 @@ export default function WidgetSelectModal({
   onClose,
   onSelect,
 }: WidgetSelectModalProps) {
-  const { widgets, isLoading } = useWidgetList();
+  const { widgets, isLoading } = useWidgetList({}, { page: 1, limit: 100 });
   const [search, setSearch] = useState("");
   const filteredWidgets = useMemo(() => {
     const s = search.trim().toLowerCase();

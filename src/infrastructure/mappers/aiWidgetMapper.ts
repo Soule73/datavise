@@ -1,48 +1,12 @@
-import { Widget } from "@/domain/entities/Widget.entity";
 import { createDataSourceSummary, type DataSourceSummary } from "@/domain/value-objects/DataSourceSummary.vo";
 import type {
-    AIGeneratedWidgetDTO,
     GenerateWidgetsResponseDTO,
     AnalyzeDataSourceResponseDTO,
 } from "../api/dto/AIWidgetDTO";
 import type { GenerateWidgetsResult } from "@/domain/ports/repositories/IAIWidgetRepository";
-import type { WidgetType, WidgetConfig } from "@domain/value-objects";
+import { widgetMapper } from "./widgetMapper";
 
 export const aiWidgetMapper = {
-    widgetToDomain(dto: AIGeneratedWidgetDTO): Widget {
-        return new Widget(
-            dto._id || dto.id,
-            dto.id,
-            dto.name,
-            dto.type as WidgetType,
-            dto.config,
-            dto.dataSourceId,
-            dto.ownerId || "",
-            "private",
-            true,
-            true,
-            undefined,
-            false,
-            dto.description,
-            dto.reasoning,
-            dto.confidence
-        );
-    },
-
-    widgetToDTO(widget: Widget): AIGeneratedWidgetDTO {
-        return {
-            id: widget.widgetId,
-            _id: widget.id,
-            name: widget.title,
-            description: widget.description || "",
-            type: widget.type,
-            config: widget.config as WidgetConfig,
-            dataSourceId: widget.dataSourceId,
-            ownerId: widget.ownerId,
-            reasoning: widget.reasoning || "",
-            confidence: widget.confidence || 0,
-        };
-    },
 
     summaryToDomain(dto: GenerateWidgetsResponseDTO["dataSourceSummary"] | AnalyzeDataSourceResponseDTO): DataSourceSummary {
         return createDataSourceSummary(
@@ -61,7 +25,7 @@ export const aiWidgetMapper = {
     generateResponseToDomain(dto: GenerateWidgetsResponseDTO): GenerateWidgetsResult {
         return {
             conversationTitle: dto.conversationTitle,
-            widgets: dto.widgets.map((w) => aiWidgetMapper.widgetToDomain(w)),
+            widgets: dto.widgets.map((w) => widgetMapper.toDomain(w)),
             totalGenerated: dto.totalGenerated,
             dataSourceSummary: aiWidgetMapper.summaryToDomain(dto.dataSourceSummary),
             suggestions: dto.suggestions,

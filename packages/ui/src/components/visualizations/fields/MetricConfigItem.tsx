@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { SelectField } from "@datavise/ui";
 import MetricLabelInput from "./MetricLabelInput";
 import { CollapsibleSection } from "../sections";
+import MetricFiltersConfig from "./MetricFiltersConfig";
+import type { Filter } from "@domain/value-objects";
 
 export interface MetricConfigItemProps {
     metric: any;
@@ -15,6 +17,8 @@ export interface MetricConfigItemProps {
     onDelete?: (idx: number) => void;
     onMoveUp?: (idx: number) => void;
     onMoveDown?: (idx: number) => void;
+    showFilters?: boolean;
+    data?: Record<string, any>[];
 }
 
 export default function MetricConfigItem({
@@ -29,6 +33,8 @@ export default function MetricConfigItem({
     onDelete,
     onMoveUp,
     onMoveDown,
+    showFilters = false,
+    data = [],
 }: MetricConfigItemProps) {
     const headerLabel = useMemo(() => {
         const aggLabel =
@@ -74,6 +80,16 @@ export default function MetricConfigItem({
                     name={`metric-label-${index}`}
                     id={`metric-label-${index}`}
                 />
+
+                {showFilters && (
+                    <MetricFiltersConfig
+                        filters={(metric.filters as Filter[]) || []}
+                        columns={columns}
+                        data={data}
+                        onFiltersChange={(filters) => onMetricChange(index, "filters", filters)}
+                        metricIndex={index}
+                    />
+                )}
             </div>
         </CollapsibleSection>
     );

@@ -4,8 +4,13 @@ import type { WidgetType } from "@domain/value-objects";
 import { useWidgetTabs } from "@hooks/widget/useWidgetTabs";
 import { useWidgetForm } from "@hooks/widget/useWidgetForm";
 import type { ReactNode } from "react";
-import { WidgetDataConfigSection, WidgetMetricStyleConfigSection, WidgetParamsConfigSection, WidgetSaveTitleModal } from "@datavise/ui";
-import { Button } from "@datavise/ui";
+import {
+    WidgetDataConfigSection,
+    WidgetMetricStyleConfigSection,
+    WidgetParamsConfigSection,
+    WidgetSaveTitleModal,
+    Button
+} from "@datavise/ui";
 
 interface WidgetFormLayoutProps {
     title: string;

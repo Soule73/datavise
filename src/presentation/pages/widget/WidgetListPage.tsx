@@ -93,12 +93,13 @@ export default function WidgetListPage() {
           title="Visualisations"
           actions={
             hasPermission("widget:canCreate") && (
-              <Link
-                to={ROUTES.createWidget}
-                className="w-max text-indigo-500 underline hover:text-indigo-600 font-medium"
+              <Button
+                color="indigo"
+                onClick={() => setShowCreateModal(true)}
+                className="w-max"
               >
                 Nouvelle visualisation
-              </Link>
+              </Button>
             )
           }
         />

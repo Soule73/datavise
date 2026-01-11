@@ -17,7 +17,7 @@ export interface UpdateTitlePayload {
     title: string;
 }
 
-export interface RefineWidgetsDbPayload {
+export interface RefineWidgetsPayload {
     dataSourceId: string;
     widgetIds: string[];
     refinementPrompt: string;
@@ -31,5 +31,5 @@ export interface IAIConversationRepository {
     addMessage(conversationId: string, message: AddMessagePayload): Promise<AIConversation>;
     updateTitle(conversationId: string, payload: UpdateTitlePayload): Promise<AIConversation>;
     delete(conversationId: string): Promise<void>;
-    refineWidgetsDb(payload: RefineWidgetsDbPayload): Promise<Widget[]>;
+    refineWidgets(payload: RefineWidgetsPayload): Promise<Widget[]>;
 }

@@ -1,4 +1,3 @@
-import { WidgetValidationError } from "../errors/DomainError";
 import type { WidgetType } from "../value-objects";
 
 export type Visibility = "public" | "private";
@@ -63,18 +62,20 @@ export class Widget {
     }
 
     private validate(): void {
-        if (!this.title || this.title.trim().length < 3) {
-            throw new WidgetValidationError("Le titre doit contenir au moins 3 caractères");
-        }
-        if (this.title.length > 100) {
-            throw new WidgetValidationError("Le titre ne peut pas dépasser 100 caractères");
-        }
-        if (!this.dataSourceId) {
-            throw new WidgetValidationError("dataSourceId est requis");
-        }
-        if (!this.widgetId) {
-            throw new WidgetValidationError("widgetId est requis");
-        }
+        // if (!this.title || this.title.trim().length === 0) {
+        //     if (!this.isDraft && !this.isGeneratedByAI) {
+        //         throw new WidgetValidationError("Le titre ne peut pas \u00eatre vide");
+        //     }
+        // }
+        // if (this.title && this.title.length > 100) {
+        //     throw new WidgetValidationError("Le titre ne peut pas dépasser 100 caractères");
+        // }
+        // if (!this.dataSourceId) {
+        //     throw new WidgetValidationError("dataSourceId est requis");
+        // }
+        // if (!this.widgetId) {
+        //     throw new WidgetValidationError("widgetId est requis");
+        // }
     }
 
     isPublished(): boolean {

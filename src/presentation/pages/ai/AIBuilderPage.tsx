@@ -32,6 +32,7 @@ export default function AIBuilderPage() {
         setActiveConversation,
         setConversations,
         setDataSources,
+        setGeneratedWidgets,
         setWidgetToDelete,
     } = useAIStore();
 
@@ -48,7 +49,7 @@ export default function AIBuilderPage() {
 
     const { conversations: conversationsData } = useAIConversationList();
     const { data: conversationData } = useAIConversation(activeConversationId || null);
-    const { data: conversationWidgetsData } = useConversationWidgets(activeConversationId || null);
+    const { data: conversationWidgetsData, refetch: refetchWidgets } = useConversationWidgets(activeConversationId || null);
     const { dataSources } = useDataSourceList();
 
     useEffect(() => {
@@ -64,14 +65,39 @@ export default function AIBuilderPage() {
     }, [conversationData?.id, activeConversation?.id]);
 
     useEffect(() => {
+        if (conversationData && activeConversation &&
+            conversationData.id === activeConversation.id &&
+            conversationData.messages.length !== activeConversation.messages.length) {
+            setActiveConversation(conversationData);
+        }
+    }, [conversationData?.messages.length, activeConversation?.id]);
+
+    useEffect(() => {
         if (dataSources && dataSources.length > 0) {
             setDataSources(dataSources);
         }
     }, [dataSources?.length]);
 
+    useEffect(() => {
+        if (generatedWidgets.length > 0 && activeConversationId) {
+            refetchWidgets();
+        }
+    }, [generatedWidgets.length, activeConversationId, refetchWidgets]);
+
+    useEffect(() => {
+        if (conversationWidgetsData &&
+            conversationWidgetsData.length > 0 &&
+            generatedWidgets.length === 0 &&
+            activeConversationId) {
+            setGeneratedWidgets(conversationWidgetsData);
+        }
+    }, [conversationWidgetsData?.length, generatedWidgets.length, activeConversationId, setGeneratedWidgets]);
+
     const dataSourceSummary = activeConversation?.dataSourceSummary;
     const conversations = conversationsData || [];
-    const widgets = conversationWidgetsData || generatedWidgets;
+    const widgets = conversationWidgetsData && conversationWidgetsData.length > 0
+        ? conversationWidgetsData
+        : generatedWidgets;
 
 
     return (
@@ -97,7 +123,7 @@ export default function AIBuilderPage() {
                 {!isSidebarOpen && (
                     <button
                         onClick={() => setIsSidebarOpen(true)}
-                        className="fixed left-4 top-1/2 -translate-y-1/2 z-40 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-full shadow-lg transition-all"
+                        className="fixed left-4 top-1/2 -translate-y-1/2 z-40 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-full shadow-lg transition-all cursor-pointer"
                         title="Ouvrir les conversations"
                     >
                         <svg

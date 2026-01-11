@@ -19,6 +19,8 @@ export function useConversationWidgets(conversationId: string | null) {
             return conversationRepository.getConversationWidgets(conversationId);
         },
         enabled: isValidObjectId(conversationId),
-        staleTime: 1 * 60 * 1000,
+        staleTime: 0,
+        refetchOnMount: true,
+        refetchOnWindowFocus: false,
     });
 }

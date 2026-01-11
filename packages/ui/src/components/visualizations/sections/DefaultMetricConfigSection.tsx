@@ -11,6 +11,8 @@ export interface DefaultMetricConfigSectionProps {
     handleConfigChange: (field: string, value: any) => void;
     handleMetricAggOrFieldChange?: (idx: number, field: "agg" | "field", value: string) => void;
     allowMultipleMetrics?: boolean;
+    showMetricFilters?: boolean;
+    data?: Record<string, any>[];
 }
 
 export default function DefaultMetricConfigSection({
@@ -20,6 +22,8 @@ export default function DefaultMetricConfigSection({
     handleConfigChange,
     handleMetricAggOrFieldChange,
     allowMultipleMetrics = true,
+    showMetricFilters = false,
+    data = [],
 }: DefaultMetricConfigSectionProps) {
     if (!dataConfig.metrics.label || !config.metrics || !Array.isArray(config.metrics)) {
         return null;
@@ -72,6 +76,8 @@ export default function DefaultMetricConfigSection({
                         onDelete={canShowSettings ? handleDeleteMetric : undefined}
                         onMoveUp={canShowSettings ? () => handleMoveMetric(idx, 'up') : undefined}
                         onMoveDown={canShowSettings ? () => handleMoveMetric(idx, 'down') : undefined}
+                        showFilters={showMetricFilters}
+                        data={data}
                     />
                 ))}
             </div>

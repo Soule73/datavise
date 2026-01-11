@@ -3,16 +3,16 @@ import type {
     CreateConversationPayload,
     AddMessagePayload,
     UpdateTitlePayload,
-    RefineWidgetsDbPayload,
+    RefineWidgetsPayload,
 } from "@/domain/ports/repositories/IAIConversationRepository";
 import type { AIConversation } from "@/domain/entities/AIConversation.entity";
 import type { Widget } from "@/domain/entities/Widget.entity";
 import { aiConversationMapper } from "../mappers/aiConversationMapper";
-import { aiWidgetMapper } from "../mappers/aiWidgetMapper";
-import { AI_CONVERSATION_ENDPOINTS } from "../api/endpoints/ai.endpoints";
+import { AI_CONVERSATION_ENDPOINTS, AI_WIDGET_ENDPOINTS } from "../api/endpoints/ai.endpoints";
 import { apiClient } from "../api/client/apiClient";
 import type { AIConversationDTO } from "../api/dto/AIConversationDTO";
-import type { AIGeneratedWidgetDTO } from "../api/dto/AIWidgetDTO";
+import type { WidgetDTO } from "../api/dto/WidgetDTO";
+import { widgetMapper } from "../mappers/widgetMapper";
 
 export class AIConversationRepository implements IAIConversationRepository {
     async findAll(): Promise<AIConversation[]> {
@@ -116,9 +116,9 @@ export class AIConversationRepository implements IAIConversationRepository {
         }
     }
 
-    async refineWidgetsDb(payload: RefineWidgetsDbPayload): Promise<Widget[]> {
-        const response = await apiClient.post<AIGeneratedWidgetDTO[]>(
-            "/v1/ai/refinements/database",
+    async refineWidgets(payload: RefineWidgetsPayload): Promise<Widget[]> {
+        const response = await apiClient.post<WidgetDTO[]>(
+            AI_WIDGET_ENDPOINTS.refine,
             payload
         );
 
@@ -126,6 +126,6 @@ export class AIConversationRepository implements IAIConversationRepository {
             throw new Error(response.error?.message || "Erreur lors du raffinement des widgets en base");
         }
 
-        return response.data.map((dto) => aiWidgetMapper.widgetToDomain(dto));
+        return response.data.map((dto) => widgetMapper.toDomain(dto));
     }
 }

@@ -1,21 +1,8 @@
-import type { WidgetConfig } from "@domain/value-objects";
-
-export interface AIGeneratedWidgetDTO {
-    id: string;
-    _id?: string;
-    name: string;
-    description?: string;
-    type: string;
-    config: WidgetConfig;
-    dataSourceId: string;
-    ownerId?: string;
-    reasoning?: string;
-    confidence?: number;
-}
+import type { WidgetDTO } from "./WidgetDTO";
 
 export interface GenerateWidgetsResponseDTO {
     conversationTitle?: string;
-    widgets: AIGeneratedWidgetDTO[];
+    widgets: WidgetDTO[];
     totalGenerated: number;
     dataSourceSummary: {
         name: string;

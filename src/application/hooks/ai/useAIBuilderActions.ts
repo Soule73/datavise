@@ -37,21 +37,24 @@ export function useAIBuilderActions() {
         isRefining,
     } = useAIWidgetGeneration();
 
-    const store = useAIStore();
     const {
         activeConversationId,
+        activeConversation,
         selectedSourceId,
         userPrompt,
         refinementPrompt,
         generatedWidgets,
         maxWidgets,
         setActiveConversationId,
+        setActiveConversation,
         setGeneratedWidgets,
         setIsLoading,
         setError,
         resetState,
         setWidgetToDelete,
-    } = store;
+        setUserPrompt,
+        setRefinementPrompt,
+    } = useAIStore();
 
     const handleGenerate = useCallback(async () => {
         if (!selectedSourceId) {
@@ -74,6 +77,31 @@ export function useAIBuilderActions() {
                 setActiveConversationId(conversationId);
                 setSearchParams({ current: conversationId });
             }
+
+            const userMessage = {
+                role: "user" as const,
+                content: userPrompt,
+                timestamp: new Date(),
+            };
+
+            if (activeConversation) {
+                setActiveConversation(
+                    activeConversation.clone({
+                        messages: [...activeConversation.messages, userMessage],
+                    })
+                );
+            }
+
+            await queryClient.setQueryData(
+                ["ai-conversation", conversationId],
+                (old: any) => {
+                    if (!old) return old;
+                    return {
+                        ...old,
+                        messages: [...(old.messages || []), userMessage],
+                    };
+                }
+            );
 
             await addMessageAsync({
                 conversationId: conversationId!,
@@ -98,6 +126,7 @@ export function useAIBuilderActions() {
             }
 
             setGeneratedWidgets(result.widgets as any);
+            setUserPrompt("");
             await queryClient.invalidateQueries({ queryKey: ["ai-conversation", conversationId!] });
         } catch (error: any) {
             setError(formatErrorMessage(error, "Erreur lors de la génération"));
@@ -128,6 +157,31 @@ export function useAIBuilderActions() {
         setError(null);
 
         try {
+            const userMessage = {
+                role: "user" as const,
+                content: refinementPrompt,
+                timestamp: new Date(),
+            };
+
+            if (activeConversation) {
+                setActiveConversation(
+                    activeConversation.clone({
+                        messages: [...activeConversation.messages, userMessage],
+                    })
+                );
+            }
+
+            await queryClient.setQueryData(
+                ["ai-conversation", activeConversationId],
+                (old: any) => {
+                    if (!old) return old;
+                    return {
+                        ...old,
+                        messages: [...(old.messages || []), userMessage],
+                    };
+                }
+            );
+
             await addMessageAsync({
                 conversationId: activeConversationId,
                 message: {
@@ -137,13 +191,22 @@ export function useAIBuilderActions() {
             });
 
             const result = await refineWidgetsAsync({
-                dataSourceId: selectedSourceId,
-                currentWidgets: generatedWidgets as any,
+                conversationId: activeConversationId,
                 refinementPrompt,
             });
 
             setGeneratedWidgets(result.widgets as any);
+            setRefinementPrompt("");
             await queryClient.invalidateQueries({ queryKey: ["ai-conversation", activeConversationId] });
+            await queryClient.invalidateQueries({ queryKey: ["widgets", "conversation", activeConversationId] });
+            await queryClient.refetchQueries({
+                queryKey: ["ai-conversation", activeConversationId],
+                exact: true
+            });
+            await queryClient.refetchQueries({
+                queryKey: ["widgets", "conversation", activeConversationId],
+                exact: true
+            });
         } catch (error: any) {
             setError(formatErrorMessage(error, "Erreur lors du raffinement"));
         } finally {
@@ -152,14 +215,15 @@ export function useAIBuilderActions() {
     }, [
         refinementPrompt,
         activeConversationId,
-        generatedWidgets,
-        selectedSourceId,
+        activeConversation,
         addMessageAsync,
         refineWidgetsAsync,
         queryClient,
         setGeneratedWidgets,
         setIsLoading,
         setError,
+        setActiveConversation,
+        setRefinementPrompt,
     ]);
 
     const handleSaveWidget = useCallback(
@@ -178,7 +242,7 @@ export function useAIBuilderActions() {
 
                 if (savedWidget.id) {
                     setGeneratedWidgets(
-                        generatedWidgets.map((w) =>
+                        generatedWidgets.map((w: Widget) =>
                             w.widgetId === widget.widgetId || w.id === widget.id
                                 ? w.clone({ ...savedWidget, isDraft: false })
                                 : w
@@ -268,10 +332,11 @@ export function useAIBuilderActions() {
 
     const handleLoadConversation = useCallback(
         async (conversationId: string) => {
+            setGeneratedWidgets([]);
             setActiveConversationId(conversationId);
             setSearchParams({ current: conversationId });
         },
-        [setSearchParams, setActiveConversationId]
+        [setSearchParams, setActiveConversationId, setGeneratedWidgets]
     );
 
     const handleDeleteConversation = useCallback(
@@ -300,6 +365,31 @@ export function useAIBuilderActions() {
 
             setIsLoading(true);
             try {
+                const userMessage = {
+                    role: "user" as const,
+                    content: suggestion,
+                    timestamp: new Date(),
+                };
+
+                if (activeConversation) {
+                    setActiveConversation(
+                        activeConversation.clone({
+                            messages: [...activeConversation.messages, userMessage],
+                        })
+                    );
+                }
+
+                await queryClient.setQueryData(
+                    ["ai-conversation", activeConversationId],
+                    (old: any) => {
+                        if (!old) return old;
+                        return {
+                            ...old,
+                            messages: [...(old.messages || []), userMessage],
+                        };
+                    }
+                );
+
                 await addMessageAsync({
                     conversationId: activeConversationId,
                     message: {
@@ -309,28 +399,37 @@ export function useAIBuilderActions() {
                 });
 
                 const result = await refineWidgetsAsync({
-                    dataSourceId: selectedSourceId,
-                    currentWidgets: generatedWidgets as any,
+                    conversationId: activeConversationId,
                     refinementPrompt: suggestion,
                 });
 
                 setGeneratedWidgets(result.widgets as any);
                 await queryClient.invalidateQueries({ queryKey: ["ai-conversation", activeConversationId] });
+                await queryClient.invalidateQueries({ queryKey: ["widgets", "conversation", activeConversationId] });
+                await queryClient.refetchQueries({
+                    queryKey: ["ai-conversation", activeConversationId],
+                    exact: true
+                });
+                await queryClient.refetchQueries({
+                    queryKey: ["widgets", "conversation", activeConversationId],
+                    exact: true
+                });
             } catch (error) {
                 console.error("Erreur suggestion:", error);
+                setError(formatErrorMessage(error as any, "Erreur lors du raffinement"));
             } finally {
                 setIsLoading(false);
             }
         },
-        [activeConversationId, selectedSourceId, generatedWidgets, addMessageAsync, refineWidgetsAsync, queryClient, setGeneratedWidgets, setIsLoading]
+        [activeConversationId, activeConversation, selectedSourceId, generatedWidgets, addMessageAsync, refineWidgetsAsync, queryClient, setGeneratedWidgets, setIsLoading, setError, setActiveConversation]
     );
 
     const handleConfirmDelete = useCallback(async () => {
-        const widgetToDelete = store.widgetToDelete;
-        if (widgetToDelete) {
-            await handleRemoveWidget(widgetToDelete.id);
+        const currentWidgetToDelete = useAIStore.getState().widgetToDelete;
+        if (currentWidgetToDelete) {
+            await handleRemoveWidget(currentWidgetToDelete.id);
         }
-    }, [store.widgetToDelete, handleRemoveWidget]);
+    }, [handleRemoveWidget]);
 
     return {
         handleGenerate,

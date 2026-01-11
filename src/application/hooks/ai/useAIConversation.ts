@@ -16,6 +16,8 @@ export function useAIConversation(conversationId: string | null) {
         queryKey: conversationKeys.detail(conversationId!),
         queryFn: () => conversationId ? getConversationUseCase.execute(conversationId) : null,
         enabled: !!conversationId,
-        staleTime: 1000 * 60 * 5,
+        staleTime: 0, //1000 * 60 * 5
+        refetchOnMount: true,
+        refetchOnWindowFocus: false,
     });
 }

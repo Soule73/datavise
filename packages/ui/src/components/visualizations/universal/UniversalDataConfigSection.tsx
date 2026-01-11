@@ -57,6 +57,8 @@ export default function UniversalDataConfigSection({
                     handleConfigChange={handleConfigChange}
                     handleMetricAggOrFieldChange={handleMetricAggOrFieldChange}
                     allowMultipleMetrics={registryEntry.allowMultipleMetrics}
+                    showMetricFilters={type === "kpiGroup"}
+                    data={data}
                 />
             </div>
         );

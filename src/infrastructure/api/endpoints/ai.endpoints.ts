@@ -2,9 +2,8 @@ const AI_BASE = "/v1/ai";
 
 export const AI_WIDGET_ENDPOINTS = {
     generate: `${AI_BASE}/generations`,
-    refine: `${AI_BASE}/refinements`,
     analyze: `${AI_BASE}/analysis`,
-    refineDb: `${AI_BASE}/refinements/database`,
+    refine: `${AI_BASE}/refinements`,
 };
 
 export const AI_CONVERSATION_ENDPOINTS = {

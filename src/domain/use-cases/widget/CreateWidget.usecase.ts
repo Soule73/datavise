@@ -19,8 +19,10 @@ export class CreateWidgetUseCase {
     }
 
     async execute(input: CreateWidgetInput): Promise<Widget> {
-        if (!input.title || input.title.trim().length < 3) {
-            throw new WidgetValidationError("Le titre doit contenir au moins 3 caractères");
+        if (!input.title || input.title.trim().length === 0) {
+            if (!input.isGeneratedByAI && !input.isDraft) {
+                throw new WidgetValidationError("Le titre ne peut pas \u00eatre vide");
+            }
         }
 
         if (!input.dataSourceId) {
